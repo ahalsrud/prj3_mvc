@@ -33,7 +33,7 @@ public class MyBatisHandler {
 			
 			//1. 설정 파일과 연결
 			try {
-				Reader reader = Resources.getResourceAsReader("/kr/co/sist/prj3/myBatis-Config.xml");
+				Reader reader = Resources.getResourceAsReader("kr/co/sist/prj3/myBatis-Config.xml");
 				
 				//2.MyBatis Framework 생성
 				ssf = new SqlSessionFactoryBuilder().build(reader);
