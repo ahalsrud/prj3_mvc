@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties resource="properties/database.properties"/>
+<!-- typeAliases -->
+<typeAliases>
+	<typeAlias type="kr.co.sist.prj3.admin.review.domain.ReviewBoardDomain" alias="rbd"/>
+	<typeAlias type="kr.co.sist.prj3.admin.member.domain.MemberBrdDomain" alias="memBrd"/>
+	<typeAlias type="kr.co.sist.prj3.admin.member.domain.MemberInfoDomain" alias="memInfo"/>
+	<typeAlias type="kr.co.sist.prj3.user.review.domain.ReviewInfoDomain" alias="reviewInfo"/>
+	<typeAlias type="kr.co.sist.prj3.admin.admin_movie.domain.EditMovieDomain" alias="emd"/>
+    <typeAlias type="kr.co.sist.prj3.admin.admin_movie.domain.DirectorDomain" alias="dd"/>
+    <typeAlias type="kr.co.sist.prj3.admin.admin_movie.domain.ActorDomain" alias="ad"/>
+    <typeAlias type="kr.co.sist.prj3.admin.admin_movie.domain.MovieListDomain" alias="md"/>
+</typeAliases>
+<!-- typeAliases -->
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="${driver}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
+      </dataSource>
+    </environment>
+  </environments>
+  <mappers>
+  
+  	<!-- 규미 -->
+  	<mapper resource="kr/co/sist/prj3/user/review/dao/review_like_mapper.xml"/>
+	<mapper resource="kr/co/sist/prj3/user/profile/dao/profile_mapper.xml"/>
+	<mapper resource="kr/co/sist/prj3/admin/member/dao/admin_member_mgt.xml"/>
+   	<!-- 상준 -->
+    <mapper resource="kr/co/sist/prj3/user/mainpage/dao/mainPage_mapper.xml"/>
+    <!-- 경태 -->
+	<mapper resource="kr/co/sist/prj3/admin/review/dao/review_select_mapper.xml"/>
+	<!-- 민경 -->
+	<mapper resource="kr/co/sist/prj3/admin/admin_movie/dao/movie_mapper.xml"/>
+    <mapper resource="kr/co/sist/prj3/user/total_info/dao/total_info_mapper.xml"/>
+	<!-- 진호 -->
+	<mapper resource="kr/co/sist/prj3/user/total_info/dao/select_mapper.xml"/>
+	<!-- 충연 -->
+	<mapper resource="kr/co/sist/prj3/admin/regmovie/dao/regmovie_mapper.xml"/>
+    <mapper resource="kr/co/sist/prj3/admin/regscreen/dao/screenInfo_mapper.xml"/>
+    <mapper resource="kr/co/sist/prj3/admin/resdetail/dao/resdetail_mapper.xml"/>
+
+  </mappers>
+</configuration>
