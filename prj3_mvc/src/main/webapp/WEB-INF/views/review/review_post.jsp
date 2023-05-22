@@ -242,56 +242,48 @@ height:100px;
 
 
 <script>
+$(function() {
+	var currentLikes = $("#cntLike").text();
 
-	
+	// 유저의 id 받기
+	var id = "user5";
+	$("#user_id").val(id);
 
-$(function(){
-	var currentLikes= $("#cntLike").text();
-//	var currentLikes= parseInt($("#cntLike").text());
+	var rvNum = "${param.rv_num}";
 
-	
-	//아이디와 리뷰번호를 받는다
-	//아이디 - from 세션, hidden에 숨겨놨다가 가져오기
-	//var userId = $("").val();
-	//var rvNum = $("").val();
-	
-	 var id = "${param.user_id }";
-	var rvNum = ${param.rv_num};
-	 
-	
-	//좋아요 상태 확인 후 세팅
-	//checkLikeStatus();
-	
-	
-	//좋아요 버튼이 눌리면
-	$("#likeBtn").click(function(){
-		//현재 버튼의 클래스를 확인
-		var liked = $(this).hasClass('submitted');
-		//눌린 상태였다면 true, 안눌린 상태였다면 false 
-		
-		alert(liked);
-		$.ajax({
-			
-			//db의 좋아요 테이블에 insert 혹은 delete해주기
-			url:"/prj3_mvc/likeClicked.do",
-			method:"get",
-			data: {user_id : id,
-				   rv_num : rvNum ,
-				   liked : liked },
-			dataType:"json",	   
-			success : function(jsonObj) {
+	// 좋아요 버튼이 눌리면
+	$("#likeBtn").click(function() {
 
-					//db에서 할일
+		// 사용자가 로그인 상태인지 확인
+		if (id !== "") {
 
-					if (!jsonObj.resultFlag) { //db작업에 성공하면
+			// 현재 버튼의 클래스를 확인
+			var liked = $(this).hasClass('submitted');
+			// 눌린 상태였다면 true, 안눌린 상태였다면 false 
 
-						if (liked) { //눌린 상태였다면 해제하기
+			$.ajax({
+				// db의 좋아요 테이블에 insert 혹은 delete해주기
+				url: "/prj3_mvc/likeClicked.do",
+				method: "get",
+				data: {
+					user_id: id,
+					rv_num: rvNum,
+					liked: liked
+				},
+				dataType: "json",
+				success: function(jsonObj) {
+
+					// db에서 할일
+
+					if (!jsonObj.resultFlag) { // db 작업에 성공하면
+
+						if (liked) { // 눌린 상태였다면 해제하기
 
 							$("#likeBtn").removeClass('submitted');
 							currentLikes--;
 							$("#cntLike").text(currentLikes);
 
-						} else { //안 눌린 상태였다면 누르기
+						} else { // 안 눌린 상태였다면 누르기
 
 							$("#likeBtn").addClass('submitted');
 							currentLikes++;
@@ -302,69 +294,48 @@ $(function(){
 					}//end if	
 
 				},//end success
-				error : function(xhr) {
+				error: function(xhr) {
 					alert("문제");
 				}//end error
 
 			});//ajax
 
-		});//click
+		} else {
+			alert("로그인 후 이용 가능합니다.");
+		}//end else
 
-	});//ready
+	});//click
 
-	//좋아요 상태 확인 후 화면에 먼저 보여줌
-/* 	function checkLikeStatus() {
-
-		//로그인 상태라면
-
-		$.ajax({
-
-			url : "/likeStatusSet.do",
-			method : "get",
-			data : {
-				userId : userId,
-				rvNum : rvNum
-			},
-			success : function(response) {
-
-				//서버에서 해야할일 
-				//1.좋아요 테이블에서 유저id와 리뷰번호로 select 
-				//2.리뷰번호로 좋아요 테이블의 레코드 수를 센다
-
-				//id로 게시글에서
-				if ('좋아요 테이블에서 레코드가 셀렉되었다면') { // 좋아요 상태라면 - 테이블에 레코드가 존재한다면
-
-					$("#likeBtn").addClass('bt_vote.submitted');
-
-				}//end if
-
-				//좋아요 수를 세팅해줌
-				$("#cntLike").text('좋아요수');
-				currentLikes = '좋아요수';
-
-			},//end success
-			error : function() {
-
-			}//end error
-
-		});//ajax
-
-	}//checkLikeStatus */
+	
+	$("#commentBtn").click(function(){
+		
+		var content = $("#editor").val();
+		alert(content);
+		$("#frm").submit();
+		
+		
+	});//click
+	
+	$("#replyBtn").click(function(){
+		
+		var content = $("#editor").val();
+		alert(content);
+		$("#frm").submit();
+		
+		
+	});//click
+	
+	
+});//ready
 </script>
-
 
 </head>
 
-
 <!-- BODY START -->
 <body>
-
 	<!-- PC -->
-
 	<div class="ink_wrap lightmode">
 		<div id="container" class="ink_container header_typeB3 containerN">
-
-
 
 			<div id="ink_wrapper" class="ink_wrapper clearfix">
 
@@ -372,7 +343,6 @@ $(function(){
 
 					<section class="ink_board guest_mode">
 						<div class="bd_header" >
-						
 						
 						<div style="height:100px; margin-top:20px;">
 						<div style="width:930px; height:80px; border-radius: 15px; background-color: white;">
@@ -384,32 +354,30 @@ $(function(){
 							<h2 class="bd_title" >
 								<i class="far fa-list-alt big-icon"></i> <a href="">메인으로</a>
 								<i class="fas fa-angle-right"></i> 
-								<a class="category_link" href=""><c:out value="${mTitle}"/></a>
+								<a class="category_link" href=""><c:out value="${param.m_title} "/></a>
 							</h2>
 						</div>
 						<article class="ink_atc round20 has_list">
-
 							<header class="atc_header">
 								<h1>
-
-
 									<a href=""
-										class="atc_title"><c:out value="${title}"/></a>
+										class="atc_title"><c:out value="${reviewInfo.title}"/></a>
 								</h1>
 								<div class="atc_info clearfix">
 									<span class="atc_nickname"><span
 										class="inkpf color round small"><img class="inkpf_img"
-											src="${profile}"
-											alt="${nickName}"/></span> <a href=""
-										class="member_66498994">${nickName}</a>
-									</span> <span class="text_en atc_date font_grey1"><c:out value="${inputDate}"/></span>
+											src="http://localhost/prj3_mvc/images/${reviewInfo.profile}" onerror="this.src='http://localhost/prj3_mvc/images/no.png'"/>
+											<%-- ${profile} --%></span> <a href=""
+										class="member_66498994">${reviewInfo.nick_name}</a>
+									</span> <span class="text_en atc_date font_grey1"><c:out value="${reviewInfo.input_date}"/></span>
 									<div class="atc_info_right text_en font_grey1">
 										<span class="count_read"><i class="fas fa-eye"
-											title="조회 수"></i> <c:out value="${hits}"/></span> <span class="count_vote pt_col"><i
-											class="fas fa-heart" title="좋아요 수"></i> <c:out value="${like}"/></span> <span
+											title="조회 수"><c:out value="${reviewInfo.hits}"/></i></span> <span class="count_vote pt_col"><i
+											class="fas fa-heart" title="좋아요 수"><c:out value="${reviewInfo.like_total}"/></i></span> <span
 											class="count_cmt pt_col2"><i
-											class="fas fa-comment-dots" tilte="댓글"></i> <c:out value="${sumCom}"/></span>
-
+											class="fas fa-comment-dots" tilte="댓글"><c:out value="${reviewInfo.com_total}"/></i></span>
+											<span><a href="review_write_modify.do?rv_num=${ param.rv_num }"><button class="ib ib2 ib_color" style="background-color: #75A99C" type="submit">수정</button></a></span>
+											<span><a href="review_write_delete.do?rv_num=${ param.rv_num }"><button class="ib ib2 ib_color" type="submit">삭제</button></a></span>
 									</div>
 								</div>
 							</header>
@@ -418,11 +386,13 @@ $(function(){
 								<!--BeforeDocument(90958928,66498994)-->
 								<div
 									class="document_90958928_66498994 rhymix_content xe_content">
-									<p>본문 내용</p>
+									<p><c:out value="${reviewInfo.content}"/>
+									</p>
 								</div>
 								<!--AfterDocument(90958928,66498994)-->
 								<div class="atc_buttons clearfix">
 									<div class="atc_vote">
+									
 									
 									<c:choose>
 									<c:when test="${likeStatus}">
@@ -445,20 +415,21 @@ $(function(){
 									<div class="atc_sign">
 										<h3>
 											<span class="inkpf color round"><img class="inkpf_img"
-												src="//img.extmovie.com/files/member_extra_info/profile_image/899/339/056/56339899.jpg?20200605172258"
-												alt="NeoSun" /></span> <span class="nickname">NeoSun</span>
+												src="http://localhost/prj3_mvc/images/${reviewInfo.profile}" onerror="this.src='http://localhost/prj3_mvc/images/no.png'"
+												alt="NeoSun" /></span> <span class="nickname"><c:out value="${ reviewInfo.nick_name }"/></span>
 											<div class="ink_pointbar text_en">
 											</div>
 										</h3>
 										<div class="sign_body">
 											<div
 												style="max-height: 100px; overflow: auto; overflow-x: hidden; height: expression(this.scrollHeight &gt; 100 ? '100px' : 'auto')">
-												<p>자기소개말</p>
+												<p><c:out value="${reviewInfo.profile_msg}"/></p>
 											</div>
 										</div>
 									</div>
 								</div>
-						
+							
+							<!-- 추천인 해야함 -->
 								<div id="voted_who">
 									<div class="atc_who bg_grey1 scroll_wrap show">
 										<h3>
@@ -468,13 +439,16 @@ $(function(){
 										<div class="inner scrollbar-macosx">
 											<ul class="scroll_x">
 												<li><span class="inkpf color round"> <img src=""
-														alt="닉네임" class="inkpf_img" /></span><br /> <span
+														alt="닉네임" class="inkpf_img" onerror="this.src='http://localhost/prj3_mvc/images/no.png'"/></span><br /> <span
 													class="vote_nickname">닉네임</span></li>
 											</ul>
 										</div>
 									</div>
 								</div>
+							<!-- 추천인 해야함 -->
+							
 							</div>
+							
 							<div id="comment" class="cmt cmt_bubble">
 								<div class="cmt_title">
 									<h3>
@@ -491,12 +465,13 @@ $(function(){
 								<!-- //cmt_notice -->
 								<div class="cmt_wrap has_top">
 									<div class="cmt_list">
-									<!--댓글 시작  -->
+									
+									<!-- 댓글 시작  -->
 										<article class="cmt_unit" id="comment_번호">
 											<!--프로필 이미지 wrapper 시작  -->
 											<div class="inkpf_wrap">
 												<span class="inkpf round">
-												<img class="inkpf_img" src="http://localhost/prj3_mvc/upload/${profile}" alt="프로필 이미지" /></span>
+												<img class="inkpf_img" src="" alt="프로필 이미지" onerror="this.src='http://localhost/prj3_mvc/images/no.png'"/></span>
 											</div>
 											<!--프로필 이미지 wrapper 끝 -->
 											<!--댓글 작성자 wrapper 시작  -->
@@ -531,7 +506,7 @@ $(function(){
 										<article class="cmt_unit reply" id="comment_대댓번호">
 											<div class="inkpf_wrap">
 												<span class="inkpf round">
-												<img class="inkpf_img" src="http://localhost/prj3_mvc/upload/${profile}" alt="프로필 이미지" /></span>
+												<img class="inkpf_img" src="http://localhost/prj3_mvc/upload/${profile}" onerror="this.src='http://localhost/prj3_mvc/images/no.png'" alt="프로필 이미지" /></span>
 											</div>
 											<div class="cmt_header">
 												<a href="" class="nickname member_80215049"
@@ -557,84 +532,50 @@ $(function(){
 											</div>
 										</article>
 									<!--대댓글 끝  -->
-
-										
+									
+									
 										<!-- //cmt_loop -->
-										
-										
 									</div>
 									<!-- //cmt_list -->
 								</div>
 								<!-- //cmt_wrap -->
 								
-								
+
+								<!-- //cmt_write_re -->
+
+							<!--로그인 상태인지 확인  -->
+							<c:choose>
+								<c:when test="${empty id}">
+								<div class="cmt_write cmt_write_unit no_grant">
+									<div class="cmt_not_permitted">
+										<i class="fas fa-comment-dots font_grey1"></i> 권한이 없습니다.<a
+											class="ink_link2" href="javascript:void(0)"
+											onclick="">로그인</a>
+									</div>
+								</div>
+							</c:when>
+							<c:otherwise>
 								<div class="cmt_write cmt_write_unit">
 									<span class="inkpf round"></span>
-									<form action="/" method="post" class="cmt_form"
-										onsubmit="return procFilter(this, insert_comment)">
-										<!-- <input type="hidden" name="error_return_url"
-											value="/movietalk/90953778?category=61633579" /><input
-											type="hidden" name="act" value="dispBoardContent" /> <input
-											type="hidden" name="mid" value="movietalk" /> <input
-											type="hidden" name="document_srl" value="90953778" /> <input
-											type="hidden" name="comment_srl" value="" /> <input
-											type="hidden" name="content" value="" /> -->
+									<form action="add_comment.do" method="post" id="frm" class="cmt_form">
+										<input type="hidden" id="user_id" name="user_id" value="">
+										<input type="hidden" id="rv_num" name="rv_num" value="${param.rv_num}">
 										<div class="cmt_write_input text_ver">
-											<!-- <input type="hidden" name="use_html" value="Y" /> <input
-												type="hidden" id="htm_90953778" value="n" /> -->
-											<textarea class="cmt_textarea" id="editor_90953778" cols="50"
+											<textarea class="cmt_textarea" id="editor" name="content" cols="50"
 												rows="4" placeholder="댓글 내용을 입력해주세요."></textarea>
 										</div>
 										<div class="cmt_write_option">
 											<div class="bt_area bt_right">
-												<button class="ib ib2 ib_color" type="submit">댓글 등록</button>
+												<button id="commentBtn" class="ib ib2 ib_color" type="button">댓글 등록</button>
 											</div>
 										</div>
 									</form>
 								</div>
+								</c:otherwise>
+							</c:choose>
 
-
-								<!-- //cmt_write -->
-							<!-- 	<div class="cmt_write_unit cmt_write_re" id="cmt_write_re">
-									<form action="/" method="post" class="cmt_form"	>
-										<input type="hidden" name="error_return_url"
-											value="/movietalk/90953778?category=61633579" /><input
-											type="hidden" name="act" value="dispBoardContent" /> <input
-											type="hidden" name="mid" value="movietalk" /> <input
-											type="hidden" name="document_srl" value="90953778" /> <input
-											type="hidden" name="content" value="" /> <input
-											type="hidden" name="comment_srl" value="" /> <input
-											type="hidden" name="parent_srl" value="" /> <input
-											type="hidden" name="use_html" value="Y" /> <input
-											type="hidden" id="htm_2" value="n" /> <span
-											class="inkpf round"></span>
-										<div class="cmt_write_input text_ver">
-											<textarea class="cmt_textarea" id="editor_2"
-												placeholder="댓글 내용을 입력해주세요."></textarea>
-								
-										</div>
-										<div class="cmt_write_option">
-											
-											<div class="bt_area bt_right">
-												<button class="ib ib2 ib_mono bt_close" type="button"
-													onclick="jQuery('#cmt_write_re').hide();">취소</button>
-												<button class="ib ib2 ib_color" type="submit">댓글 등록</button>
-											</div>
-										</div>
-									</form>
-								</div> -->
-								<!-- //cmt_write_re -->
+							</div><!-- //cmt_wrap -->
 							
-							
-							</div>
-							
-							
-							<!--로그인 -->
-							<!-- //cmt_wrap -->
-			<div class="cmt_write cmt_write_unit no_grant">
-				<div class="cmt_not_permitted">
-			<i class="fas fa-comment-dots font_grey1"></i> 권한이 없습니다.<a class="ink_link2" href="javascript:void(0)" onclick="inkPop('ink_login2')">로그인</a></div>
-			</div>
 						</article>
 					</section>
 				</div>

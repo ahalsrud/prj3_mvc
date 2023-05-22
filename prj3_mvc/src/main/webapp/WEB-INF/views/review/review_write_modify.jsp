@@ -176,11 +176,11 @@ $(document).ready(function() {
 						<!-- form 시작 -->
 						<form action="review_write_process.do" method="post" id="searchFrm">
 						<!-- summernote 시작 -->
-							<input type="text" class="search form-control" name="title" id="title" placeholder="제목" style="width:600px; margin-left: 15px; margin-bottom: 30px;">
+							<input type="text" class="search form-control" name="title" id="title" value="${ review.title }" placeholder="제목" style="width:600px; margin-left: 15px; margin-bottom: 30px;">
 							<input type="hidden" name="m_num" value="2">
 							<input type="hidden" name="user_id" value="user3">
 						  	<div class="container">
-								  <textarea class="summernote" name="content" id="content"></textarea>    
+								  <textarea class="summernote" name="content" id="content" ><c:out value="${review.content}"/></textarea>    
 								</div>
 								<script>
 								$('.summernote').summernote({

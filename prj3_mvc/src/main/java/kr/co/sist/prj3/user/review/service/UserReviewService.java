@@ -12,8 +12,10 @@ import kr.co.sist.prj3.user.review.domain.MovieInfoDomain;
 import kr.co.sist.prj3.user.review.domain.MyReviewDomain;
 import kr.co.sist.prj3.user.review.domain.ReviewBoardDomain;
 import kr.co.sist.prj3.user.review.domain.ReviewInfoDomain;
+import kr.co.sist.prj3.user.review.domain.ReviewWriteDomain;
 import kr.co.sist.prj3.user.review.vo.LikeVO;
 import kr.co.sist.prj3.user.review.vo.MyReviewSearchVO;
+import kr.co.sist.prj3.user.review.vo.ReviewModifyVO;
 import kr.co.sist.prj3.user.review.vo.ReviewSearchVO;
 import kr.co.sist.prj3.user.review.vo.WriteReviewVO;
 
@@ -24,62 +26,96 @@ import kr.co.sist.prj3.user.review.vo.WriteReviewVO;
 @Controller
 public class UserReviewService {
 	
-	@Autowired
+	@Autowired(required = false)
 	private UserReviewDAO urDAO ; 
 	
-	
 	/**
-	 * 해당영화 정보 불러오기
-	 * @param mNum(영화번호)
-	 */
-	public MovieInfoDomain showMovieInfo(int mNum) {
-		
-		
-		return null;
-	}//showMovieInfo
-	
-	/**
-	 * 해당영화에 관한 리뷰 리스트 보여주기
-	 * @param mNum(영화번호)
-	 */
-	public List<ReviewBoardDomain> showReviewList(int mNum){
-		List<ReviewBoardDomain> list = new ArrayList<ReviewBoardDomain>();
-		
-		return list;
-	}//showReviewList
-	
-	/**
-	 * 리뷰 리스트 검색
-	 * @param rsVO
+	 * 유저
+	 * 해당 영화에 대한 리뷰 리스트 보여주기 + 검색기능
+	 * 2023.05.20
+	 * @author KT
 	 */
 	public List<ReviewBoardDomain> showSearchReviewList(ReviewSearchVO rsVO){
 		List<ReviewBoardDomain> list = new ArrayList<ReviewBoardDomain>();
 		
+		list = urDAO.selectSearchReview(rsVO);
+		
 		return list;
 	}//showSearchReviewList
+
+	/**
+	 * 유저
+	 * 내가 작성한 리뷰 !삭제!
+	 * 2023.05.22
+	 * @author KT
+	 */
+	public boolean reviewDelete(int rv_num) {
+		
+		int cnt = urDAO.deleteReview(rv_num);
+		
+		return cnt==1;
+		
+	}//reviewDelete
 	
 	/**
-	 * 리뷰 작성하기
-	 * @param wrVO
+	 * 유저
+	 * 해당 영화에 대한 리뷰 수정 frm(select)
+	 * 2023.05.21
+	 * @author KT
 	 */
-	public void reviewProcess(WriteReviewVO wrVO) {
+	public ReviewWriteDomain reviewWriteShow(int rv_num) {
+		
+		ReviewWriteDomain rwd = null;
+		rwd = urDAO.selectReview(rv_num);
+		
+		return rwd;
+	}//reviewModify
+
+	/**
+	 * 유저
+	 * 해당 영화에 대한 리뷰 수정 process(update)
+	 * 2023.05.21
+	 * @author KT
+	 */
+	public boolean reviewModify(ReviewModifyVO rmVO) {
+		int cnt = urDAO.updateReview(rmVO);
+		
+		return cnt == 1;
+	}//reviewModify
+	
+	/**
+	 * 유저
+	 * 해당 영화에 대한 리뷰 작성
+	 * 2023.05.21
+	 * @author KT
+	 */
+	public boolean reviewProcess(WriteReviewVO wrVO) {
+		
+		int cnt = urDAO.insertReview(wrVO);
+		
+		return cnt==1;
 		
 	}//reviewProcess
 	
 	/**
-	 * 제목 클릭한 리뷰 보여주기
-	 * @param rvNum(리뷰번호)
+	 * 유저
+	 * 클릭한 리뷰제목 리뷰 정보 보여주기
+	 * 2023.05.21
+	 * @author KT
 	 */
-	public ReviewInfoDomain showReview(int rv_num){
+	public ReviewInfoDomain showReview(LikeVO lVO){
 		
 		ReviewInfoDomain reviewInfo = null;
-	//	reviewInfo = urDAO.selectReview(rv_num);
+		reviewInfo = urDAO.selectReview(lVO);
 		
 		return reviewInfo;
 	}//showReview
 	
 	/**
+	 * 유저
 	 * 제목 클릭한 리뷰 좋아요 눌렀는지 보여주기
+	 * 2023.05.22
+	 * @author KM
 	 */
 	public boolean likeStatusService(LikeVO lVO) {
 	
@@ -97,26 +133,10 @@ public class UserReviewService {
 	}//likeStatusService
 	
 	/**
-	 * 제목 클릭한 리뷰 좋아요 갯수 보여주기
-	 * @param rvNum(리뷰번호)
-	 */
-	public int countLikeService(int rvNum) {
-		
-		return 0;
-	}//countLikeService
-	
-	/**
-	 * 해당 리뷰 창에서 조회수 +1 증가
-	 * @param rvNum(리뷰번호)
-	 */
-	public int hitsUp(int rvNum) {
-		
-		return 0;
-	}//hitsUp
-	
-	/**
+	 * 유저
 	 * 좋아요 누르기
-	 * @param lVO
+	 * 2023.05.22
+	 * @author KM
 	 */
 	public String likeOnService(LikeVO lVO) {
 		
@@ -135,9 +155,13 @@ public class UserReviewService {
 		
 	}//likeOnService
 	
+
+	
 	/**
+	 * 유저
 	 * 좋아요 해제
-	 * @param lVO
+	 * 2023.05.22
+	 * @author KM
 	 */
 	public String likeOffService(LikeVO lVO) {
 		
@@ -156,9 +180,12 @@ public class UserReviewService {
 		
 	}//likeOffService
 	
+	
 	/**
-	 * 좋아요 갯수 갱신해서 보여주기
-	 * @param rvNum
+	 * 유저
+	 * 좋아요 개수 보여주기
+	 * 2023.05.22
+	 * @author KM
 	 */
 	public int likeCount (int rvNum) {
 		int cnt=0;
@@ -168,15 +195,28 @@ public class UserReviewService {
 		return cnt;
 	}//likeCount
 	
-	
 	/**
-	 * 내가 쓴 리뷰 검색(마이페이지)
-	 * @param mrsVO
+	 * 유저
+	 * (마이페이지) 내가 쓴 리뷰 검색
+	 * 2023.05.22
+	 * @author KM
 	 */
-	public  List<MyReviewDomain> MyReviewService(MyReviewSearchVO mrsVO){
+	public List<MyReviewDomain> myReviewService(MyReviewSearchVO mrsVO){
 		List<MyReviewDomain> list = new ArrayList<MyReviewDomain>();
+		
+		list = urDAO.selectMyReview(mrsVO);
 		
 		return list;
 	}//MyReviewService
+
+	///////////////////////////////////////////////////////////////////
 	
+	/**
+	 * 해당 리뷰 창에서 조회수 +1 증가
+	 * @param rvNum(리뷰번호)
+	 */
+	public int hitsUp(int rvNum) {
+		
+		return 0;
+	}//hitsUp
 }//LikeService

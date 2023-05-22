@@ -11,15 +11,18 @@
 	</sql>
 
 	<!-- 처음 화면에 reviewList 뿌려주기 -->	
-	<select id="reviewList" resultType="rbd">
+	<select id="reviewList" resultType="reviewAdminRBD">
 		<include refid="reviewAll"/>
 	</select>
 	
 	<!-- 검색 버튼 눌렀을 때 해당하는 검색 조건 뿌려주기 -->
-	<select id="reviewListSearch" resultType="rbd" parameterType="kr.co.sist.prj3.admin.review.vo.ReviewSearchVO">
+	<select id="reviewListSearch" resultType="reviewAdminRBD" parameterType="kr.co.sist.prj3.admin.review.vo.ReviewSearchVO">
 		<include refid="reviewAll"/>
 		where
 		<choose>
+			<when test="search_type == 0">
+				 1=1
+			</when>
 			<when test="search_type == 1">
 				 title LIKE '%'||#{search}||'%'
 			</when>
@@ -35,6 +38,12 @@
 		</choose>
 	</select>
 	
+	<!-- 삭제버튼 눌렀을 때 delete -->
+	<delete id="reviewDelete" parameterType="Integer">
+		delete 
+		from review
+		where rv_num=#{rv_num} 
+	</delete>
 	
 
 

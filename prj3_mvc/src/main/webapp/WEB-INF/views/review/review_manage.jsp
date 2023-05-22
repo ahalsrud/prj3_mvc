@@ -38,13 +38,54 @@
 			  padding:8px; 
 			  color:#ccc;
 			}
+			tbody a:link {
+			  color : #E74C3C;
+			  text-decoration: none;
+			}
+			tbody a:visited {
+			  color : #E74C3C;
+			  text-decoration: none;
+			}
+			tbody a:hover {
+			  color : red;
+			  text-decoration: underline;
+			}
+			tbody a:active {
+			  color : green;
+			  text-decoration: none;
+			}
         </Style>
         <script type="text/javascript">
-        	$(document).ready(function() {
-        	  $("#subBtn").click(function() {
-        	    $("#searchFrm").submit();
-        	  });
-        	});
+        /* submit 하기 */	
+		$(document).ready(function() {
+		    // 엔터 키 누름 이벤트
+		    $("#search").keypress(function(event) {
+		        if (event.which === 13) { // 엔터 키 누름?
+		            event.preventDefault(); // 기본 폼 제출 동작 방지
+		            performValidation(); // 유효성 검증 함수 호출
+		        }//end if
+		    });//keypress
+		
+		    // 버튼 클릭 이벤트
+		    $("#subBtn").click(function() {
+		        performValidation(); // 유효성 검증 함수 호출
+		    });//click
+		
+		    // 유효성 검증 함수
+		    function performValidation() {
+		        if ($("#search").val().trim().length === 0) { // 검색어가 공백인 경우
+		            if ($("#search_type").val() == 0) { // 검색 조건이 전체인 경우
+		                $("#searchFrm").submit(); // 폼 제출
+		                return;
+		            }//end if
+		        } else if ($("#search_type").val() != 0) { // 검색 조건이 선택 되었을 경우
+		            $("#searchFrm").submit(); // 폼 제출
+		            return;
+		        }//end elseif
+		        alert("검색 조건을 선택해주세요");
+		    }//performValidation
+		});//ready
+
         </script>
     </head>
    <body>
@@ -95,15 +136,17 @@
                     </div>
                     <div>
                     <div class="form-group pull-right" style="width:300px; float: left;  padding-bottom: 20px;"><!-- 검색바 너비 -->
-				    <input type="text" class="search form-control" placeholder="리뷰 검색" name="search">
+				    <input type="text" class="search form-control" placeholder="리뷰 검색" name="search" id="search">
                     </div>
                    	<div style="float: left; width: 33%; padding-left:30px;">
 				    <input type="button" value="검색" class="btn btn-outline-danger" id="subBtn"/>
                    	</div>
                     </div>
+                    
 					<span class="counter pull-right"></span>
                     <!-- 검색바 끝 -->
 					</form>
+					
 					<!-- form 끝 -->
 					<!-- 테이블을 담은 div 시작 -->	
                     <div style="width:1600px"><!-- 테이블의 div너비 -->
@@ -130,24 +173,23 @@
 					<tbody style="text-align:center">
 					<c:if test="${ empty reviewList }">
 					<tr>
-					<td colspan="4">리뷰가 존재하지 않습니다.
+					<td colspan="4">리뷰가 존재하지 않습니다.</td>
 					</tr>
 					</c:if>
 						<c:forEach var="review" items="${reviewList}">
 						<tr>
-						<td><c:out value="${review.title}"/>
-								<input type="hidden" value="${ review.rv_num }"></td>
+						<td><a href="review_post.do?rv_num=${ review.rv_num }" target="blank"><c:out value="${review.title}"/></a></td>
 						<td><c:out value="${review.user_id }"/></td>
 						<td><c:out value="${review.input_date}"/></td>
-						<td><input type="button" value="삭제"/></td>
+						<td><a href="review_delete.do?rv_num=${ review.rv_num }"><input type="button" value="삭제" id="reviewDel"/></a></td>
 						</tr>
 						</c:forEach>
 					</tbody>
-					
 					</table>
            			</div>
 					<!-- 테이블을 담은 div 끝 -->	
                 </div>
+            </div>
             </div>
         </div>
         <!-- Bootstrap core JS-->

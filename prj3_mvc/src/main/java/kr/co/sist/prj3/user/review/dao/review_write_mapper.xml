@@ -4,22 +4,27 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.sist.prj3.reviewMapper">
 
-	<!-- 설정 -->
-    <resultMap id="insertReview" type="kr.co.sist.prj3.user.review.vo.WriteReviewVO">
-        <id property="id" column="id" />
-        <result property="content" column="content" javaType="java.sql.Clob" jdbcType="CLOB" />
-        <!-- 다른 매핑 설정 -->
-    </resultMap>
-
 	<insert id="insertReview" parameterType="kr.co.sist.prj3.user.review.vo.WriteReviewVO">
 		insert into review(rv_num, title, input_date, hits, content, m_num, user_id)
-		values(seq_review.nextval, #{title}, sysdate, 0, #{content}, #{mNum}, #{id})
+		values(seq_review.nextval, #{title}, TO_CHAR(SYSDATE, 'yyyy-mm-dd hh24:mi:ss'), 0, #{content, typeHandler=org.apache.ibatis.type.ClobTypeHandler}, #{m_num}, #{user_id})
 	</insert>
-
-<!-- <parameterMap id="insertReview" type="kr.co.sist.prj3.user.review.vo.WriteReviewVO">
-  다른 매개변수 매핑들...
-  <parameter property="content" javaType="java.sql.Clob" jdbcType="CLOB"/>
-  다른 매개변수 매핑들...
-</parameterMap> -->
+	
+	<update id="updateReview" parameterType="kr.co.sist.prj3.user.review.vo.ReviewModifyVO">
+		update REVIEW
+		set    TITLE = ${title}, CONTENT = ${content}
+		where  rv_num = ${rv_num}
+	</update>
+	
+	<select id="selectReview" parameterType="Integer" resultType="kr.co.sist.prj3.user.review.domain.ReviewWriteDomain">
+		select title, content
+		from review
+		where rv_num = ${rv_num}
+	</select>
+	
+	<delete id="deleteReview" parameterType="Integer">
+		delete
+		from review
+		where rv_num= #{rv_num}
+	</delete>
 
 </mapper>

@@ -21,6 +21,7 @@ public class LikeVO {
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
 	}
+	
 	@Override
 	public String toString() {
 		return "LikeVO [rv_num=" + rv_num + ", user_id=" + user_id + "]";

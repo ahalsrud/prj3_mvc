@@ -1,5 +1,8 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"
+    info="user - 해당영화 리뷰리스트 view"
+    %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -42,7 +45,47 @@
 			  padding:8px; 
 			  color:#ccc;
 			}
+			tbody a:link {
+			  color : #E74C3C;
+			  text-decoration: none;
+			}
+			tbody a:visited {
+			  color : #E74C3C;
+			  text-decoration: none;
+			}
+			tbody a:hover {
+			  color : red;
+			  text-decoration: underline;
+			}
+			tbody a:active {
+			  color : green;
+			  text-decoration: none;
+			}
         </Style>
+        <script type="text/javascript">
+        /* submit 하기 */	
+        $(document).ready(function() {
+        	  $("#subBtn").click(function() {
+       			if($("#search").val().trim().length === 0){ //검색어 공백
+	        		if($("#search_type").val()==0){ //검색 조건 전체일 경우 전체 select
+		        	    $("#searchFrm").submit();
+	        			return;
+        			}//end if
+        		} else if($("#search_type").val()!=0) { //
+        			 $("#searchFrm").submit();
+        			 return;
+        		}
+        		alert("검색 조건을 선택해주세요");
+        		
+        	  });//click
+        	});//ready
+        /* 삭제버튼 눌렀을 때 alert */
+		$(function(){
+			$("#reviewDel").click(function(){
+				
+			});//click
+		});//ready
+        </script>
 </head>
 
 <body class=""> 
@@ -134,8 +177,6 @@
                         </dd>
                         </dl>
             </div>
-            
-            
         </div>
             	<!------------------------------- 좋아요, 예메하기 버튼 추가 박진호 0507 -->
             	<div>
@@ -174,11 +215,14 @@
         </li>
     </ul>
 </div> 
-           <div class="contents" style="padding-top: 30px; ">
+			 <!-- form 시작 -->
+                <form action="review_list.do?m_num=2" id="searchFrm" name="searchFrm" method="post">
+               
+          		 <div class="contents" style="padding-top: 30px; ">
 				<!-- 검색바 시작 -->
                     <div style="float: left; padding-right: 20px;">
-                    <select class="form-select w-80" aria-label="Default select example">
-	                    <option selected>전체</option>
+                    <select class="form-select w-80" aria-label="Default select example" name="search_type" id="search_type">
+	                    <option selected value="0">전체</option>
 	                    <option value="1">제목</option>
 	                    <option value="2">글쓴이</option>
 	                    <option value="3">제목+글쓴이</option>
@@ -186,24 +230,31 @@
                     </div>
                     <div>
                     <div class="form-group pull-right" style="width:300px; float: left;  padding-bottom: 20px;"><!-- 검색바 너비 -->
-                		<input type="text" class="search form-control" placeholder="리뷰 검색">
+                		<input type="text" class="search form-control" placeholder="리뷰 검색" id="search" name="search">
+                		<input type="hidden" name="m_num" value="2" />
                     </div>
                       <div style="float: left; width: 33%; padding-left:30px;">
-                		<input type="button" value="검색" class="btn btn-outline-danger"/>
+                		<input type="button" value="검색" class="btn btn-outline-danger" id="subBtn"/>
+                      </div>
+                      <div>
+                		<a href="review_write.do?m_num=2">
+                			<input type="button" value="리뷰 작성하기" class="btn btn-outline-primary" id="" style="float: right;"/>
+                		</a>
                       </div>
                     </div>
                		<span class="counter pull-right"></span>
                <!-- 검색바 끝 -->
-					
+                </form>
+                <!-- form 끝 -->
 					<!-- 테이블을 담은 div 시작 -->	
-                    <div style="width:1300px"><!-- 테이블의 div너비 -->
-                    <table class="table table-hover table-bordered results">
+                    <div style="width:1100px"><!-- 테이블의 div너비 -->
+                    <table class="table table-hover table-bordered results"  style="text-align:center">
                     <!-- 테이블 각 행의 넓이 비율 설정 원하면 늘리거나 줄이면 됨-->
                     <colgroup>
 					<col style="width:3%"> <!-- No. 행 넓이 비율 3% -->
 					<col style="width:20%"> <!-- 제목 행 넓이 비율 15% -->
 					<col style="width:6%"> <!-- 작성자 행 넓이 비율 6% -->
-					<col style="width:9%"> <!-- 작성일 행 넓이 비율 6% -->
+					<col style="width:6%"> <!-- 작성일 행 넓이 비율 6% -->
 					<col style="width:6%"> <!-- 조회 행 넓이 비율 6% -->
 					<col style="width:6%"> <!-- 좋아요 행 넓이 비율 6% -->
 					</colgroup>
@@ -217,37 +268,23 @@
   							<th scope="col" >조회</th>
   							<th scope="col" >좋아요</th>
 						</tr>
-						<tr class="warning no-result">
-						      <td colspan="6" style="text-align:center"><i class="fa fa-warning"></i> 검색결과가 없습니다.</td>
-						</tr>
 					</thead>
-					<thead>
-				  </thead>
 					  <tbody>
-					    <tr>
-					      <th scope="row">1</th>
-					      <td>보다가 눈물 흘렸습니다..</td>
-					      <td>김규미</td>
-					      <td>2023-05-04</td>
-					      <td>59</td>
-					      <td>10</td>
-					    </tr>
-					    <tr>
-					      <th scope="row">2</th>
-					      <td>2023년 최고의 걸작</td>
-					      <td>김경태</td>
-					      <td>2023-05-20</td>
-					      <td>100</td>
-					      <td>1</td>
-					    </tr>
-					    <tr>
-					      <th scope="row">3</th>
-					      <td>슈퍼마리오 끝날쯤에 마리오 죽음</td>
-					      <td>모민경</td>
-					      <td>3511-07-12</td>
-					      <td>191949</td>
-					      <td>-5555</td>
-					    </tr>
+					  <c:if test="${ empty reviewList }">
+					  	<tr>
+					  		<td colspan="6">해당영화에 대한 리뷰가 존재하지 않습니다.</td>
+					  	</tr>
+					  </c:if>
+					  <c:forEach var="review" items="${ reviewList }" varStatus="reviewCnt">
+					  <tr>
+					  	<td scope="row"><c:out value="${ reviewCnt.count }"/></td>
+					  	<td><a href="review_post.do?rv_num=${ review.rv_num }&m_title='토끼와 거북이'" ><c:out value="${ review.title }"/></a></td>
+					  	<td><c:out value="${ review.nick_name }"/></td>
+					  	<td><c:out value="${ review.input_date }"/></td>
+					  	<td><c:out value="${ review.hits }"/></td>
+					  	<td><c:out value="${ review.like_total }"/></td>
+					  </tr>
+					  </c:forEach>
 					  </tbody>					
 					</table>
            			</div>

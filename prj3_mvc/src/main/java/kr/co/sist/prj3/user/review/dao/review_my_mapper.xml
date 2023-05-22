@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.sist.prj3.Mapper"><!--여러 매퍼에 같은 아이디를 만들 수 있음-->
+
+
+<select id="selectMyReview" resultType="myReview" parameterType="mySearch">
+select   	 rv_num, hits, title,  dbms_lob.substr(content, 4000) as content, input_date,  m_title, eng_title, script, poster,  listagg( d_name  ,', ') within group (order by d_name) d_name
+from		 review r, movie m, director d
+where		 r.m_num = m.m_num and m.m_num = d.m_num
+and user_id = #{user_id} and
+<choose>
+<when test="search_type==0"><!-- 전체 선택-->
+1=1	
+</when>
+<when test="search_type==1 and search!=''"><!--제목  -->
+title like '%'||#{search}||'%'
+</when>
+<when test="search_type==2 and search!=''"><!--내용  -->
+content like '%'||#{search}||'%'
+</when>
+<when test="search_type==3 and search!=''"><!--제목+내용  -->
+(title like '%'||#{search}||'%' or content like '%'||#{search}||'%')
+</when>
+</choose>
+group by  	 rv_num, hits, title, dbms_lob.substr(content, 4000), input_date,  m_title, eng_title, script, poster
+</select>
+
+
+
+</mapper>

@@ -15,6 +15,12 @@ import kr.co.sist.prj3.admin.review.vo.ReviewSearchVO;
 @Component
 public class AdminReviewDAO {
 
+	/**
+	 * 관리자 
+	 * 리뷰 리스트 현황판 보여주기 + 검색기능
+	 * 2023.05.19
+	 * @author KT
+	 */
 	public List<ReviewBoardDomain> selectReviewList(ReviewSearchVO rsVO) throws PersistenceException{
 		List<ReviewBoardDomain> list = new ArrayList<ReviewBoardDomain>();
 		
@@ -22,12 +28,10 @@ public class AdminReviewDAO {
 		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
 		
 		//2. handler 쿼리문 수행
-		if (rsVO.getSearch_type()==null || rsVO.getSearch_type().isEmpty()) {
+		if (rsVO.getSearch_type()==null || rsVO.getSearch()==null) { // 검색 유형 정해지지 않음
 			list=ss.selectList("kr.co.sist.prj3.reviewMapper.reviewList");
-			System.out.println("reviewDAO / 처음 불렸을 때 DAO까지 값 받고 다녀옴");
 		} else {
 			list=ss.selectList("kr.co.sist.prj3.reviewMapper.reviewListSearch",rsVO);
-			System.out.println("reviewDAO / search버튼 DAO까지 값 받고 다녀옴");
 		}//end else
 		
 		//3. 조회결과 처리
@@ -38,22 +42,31 @@ public class AdminReviewDAO {
 		return list;
 	}//selectReviewList
 
-//	public static void main(String[] args) {
-//		ReviewSearchVO rsVO = new ReviewSearchVO();
-//		rsVO.setSearch_type("1");
-//		rsVO.setSearch("클");
-//		new AdminReviewDAO().selectReviewList(null);
-//	}//main
-	
-	public List<ReviewBoardDomain> selectSearchReview(ReviewSearchVO rsVO){
-		List<ReviewBoardDomain> list = new ArrayList<ReviewBoardDomain>();
+	/**
+	 * 관리자
+	 * 해당 리뷰 삭제 버튼
+	 * 2023.05.20
+	 * @author KT
+	 */
+	public int deleteReview(int rv_num) {
 		
-		return list;
-	}//selectSearchReview
-
-	public int deleteReview(int rvNum) {
+		int cnt = 0;
 		
-		return 0;
+		//1. MyBatis Handler 얻기
+		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+		
+		//2. handler 쿼리문 수행
+		cnt = ss.delete("kr.co.sist.prj3.reviewMapper.reviewDelete",rv_num);
+		
+		//3. 조회결과 처리
+		if(cnt==1) {
+			ss.commit();
+		}//end if
+		
+		//4. MyBatis Handler 닫기
+		if( ss!= null) {ss.close();}//end if
+		
+		return cnt;
 	}//deleteReview
 
 	public ReviewInfoDomain selectReview(int rvNum) {
