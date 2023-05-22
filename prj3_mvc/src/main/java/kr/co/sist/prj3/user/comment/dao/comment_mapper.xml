@@ -4,37 +4,41 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.sist.prj3.Mapper"><!--여러 매퍼에 같은 아이디를 만들 수 있음-->
 
-<!--동적쿼리 -->
-<select id="selectMembers" resultType="memBrd" parameterType="String">
-select  user_id, name, addr, tel, birth_date, reg_date
-from	user_table
-where	quit_date is null
-<if test="name!=''" >
-and name=#{name}
-</if>
+<!--댓글등록  -->
+<insert id="insertComment" parameterType="comm">
+insert into comments (com_num, input_date, content, rv_num, user_id) 
+values (seq_comment.nextval, to_char(sysdate, 'yyyy-mm-dd hh24:mi:ss'), 
+ #{content}, #{rv_num}, #{user_id})
+</insert>
+
+<!--대댓글 등록 -->
+<insert id="insertReply" parameterType="reply">
+insert into reply (RP_NUM, INPUT_DATE, CONTENT, COM_NUM, USER_ID)
+values (seq_reply.nextval, to_char(sysdate, 'yyyy-mm-dd hh24:mi:ss'), 
+#{content} , #{com_num}, #{user_id})
+</insert>
 
 
+
+<!-- 
+
+
+<delete id="deleteLike" parameterType="kr.co.sist.prj3.user.review.vo.LikeVO" >
+</delete>
+
+
+<select id="selectLikes" resultType="int" parameterType="int">
 </select>
 
-<select id="selectMemberInfo" resultType="memInfo" parameterType="String">
-select	 user_id, name, nick_name, email, tel, addr, detail_addr, profile, profile_msg, birth_date, zipcode 
-from     user_table
-where	 user_id = #{user_id}
+<select id="selectLikeStatus" resultType="String" parameterType="kr.co.sist.prj3.user.review.vo.LikeVO">
 </select>
-
-
-<update id="updateDelUser" parameterType="String">
-update	user_table
-set     nick_name='n/a', pass='n/a', name='n/a', email='n/a', tel='n/a', zipcode='n/a', addr='n/a', detail_addr='n/a', reg_date='n/a', birth_date='n/a', profile='n/a', profile_msg='n/a', quit_date=sysdate   
-where   user_id = #{user_id}
-</update>
-
+ -->
 
 <!-- 
 
 컬럼 하나 행 하나 조회  
 부서번호를 입력받아 부서명을 조회
-String dname = ss.selectOne('scsr",10);
+String dname = ss.selectOne("scsr",10);
 
 <select id="" resultType="String" parameterType="Integer" >
 select	dname

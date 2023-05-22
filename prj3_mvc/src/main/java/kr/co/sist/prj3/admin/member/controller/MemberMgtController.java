@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.sist.prj3.admin.member.domain.MemberBrdDomain;
 import kr.co.sist.prj3.admin.member.domain.MemberInfoDomain;
@@ -24,11 +26,10 @@ public class MemberMgtController {
 	
 	
 	@GetMapping("/member_board.do")
-	public String memberSearchProcess(String name, Model model) {
+	public String memberSearchProcess(@RequestParam(value = "name", defaultValue="") String name, Model model) {
 		
 		List<MemberBrdDomain> list=null;
 		
-		name="";
 		list = mmService.memberSearchService(name);
 		
 		
@@ -68,11 +69,16 @@ public class MemberMgtController {
 	 * @param model
 	 * @return
 	 */
-	public String memberRemoveProcess(Model model) {
+	@ResponseBody
+	@GetMapping("/member_delete.do")
+	public String memberRemoveProcess(String user_id) {
+		
+		//user_id로 update 서비스
+		String jsonObj = mmService.memberRemoveService(user_id);
+		
+		return jsonObj;
 		
 		
-		
-		return "member_board";
 	}//memberRemoveProcess
 	
 	

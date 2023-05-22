@@ -59,6 +59,44 @@
 </style>
 
 
+<!-- jQuery CDN 시작 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<!-- jQuery CDN 끝 -->
+
+<script type="text/javascript">
+
+$(function(){
+	
+	//회원명으로 검색
+	$("#searchBtn").click(function(){
+		
+		var search_type = $("#search_type").val();
+		var search = $("#search").val();
+		
+		if(search_type=="0" && !search==""){
+			alert("검색 옵션 선택은 필수입니다.");
+			return;
+		}//end if
+		
+		if(search_type!="0" && search==""){
+			alert("검색어 입력은 필수입니다.");
+			return;
+		}//end if
+				
+		
+		$("#frm").submit();
+		
+	});//click	
+	
+	
+	
+});//ready
+
+
+</script>
+
+
+
 </head>
 <body class="">
 
@@ -183,8 +221,9 @@
 											<!-- 등급종류 클래스 : vip, rvip, vvip -->
 										</div>
 										<div class="box-contents">
-											<strong>${nick_name}님</strong> <a id="go_edit_page" href=""
-												class="edit" target="_blank" title="프로필 수정">나의 정보 변경</a><em></em>
+											<strong>${nick_name}님</strong> 
+											<!-- <a id="go_edit_page" href=""
+												class="edit" target="_blank" title="프로필 수정">나의 정보 변경</a><em></em> -->
 
 										</div>
 									</div>
@@ -220,21 +259,22 @@
 						<div class="col-detail">
 							<div class="movielog-detail-wrap">
 								<!-- Title & Button Combo -->
-								<form id="form1" method="get">
+								<form id="frm" method="get" action="my_review.do">
 									<div class="tit-mycgv">
 										<h3>내가 쓴 리뷰</h3>
+										<input type="hidden" id="user_id" name="user_id" value="${param.user_id}"/>
 										<p>
-											<em>몇건인지</em>
+											<em><c:out value="${myReviewCnt }"/></em>
 										</p>
 										<div class="set-combo">
-											<label for="year">검색 옵션</label> <select id="year" name="year"
-												style="width: 88px;">
-												<option value="" selected="selected" style="padding: 0px">전체</option>
-												<option value="제목" style="padding: 0px">제목</option>
-												<option value="내용" style="padding: 0px">내용</option>
-												<option value="제목+내용" style="padding: 0px">제목+내용</option>
+											<label for="year">검색 옵션</label> 
+											<select id="search_type" name="search_type" style="width: 88px;">
+												<option value="0" selected="selected" style="padding: 0px">전체</option>
+												<option value="1" style="padding: 0px">제목</option>
+												<option value="2" style="padding: 0px">내용</option>
+												<option value="3" style="padding: 0px">제목+내용</option>
 											</select> <input type="text" style="width: 100px; margin-right: 4px"
-												value="" placeholder="제목,내용 검색" />
+												id="search" name="search" value="" placeholder="제목,내용 검색" />
 											<button type="button" class="round gray" id="searchBtn">
 												<span>검색</span>
 											</button>
@@ -246,43 +286,48 @@
 
 								<div class="sect-movielog-lst">
 									<ul id="watched_list_container">
-
+								
+								
+								<c:if test="${empty myReviews}">
+									<li>
+								<div class="article-movie-info">작성한 리뷰가 없습니다.</div>
+									</li>
+								</c:if>
+								<c:forEach items="${myReviews}" var="myReview" >
 										<li class="movie_info_84643">
 											<div class="article-movie-info">
 												<div class="box-image">
 													<a id="phototicket_popup_84643" title="포스터 크게 보기"
 														href=""> <span
-														class="thumb-image"> <img alt="${mTitle } 포스터"
-															src="${mPoster }"
-															onerror="errorImage(this)" /> <!-- 영상물 등급 노출 변경 2022.08.24 -->
-															<i class="cgvIcon etc age12">12</i> <!-- <span class="ico-grade 12">12</span> -->
-															<i></i>
+														class="thumb-image"> <img alt="${myReview.m_title } 포스터"
+															src="http://localhost/prj3_mvc/images/${myReview.poster }" 
+															onerror="" /> <!-- 영상물 등급 노출 변경 2022.08.24 -->
+															<!-- <i class="cgvIcon etc age12">12</i> <span class="ico-grade 12">12</span>
+															<i></i> -->
 													</span>
 													</a>
 												</div>
 												<div class="box-contents">
 													<div class="title">
-														<a href=""> <strong id="strong_84643">
-														<c:out value="${title }"/></strong>
+														<a href="review_post.do?rv_num=${myReview.rv_num}&user_id=${param.user_id}"> <strong id="strong_84643">
+														<c:out value="${myReview.title }"/></strong>
 														</a>
 													</div>
 
-													<p class="date"><c:out value="${mTitle }"/> | <c:out value="${mEngTitle }"/></p>
-													<p class="date">감독 <c:out value="${director }"/></p>
-													<p class="theater">각본 <c:out value="${writer }"/></p>
+													<p class="date"><c:out value="${myReview.m_title }"/> | <c:out value="${myReview.eng_title }"/></p>
+													<p class="date">감독 <c:out value="${myReview.d_name }"/></p>
+													<p class="theater">각본 <c:out value="${myReview.script }"/></p>
 													<!-- add_css82 평점 개편 -->
-													<span style="float: right">조회수 <c:out value="${hitCnt }"/> | <c:out value="${inputDate }"/></span>
+													<span style="float: right">조회수 <c:out value="${myReview.hits }"/> | <c:out value="${myReview.input_date }"/></span>
 
 												</div>
 
 											</div>
 										</li>
-
+										</c:forEach>
 
 									</ul>
 								</div>
-
-
 							</div>
 
 

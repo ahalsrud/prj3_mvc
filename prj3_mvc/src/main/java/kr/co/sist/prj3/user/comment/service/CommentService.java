@@ -2,6 +2,10 @@ package kr.co.sist.prj3.user.comment.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import kr.co.sist.prj3.user.comment.dao.CommentDAO;
 import kr.co.sist.prj3.user.comment.domain.CommWithRepliesDomain;
 import kr.co.sist.prj3.user.comment.domain.CommentDomain;
 import kr.co.sist.prj3.user.comment.domain.ReplyDomain;
@@ -13,15 +17,21 @@ import kr.co.sist.prj3.user.comment.vo.ReplyVO;
  * @author user
  *
  */
+@Component
 public class CommentService {
 
-	
+	@Autowired(required = false)
+	private CommentDAO commDAO;
 
 	/**
 	 * ´ñ±Û µî·Ï - ajax
 	 * @param cmVO
 	 */
-	public void addCommentService( CommVO cmVO ) {
+	public boolean addCommentService( CommVO cmVO ) {
+		
+		boolean success=false;
+		success = commDAO.insertComment(cmVO)==1;
+		return success;
 		
 	}//insertComment
 
@@ -59,8 +69,11 @@ public class CommentService {
 	 * ´ë´ñ±Û µî·Ï
 	 * @param rpVO
 	 */
-	public void addReplyService( ReplyVO rpVO ) {
+	public boolean addReplyService( ReplyVO rpVO ) {
 		
+		boolean success=false;
+		success = commDAO.insertReply(rpVO)==1;
+		return success;
 		
 	}//insertReply
 

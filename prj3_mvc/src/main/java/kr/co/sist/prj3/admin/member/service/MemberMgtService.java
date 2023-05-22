@@ -2,10 +2,10 @@ package kr.co.sist.prj3.admin.member.service;
 
 import java.util.List;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import kr.co.sist.prj3.admin.member.controller.MemberMgtController;
 import kr.co.sist.prj3.admin.member.dao.MemberMgtDAO;
 import kr.co.sist.prj3.admin.member.domain.MemberBrdDomain;
 import kr.co.sist.prj3.admin.member.domain.MemberInfoDomain;
@@ -48,10 +48,24 @@ public class MemberMgtService {
 	 * @param userId
 	 * @return
 	 */
-	public int meberRemoveService(String userId) {
+	public String memberRemoveService(String user_id) {
 		
-		int result = 0;
-		return result;
+		JSONObject jsonObj = new JSONObject();
+		Boolean success = false;
+		
+		int cnt = mmDAO.updateDeleteMember(user_id);
+		System.out.println("memService---="+cnt);
+		
+		//기본
+		jsonObj.put("success",false);
+		
+		
+		if(cnt==1) {//업뎃 성공시			
+			jsonObj.put("success",true);
+		}//end if
+		
+			return jsonObj.toJSONString();
+		
 		
 	}//meberRemoveService
 	

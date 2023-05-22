@@ -33,6 +33,7 @@ public class MemberMgtDAO {
 			ss.close();
 		} // end if
 
+		
 		return list;
 		
 	}//selectMember
@@ -67,10 +68,25 @@ public class MemberMgtDAO {
 	 * @param userId
 	 * @return
 	 */
-	public int updateDeleteMember(String userId) {
+	public int updateDeleteMember(String user_id) {
+
+		int cnt = 0;
+
+		// 1.MyBatis 핸들러 얻기
+		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+
+		// 2. Handler를 사용하기
+		cnt = ss.update("updateDelUser", user_id);
 		
-		int result=0;
-		return result;
+		if(cnt==1) {ss.commit();}
+		
+		// 4. 연결 끊기
+		if (ss != null) {
+			ss.close();
+		} // end if
+
+		return cnt;
+
 		
 	}//updateDeleteMember
 	
