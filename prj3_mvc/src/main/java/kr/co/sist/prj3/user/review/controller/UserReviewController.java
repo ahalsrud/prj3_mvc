@@ -26,7 +26,7 @@ public class UserReviewController {
 	private UserReviewService urService ;
 	
 	/**
-	 * 유저
+	 * 유저   됐냐
 	 * 해당 영화에 대한 리뷰 리스트 보여주기 + 검색기능
 	 * 2023.05.20
 	 * @author KT
