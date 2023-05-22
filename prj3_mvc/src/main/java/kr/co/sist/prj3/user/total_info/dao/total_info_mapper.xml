@@ -10,15 +10,26 @@
 select     	m_num, m_title, eng_title, release_date, genre, run_time, country, rank, poster
 from        movie
 where       m_num=#{m_num}
-
 </select>
 
-<!-- 영화번호에 따른 줄거리 출력 -->
-<select id="selectSummary" resultType="String" parameterType="Integer">
-select		summary
-from		movie
-where		m_num=#{m_num}
+<!-- 좋아요 상태 -->
+<select id="selectLikeMovie" parameterType="kr.co.sist.prj3.user.total_info.vo.LikeMovieVO" resultType="kr.co.sist.prj3.user.total_info.vo.LikeMovieVO">
+select *
+from movie_like
+where m_num = #{ m_num } and user_id = #{ user_id }
 </select>
+
+<!-- 좋아요 추가 -->
+<insert id="insertLikeMovie" parameterType="kr.co.sist.prj3.user.total_info.vo.LikeMovieVO">
+insert into movie_like (m_num, user_id, like_state)
+values (#{m_num}, #{user_id}, 1)
+</insert>
+
+<!-- 좋아요 삭제 -->
+<delete id="deleteLikeMovie" parameterType="kr.co.sist.prj3.user.total_info.vo.LikeMovieVO">
+delete from movie_like
+where m_num = #{ m_num }
+</delete>
 
 
 </mapper>

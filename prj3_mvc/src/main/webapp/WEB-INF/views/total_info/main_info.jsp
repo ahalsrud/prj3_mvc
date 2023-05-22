@@ -22,6 +22,44 @@
     color: #98989C;
     text-decoration: none;
 }
+
+a{
+  text-decoration:none; color:inherit; cursor: pointer;
+}
+ .right_area .icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(100vw * (45 / 1920));
+    height: calc(100vw * (45 / 1920));
+
+    border-radius: 50%;
+    border: solid 2px #eaeaea;
+    background-color: #fff;
+}
+
+.icon.heart img{
+    width: calc(100vw * (24 / 1920));
+    height: calc(100vw * (24 / 1920));
+}
+
+.icon.heart.fas{
+  color:red
+}
+.heart{
+    transform-origin: center;
+}
+.heart.active img{
+    animation: animateHeart .3s linear forwards;
+}
+
+@keyframes animateHeart{
+    0%{transform:scale(.2);}
+    40%{transform:scale(1.2);}
+    100%{transform:scale(1);}
+  }
+#likeBtn { float: left; margin-right: 20px; }
+#ticketing { margin-top: 5px;}
 </style>
 
 <script type="text/javascript">
@@ -316,13 +354,75 @@ $(function() {
             		 +"</div>"
 
             		 $("#output").html(output); 
-            	
             }//function
-           
         });//ajax
     }); //click 
-    
 });//ready
+
+//heart 좋아요 클릭시! 하트 뿅
+$(function(){
+    var $likeBtn =$('.icon.heart');
+    var m_num = ${movie.m_num};
+
+        $likeBtn.click(function(){
+        $likeBtn.toggleClass('active');
+
+        if($likeBtn.hasClass('active')){          
+           alert("기대되는 영화 등록" + m_num);
+           $(this).find('img').attr({
+              'src': 'https://cdn-icons-png.flaticon.com/512/803/803087.png',
+               alt:'찜하기 완료'
+           });
+           
+           // 서버로 전송할 데이터 설정
+           var data = {
+               like_state: 1, 
+               m_num: m_num
+           };
+
+           // Ajax 요청 보내기
+           $.ajax({
+               url: "add_like.do",
+               type: "post",
+               contentType: "application/json;charset=UTF-8",
+               data: JSON.stringify(data),
+               success: function(response) {
+                   // 요청이 성공적으로 처리되었을 때의 동작
+                   alert("좋아요 추가 - 성공");
+               },
+               error: function(xhr) {
+                   // 요청이 실패했을 때의 동작
+                   alert("좋아요 추가 - 실패: " + xhr.statusText + xhr.responseText);
+               }
+           });
+          
+         }else{
+            $(this).find('i').removeClass('fas').addClass('far')
+            alert("기대되는 영화 삭제");
+           $(this).find('img').attr({
+              'src': 'https://cdn-icons-png.flaticon.com/512/812/812327.png',
+              alt:"찜하기"
+           })
+       
+           // Ajax 요청 보내기
+           $.ajax({
+               url: "remove_like.do",
+               type: "post",
+               contentType: "application/json;charset=UTF-8",
+               data: JSON.stringify(data),
+               success: function(response) {
+                   // 요청이 성공적으로 처리되었을 때의 동작
+                   alert("좋아요 삭제 - 성공");
+               },
+               error: function(xhr) {
+                   // 요청이 실패했을 때의 동작
+                   alert("좋아요 삭제 - 실패: " + xhr.statusText + xhr.responseText);
+               }
+           });
+         }
+     })
+})
+
 </script>
 
 </head>
@@ -349,6 +449,8 @@ $(function() {
                     </li>
                 </ul>
             </nav>
+            
+            <!-- 검색 시작 -->
             <a href="javascript:" class="link_search">
                 <span class="ico_movie ico_search">검색하기</span>
             </a> 
@@ -366,12 +468,11 @@ $(function() {
                 <div class="suggest_layer">
                 </div>
             </div>
+            <!-- 검색 끝 -->
         </div>
     </div>
     <div id="wrapMinidaum"></div>
         <script src="https://go.daum.net/minidaum_pc.daum" charset="utf-8" type="text/javascript"></script>
-
-
 </header>
         <hr class="hide">
 
@@ -439,11 +540,15 @@ $(function() {
             
         </div>
             	<!------------------------------- 좋아요, 예메하기 버튼 추가 박진호 0507 -->
-            	<div>
-            		<input type="button" class="like" id="likeBtn" value="♥좋아요" style="width:80px; height:35px; cursor: pointer; border-radius: 10px" />
-            		<input type="button" class="ticketing" value="예매하기" style="width:80px; height:35px; cursor: pointer; margin-left: 10px; border-radius: 10px; background-color: #E74C3C; border-color: #E74C3C; color: white; font-size:11pt;font-family:굴림;font-weight:bolder"  />
-            		
-            	</div>
+            		<!-- <input type="button" class="like" id="likeBtn" value="♥좋아요" style="width:80px; height:35px; cursor: pointer; border-radius: 10px" /> -->
+            		<div id="likeBtn" class="right_area">
+  						<a href="javascript:;" class="icon heart">
+    						<img src="https://cdn-icons-png.flaticon.com/512/812/812327.png" alt="찜하기"> 
+  						</a>
+					</div>
+					<div id="ticketing">
+            			<input type="button" class="ticketing" id="tiecketingBtn" value="예매하기" style="width:80px; height:35px; cursor: pointer; margin-left: 10px; border-radius: 10px; background-color: #E74C3C; border-color: #E74C3C; color: white; font-size:11pt;font-family:굴림;font-weight:bolder"  />
+    				</div>
     </div>
 </div>
         <!-- 상세하단 -->

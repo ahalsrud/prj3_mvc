@@ -18,19 +18,62 @@ import kr.co.sist.prj3.user.total_info.vo.LikeMovieVO;
 @Component
 public class TotalInfoDAO {
 
-	
-	
-	
-	public CommInfoDomain selectcommInfo(int m_num) {
+	public CommInfoDomain selectcommInfo(LikeMovieVO lmVO) {
 		CommInfoDomain cid = null;
 		
 		SqlSession ss=MyBatisHandler.getInstance().getMyBatisHandler(false);
-		cid = ss.selectOne("selectcommInfo", m_num);
+		cid = ss.selectOne("selectcommInfo", lmVO);
 		
 		if(ss != null) { ss.close(); }// end if
 		
 		return cid;
 	}// selectcommInfo
+	
+	// 좋아요 상태
+		public int selectLikeMovie(LikeMovieVO lmVO) {
+			SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+			int cnt = ss.selectOne("selectLikeMovie", lmVO);
+			if(ss != null ) { ss.close(); } // end if
+			
+			return cnt;
+		}// selectLikeMovie
+			
+		// 좋아요 추가
+		public int insertLikeMovie(LikeMovieVO lmVO) {
+		    SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+
+		    int cnt = ss.insert("insertLikeMovie", lmVO);
+
+		    if (cnt == 1) {
+		    	System.out.println("추가 성공 => commit");
+		        ss.commit();
+		    } else {
+		        System.out.println("추가 실패");
+		        ss.rollback();
+		    }
+		    if (ss != null) {
+		        ss.close();
+		    }
+		    return cnt;
+		}
+			
+		// 좋아요 삭제
+		public int deleteLikeMovie(LikeMovieVO lmVO) {
+			int cnt = 0;
+			
+			SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+			cnt = ss.delete("deleteLikeMovie", lmVO);
+			
+			if(cnt == 1) {
+				ss.commit();
+			}else {
+				ss.rollback();
+			}// end else
+			
+			if (ss != null) { ss.close(); }// end if
+			
+			return cnt;
+		}// deleteLikeMovie
 	
 public String selectSummary(int mNum) {
 		
@@ -63,20 +106,6 @@ public String selectSummary(int mNum) {
 		
 		return list;
 	}// selectAcotr
-	
-	// 좋아요 상태
-	public boolean selectMovieLike() {
-		return true;
-	}// selectMovieLike
-	
-	// 좋아요 추가, 삭제
-	public void insertLikeMovie(LikeMovieVO lmVO) {
-		
-	}// insertLikeMovie
-	
-	public int deleteLikeMovie(LikeMovieVO lmVO) {
-		return 0;
-	}// deleteLikeMovie
 	
 	// 출연/제작
 	public List<DirectorDomain> selectDirectorList(int mNum) {

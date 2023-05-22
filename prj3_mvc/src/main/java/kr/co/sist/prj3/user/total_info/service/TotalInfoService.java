@@ -22,14 +22,32 @@ public class TotalInfoService {
 	@Autowired(required=false)
 	private TotalInfoDAO tiDAO;
 	
-	
-	
-	
-	public CommInfoDomain searchCommInfo(int m_num) {
-		CommInfoDomain cid = tiDAO.selectcommInfo(m_num);
+	public CommInfoDomain searchCommInfo(LikeMovieVO lmVO) {
+		CommInfoDomain cid = tiDAO.selectcommInfo(lmVO);
 		
 		return cid;
 	}// searchCommInfo
+	
+	// 좋아요 상태
+	public boolean movieLikeStatus(LikeMovieVO lmVO) {
+	    int cnt = tiDAO.selectLikeMovie(lmVO);
+
+	    return cnt == 1;
+	}
+			
+	// 좋아요 추가
+	public boolean addLikeMovie(LikeMovieVO lmVO) {
+	    int cnt = tiDAO.insertLikeMovie(lmVO);
+	    
+	    return cnt == 1;
+	}
+			
+	// 좋아요 삭제
+	public boolean removeLikeMovie(LikeMovieVO lmVO) {
+		int cnt = tiDAO.deleteLikeMovie(lmVO);
+		
+		return cnt == 1;
+	}// removeLikeMove
 	
 	//서머리 조회
 		public String summaryInfo(int m_num) {
@@ -52,20 +70,6 @@ public class TotalInfoService {
 			
 			return list;
 		}// actorInfo
-		
-		// 좋아요 상태
-		public boolean movieLikeStatus() {
-			return true;
-		}// movieLikeStatus
-		
-		// 좋아요 추가, 삭제
-		public int addLikeMovie(LikeMovieVO lmVO) {
-			return 0;
-		}// addLikeMovie
-		
-		public int removeLikeMove(LikeMovieVO lmVO) {
-			return 0;
-		}// removeLikeMove
 		
 		// 출연/제작
 		public List<DirectorDomain> searchDirectorList(int m_num) {

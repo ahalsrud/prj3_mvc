@@ -5,10 +5,10 @@
 <mapper namespace="kr.co.sist.total_info">
 
 <!-- 영화번호에 따른 줄거리 출력 -->
-<select id="scsr" resultType="String" parameterType="Integer">
-select		dname
-from		dept
-where		deptno=#{deptno}
+<select id="selectSummary" resultType="String" parameterType="Integer">
+select		summary
+from		movie
+where		m_num=#{m_num}
 </select>
 
 </mapper>
