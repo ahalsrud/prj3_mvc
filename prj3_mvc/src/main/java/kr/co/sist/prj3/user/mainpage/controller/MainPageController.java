@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.sist.prj3.user.mainpage.service.MainPageService;
 
@@ -24,7 +25,11 @@ public class MainPageController {
 	}//mainPage
 	
 	@GetMapping("/search_movie.do")
-	public String searchMovieFrm(String str,Model model) {
+	public String searchMovieFrm(String title, Model model) {
+		
+		System.out.println("------------------------------con / "+title);
+		model.addAttribute("searchList",mps.searchMovieService(title));
+		
 		return "main/search_movie";
 	}//searchMovieFrm
 	

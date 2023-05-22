@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     info="마이페이지 예매내역 취소내역"%>
+    <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
 <head>
@@ -35,6 +36,10 @@
     <!-- 각페이지 Header Start--> 
     <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/phototicket/phototicket.css" />
     <!--/각페이지 Header End--> 
+    
+     <!-- jQuery CDN 시작 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+     <!-- jQuery CDN 끝 -->
 
 <style type="">
 #reBtn {
@@ -47,29 +52,30 @@
 	cursor: pointer;
 }
 </style>
+<script>
+$(function() {
+	$("#reBtn").click(function() {
+		var rNum=$("#r_num").val();
+		if(confirm("예매를 취소하시겠습니까?")) {
+			location.href="cancelRes.do?r_num="+rNum;
+		}
+		
+	});//click
+});//ready
+</script>
 </head>
 <body class="">
 <div class="skipnaiv">
 	<a href="#contents" id="skipHeader">메인 컨텐츠 바로가기</a>
 </div>    
 <div id="cgvwrap">
-    <div class="cgv-ad-wrap" id="cgv_main_ad">
-        <div id="TopBarWrapper" class="sect-head-ad">
-            <div class="top_extend_ad_wrap">
-                <div class="adreduce" id="adReduce">                    
-                    <iframe src="//ad.cgv.co.kr/NetInsight/html/CGV/CGV_201401/sub@TopBar_EX" width="100%" height="80" title="" frameborder="0" scrolling="no" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0" name="TopBanner" id="TopBanner"></iframe>
-                </div> 
-                <div class="adextend" id="adExtend"></div>
-            </div><!-- //.top_extend_ad_wrap -->
-        </div>    
-    </div>    
 	<div class="header">			
             <!-- 서비스 메뉴 --> 
             
 <div class="header_content">
     <div class="contents">
         <h1 onclick="">
-        <a href="/">
+        <a href="mainPage.do">
         	<img src="http://localhost/prj3_mvc/images/movie.png" alt="movieplanet" />
         </a>
         <span>MOVIEPLANET</span></h1>
@@ -87,7 +93,7 @@
         <h1><a href="/" tabindex="-1"><img src="https://img.cgv.co.kr/R2014/images/common/logo/logoWhite.png" alt="CGV" /></a></h1>
         <ul class="nav_menu">
             <li>
-                <h2><a href="/movies/?lt=1&ft=0">영화</a></h2>
+                <h2><a href="mainPage.do">영화</a></h2>
             </li>
             <li>
                 <h2><a href="/ticket/"><strong>예매</strong></a></h2>
@@ -155,7 +161,7 @@
 	    <div class="snb">
 	        <ul>
 	            <li class="on">
-                    <a href="mypage.do" title="현재 선택">MY CGV HOME <i></i></a>
+                    <a href="mypage.do" title="현재 선택">MY HOME <i></i></a>
                 </li>
 	            <li >
                     <a href="/user/mycgv/myinfo/?g=1" >회원정보<i></i></a>
@@ -164,7 +170,7 @@
                             <a href="checkPass.do" >개인정보 변경</a>
                         </li>
                         <li>
-                            <a href="modifyPass.do" >비밀번호 변경</a>
+                            <a href="confirm_pass.do" >비밀번호 변경</a>
                         </li>
 
 	                </ul>
@@ -225,21 +231,23 @@
 				</tr>
 			</thead>
 			<tbody>
+			<c:if test="${ empty resInfo }">
                 <tr>
-                	<td colspan="4" class="nodata">고객님의 최근 예매내역이 존재하지 않습니다.</td>
+                	<td colspan="5" class="nodata">고객님의 최근 예매내역이 존재하지 않습니다.</td>
+                </tr>
+			</c:if>
+                <c:forEach var="resInfo" items="${ resInfo }">
+                <tr>
+                	<td>${ resInfo.m_title }</td>
+                	<td>2023.06.${ resInfo.watch_date }</td>
+                	<td>${resInfo.price}</td>
+                	<td>${ resInfo.r_state eq 'Y' ? '예매완료' : '예매중' }</td>
                 	<td>
+		                <input type="hidden" id="r_num" name="r_num" value="${ resInfo.r_num }"/>
                 		<input type="button" id="reBtn" value="예매취소"/>
                 	</td>
                 </tr>
-                <tr>
-                	<td>가오갤</td>
-                	<td>2022.05.01</td>
-                	<td>20000</td>
-                	<td>예상</td>
-                	<td>
-                		<input type="button" id="reBtn" value="예매취소"/>
-                	</td>
-                </tr>
+                </c:forEach>
 			</tbody>
 		</table>
 	</div>
@@ -262,8 +270,17 @@
 			</thead>
 			<tbody>
             
-            
+            <c:if test="${ empty canInfo }">
                 <tr><td colspan="5" class="nodata">고객님의 최근 취소내역이 존재하지 않습니다.</td></tr>
+            </c:if>
+            <c:forEach var="canInfo" items="${canInfo}">
+            	<tr>
+            		<td>${ canInfo.m_title }</td>
+            		<td>2023.06.${ canInfo.watch_date }</td>
+            		<td>${ canInfo.cancel_date }</td>
+            		<td>${ canInfo.price }</td>
+            	</tr>
+            </c:forEach>
             
 			</tbody>
 		</table>

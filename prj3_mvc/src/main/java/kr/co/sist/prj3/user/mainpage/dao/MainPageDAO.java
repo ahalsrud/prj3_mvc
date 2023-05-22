@@ -22,7 +22,7 @@ public class MainPageDAO {
 		if(ss != null) {ss.close();}//end if
 		return mif;
 		
-	}
+	}//selectBestMovie
 	
 	public List<SearchMovieDomain> selectAllMovie() {
 		List<SearchMovieDomain> list=null;
@@ -31,8 +31,21 @@ public class MainPageDAO {
 		
 		list=ss.selectList("movieList");
 		
+		if(ss != null) {ss.close();}
+		
 		return list;
-	}
+	}//selectAllMovie
+	
+	public List<SearchMovieDomain> selectSearchMovie(String title) {
+		List<SearchMovieDomain> list=null;
+		SqlSession ss=MyBatisHandler.getInstance().getMyBatisHandler(false);
+		
+		list=ss.selectList("searchMovie",title);
+		
+		if(ss != null) {ss.close();}
+		
+		return list;
+	}//selectSearchMovie
 	
 
 

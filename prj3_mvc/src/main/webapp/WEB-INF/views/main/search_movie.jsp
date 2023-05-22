@@ -102,7 +102,7 @@
             
 <div class="header_content">
     <div class="contents">
-        <h1 onclick=""><a href="/"><img src="http://localhost/test_prj/admin/images/movie.png" alt="CGV" /></a><span>MOVIEPLANET</span></h1>
+        <h1><a href="mainPage.do"><img src="http://localhost/prj3_mvc/images/movie.png" alt="MOVIEPLANET" /></a><span>MOVIEPLANET</span></h1>
         <ul class="memberInfo_wrap">
 
             
@@ -117,19 +117,18 @@
 </div>
 
 <script>
-    //GA Analytics TopMenu 영역 LOG
-    //빨강 CGV클릭
-    $('.header_content > .contents > h1 > a').on({
-        click: function (e) {
-            gaEventLog('PC_GNB', '홈', '');
-        }
-    });
-    //서비스 메뉴
-    $('.header_content > .contents > ul > li > a').on({
-        click: function (e) {
-            gaEventLog('PC_GNB', '서비스메뉴_'+this.text, '');
-        }
-    });
+$(function() {
+	$("#sea").click(function() {
+   	 if($("#movieName").val() == "") {
+   		 alert("영화명을 입력해주세요.");
+   		 $("#movieName").focus();
+   	 }else {
+   		 var url="search_movie.do?title="+$("#movieName").val();
+   		 location.href=url;
+   		 
+   	 }//end else
+    });//click
+});
 
    
 
@@ -323,7 +322,7 @@
         <h1><a href="/" tabindex="-1"></a></h1>
         <ul class="nav_menu">
             <li>
-                <h2><a href="/movies/?lt=1&ft=0">영화</a></h2>
+                <h2><a href="search_movie.do">영화</a></h2>
             </li>
             <li>
                 <h2><a href="/ticket/"><strong>예매</strong></a></h2>
@@ -337,25 +336,10 @@
         </ul>
         <div class="totalSearch_wrap">
             <label for="totalSearch">
-                <input type="text" id="" value="" placeholder="영화명 검색"/>
+                <input type="text" id="movieName" value="" placeholder="영화명 검색"/>
                 <input type="hidden" id="header_ad_keyword" name="header_ad_keyword" />
             </label>
-            <button type="button" class="btn_totalSearch" id="btn_header_search">검색</button>
-            <!--<div class="totalSearchAutocomplete_wrap">
-                <dl class="totalSearchAutocomplete_list">
-                    <dt>영화</dt>
-                    <dd><a href="#none"><strong>전지</strong>적 작가시점</a></dd>
-                    <dd><a href="#none">내언니 <strong>전지</strong>현과 나</a></dd>
-                    <dd><a href="#none">수호<strong>전지</strong> 영웅본색</a></dd>
-                </dl>
-                <dl class="totalSearchAutocomplete_list">
-                    <dt>인물</dt>
-                    <dd><a href="#none"><strong>전지</strong>현</a></dd>
-                    <dd><a href="#none"><strong>전지</strong>희</a></dd>
-                    <dd><a href="#none">이<strong>전지</strong></a></dd>
-                </dl>
-                <a href="#none" class="btn_totalSearchAutocomplete_close">닫기</a>
-            </div>//-->
+            <button type="button" class="btn_totalSearch" id="sea">검색</button>
         </div>
     </div>
 </div>
@@ -428,193 +412,36 @@ Sys.WebForms.PageRequestManager._initialize('ctl00$PlaceHolderContent$ScriptMana
 
 	<ul class='searchingMovieResult_list'>
         
-               
+               <!-- foreach 시작 -->
+               <c:if test="${ empty searchList }">
+               <h1>검색결과가 존재하지 않습니다.</h1>
+               </c:if>
+               <c:forEach var="movie" items="${ searchList }">
                 <li>
-						<a href="/movies/detail-view/?midx=86072" class="img_wrap">
-						<img src ="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86072/86072_320.jpg" alt ="아바타-물의 길"  onerror="errorImage(this)">
-                        			 <p class='movieState screening'><strong>상영중</strong><span> 예매율0.0%</span></p>
+						<a href="main_info.do?m_num=${ movie.m_num }" class="img_wrap">
+						<img src ="images/${ movie.poster }" alt ="${ movie.m_title }"  onerror="errorImage(this)"/>
+								<c:if test="${ not empty movie.release_date }">
+                        			 <p class='movieState screening'><strong>상영중</strong><span> 예매율${movie.r_rate }%</span></p>
+								</c:if>
 						</a>
 								<div class='searchingMovieResult_info_wrap'>
-									<strong class='searchingMovieName'>아바타-물의 길
+									<strong class='searchingMovieName'>${ movie.m_title }
                                     <!-- 영상물 등급 노출 변경 2022.08.24 -->
-                                    <i class="cgvIcon etc age12">12</i>
+                                    <i class="cgvIcon etc age${ movie.rank }">${ movie.rank }</i>
                                     <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세이상"> -->
                                     </strong>
-									<span>2022.12.14 개봉</span>
+									<span>${ movie.release_date eq null ? '미' : movie.release_date }개봉 </span>
 									<span><div>
                                             <img src='https://img.cgv.co.kr/R2014/Images/common/egg/eggGoldenegggreat.png'/>
                                             <span>96%</span>
                                         </div></span>
 					</div>
 				</li>
+				</c:forEach>
+               <!-- foreach 끝 -->
             
                
-                <li>
-						<a href="/movies/detail-view/?midx=86217" class="img_wrap">
-						<img src ="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86217/86217_320.jpg" alt ="아바타 리마스터링"  onerror="errorImage(this)">
-                        			 
-						</a>
-								<div class='searchingMovieResult_info_wrap'>
-									<strong class='searchingMovieName'>아바타 리마스터링
-                                    <!-- 영상물 등급 노출 변경 2022.08.24 -->
-                                    <i class="cgvIcon etc age12">12</i>
-                                    <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세이상"> -->
-                                    </strong>
-									<span>2022.09.21 개봉</span>
-									<span><div>
-                                            <img src='https://img.cgv.co.kr/R2014/Images/common/egg/eggGoldenegggreat.png'/>
-                                            <span>99%</span>
-                                        </div></span>
-					</div>
-				</li>
-            
-               
-                <li>
-						<a href="/movies/detail-view/?midx=80723" class="img_wrap">
-						<img src ="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000080/80723/80723_320.jpg" alt ="아바타"  onerror="errorImage(this)">
-                        			 
-						</a>
-								<div class='searchingMovieResult_info_wrap'>
-									<strong class='searchingMovieName'>아바타
-                                    <!-- 영상물 등급 노출 변경 2022.08.24 -->
-                                    <i class="cgvIcon etc age12">12</i>
-                                    <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세이상"> -->
-                                    </strong>
-									<span>2018.06.21 개봉</span>
-									<span><div>
-                                            <img src='https://img.cgv.co.kr/R2014/Images/common/egg/eggGoldenegggreat.png'/>
-                                            <span>99%</span>
-                                        </div></span>
-					</div>
-				</li>
-                <li>
-						<a href="/movies/detail-view/?midx=80723" class="img_wrap">
-						<img src ="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000080/80723/80723_320.jpg" alt ="아바타"  onerror="errorImage(this)">
-                        			 
-						</a>
-								<div class='searchingMovieResult_info_wrap'>
-									<strong class='searchingMovieName'>아바타
-                                    <!-- 영상물 등급 노출 변경 2022.08.24 -->
-                                    <i class="cgvIcon etc age12">12</i>
-                                    <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세이상"> -->
-                                    </strong>
-									<span>2018.06.21 개봉</span>
-									<span><div>
-                                            <img src='https://img.cgv.co.kr/R2014/Images/common/egg/eggGoldenegggreat.png'/>
-                                            <span>99%</span>
-                                        </div></span>
-					</div>
-				</li>
-                <li>
-						<a href="/movies/detail-view/?midx=80723" class="img_wrap">
-						<img src ="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000080/80723/80723_320.jpg" alt ="아바타"  onerror="errorImage(this)">
-                        			 
-						</a>
-								<div class='searchingMovieResult_info_wrap'>
-									<strong class='searchingMovieName'>아바타
-                                    <!-- 영상물 등급 노출 변경 2022.08.24 -->
-                                    <i class="cgvIcon etc age12">12</i>
-                                    <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세이상"> -->
-                                    </strong>
-									<span>2018.06.21 개봉</span>
-									<span><div>
-                                            <img src='https://img.cgv.co.kr/R2014/Images/common/egg/eggGoldenegggreat.png'/>
-                                            <span>99%</span>
-                                        </div></span>
-					</div>
-				</li>
-                <li>
-						<a href="/movies/detail-view/?midx=80723" class="img_wrap">
-						<img src ="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000080/80723/80723_320.jpg" alt ="아바타"  onerror="errorImage(this)">
-                        			 
-						</a>
-								<div class='searchingMovieResult_info_wrap'>
-									<strong class='searchingMovieName'>아바타
-                                    <!-- 영상물 등급 노출 변경 2022.08.24 -->
-                                    <i class="cgvIcon etc age12">12</i>
-                                    <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세이상"> -->
-                                    </strong>
-									<span>2018.06.21 개봉</span>
-									<span><div>
-                                            <img src='https://img.cgv.co.kr/R2014/Images/common/egg/eggGoldenegggreat.png'/>
-                                            <span>99%</span>
-                                        </div></span>
-					</div>
-				</li>
-                <li>
-						<a href="/movies/detail-view/?midx=80723" class="img_wrap">
-						<img src ="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000080/80723/80723_320.jpg" alt ="아바타"  onerror="errorImage(this)">
-                        			 
-						</a>
-								<div class='searchingMovieResult_info_wrap'>
-									<strong class='searchingMovieName'>아바타
-                                    <!-- 영상물 등급 노출 변경 2022.08.24 -->
-                                    <i class="cgvIcon etc age12">12</i>
-                                    <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세이상"> -->
-                                    </strong>
-									<span>2018.06.21 개봉</span>
-									<span><div>
-                                            <img src='https://img.cgv.co.kr/R2014/Images/common/egg/eggGoldenegggreat.png'/>
-                                            <span>99%</span>
-                                        </div></span>
-					</div>
-				</li>
-                <li>
-						<a href="/movies/detail-view/?midx=80723" class="img_wrap">
-						<img src ="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000080/80723/80723_320.jpg" alt ="아바타"  onerror="errorImage(this)">
-                        			 
-						</a>
-								<div class='searchingMovieResult_info_wrap'>
-									<strong class='searchingMovieName'>아바타
-                                    <!-- 영상물 등급 노출 변경 2022.08.24 -->
-                                    <i class="cgvIcon etc age12">12</i>
-                                    <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세이상"> -->
-                                    </strong>
-									<span>2018.06.21 개봉</span>
-									<span><div>
-                                            <img src='https://img.cgv.co.kr/R2014/Images/common/egg/eggGoldenegggreat.png'/>
-                                            <span>99%</span>
-                                        </div></span>
-					</div>
-				</li>
-                <li>
-						<a href="/movies/detail-view/?midx=80723" class="img_wrap">
-						<img src ="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000080/80723/80723_320.jpg" alt ="아바타"  onerror="errorImage(this)">
-                        			 
-						</a>
-								<div class='searchingMovieResult_info_wrap'>
-									<strong class='searchingMovieName'>아바타
-                                    <!-- 영상물 등급 노출 변경 2022.08.24 -->
-                                    <i class="cgvIcon etc age12">12</i>
-                                    <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세이상"> -->
-                                    </strong>
-									<span>2018.06.21 개봉</span>
-									<span><div>
-                                            <img src='https://img.cgv.co.kr/R2014/Images/common/egg/eggGoldenegggreat.png'/>
-                                            <span>99%</span>
-                                        </div></span>
-					</div>
-				</li>
-            
-               
-                <li>
-						<a href="/movies/detail-view/?midx=77601" class="img_wrap">
-						<img src ="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000077/77601/77601_320.jpg" alt ="아바타 정글의 비밀"  onerror="errorImage(this)">
-                        			 
-						</a>
-								<div class='searchingMovieResult_info_wrap'>
-									<strong class='searchingMovieName'>아바타 정글의 비밀
-                                    <!-- 영상물 등급 노출 변경 2022.08.24 -->
-                                    <i class="cgvIcon etc ageAll">All</i>
-                                    <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/All.png" alt="전체관람가"> -->
-                                    </strong>
-									<span>2014.03.27 개봉</span>
-									<span><div>
-                                            <img src='https://img.cgv.co.kr/R2014/Images/common/egg/eggGoldenegggood.png'/>
-                                            <span>?</span>
-                                        </div></span>
-					</div>
-				</li>
+                
             
                
             
