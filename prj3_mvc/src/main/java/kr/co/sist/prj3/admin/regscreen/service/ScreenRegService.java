@@ -19,10 +19,10 @@ public class ScreenRegService {
 	
 	
 	//상용정보등록화면 select
-	public ScreenInfoDomain screenInfoService(int mNum) {
+	public ScreenInfoDomain screenInfoService(int m_num) {
 		
 		
-		ScreenInfoDomain sid=srDAO.selectOneMovie(mNum);
+		ScreenInfoDomain sid=srDAO.selectOneMovie(m_num);
 		
 		return sid;
 	}//screenInfoService

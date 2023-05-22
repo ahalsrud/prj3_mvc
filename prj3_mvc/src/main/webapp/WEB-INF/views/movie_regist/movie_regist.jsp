@@ -39,11 +39,11 @@
 			margin-left: 200px;
 			}
 			
-			#mTitle{
+			#m_title{
 			width: 200px;
 			}
 			
-			#engTitle{
+			#eng_title{
 			width: 200px;
 			margin-left: 60px;
 			}
@@ -69,11 +69,11 @@
 			font-weight:bold;
 			}
 			
-			#directDiv{
+			#directDiv, .directDiv{
 			height: 320px;
 			}
 			
-			#dNameDiv{
+			#dNameDiv, .dNameDiv{
 			float: left;
 			margin-left: 80px;
 			margin-top: 50px;
@@ -85,7 +85,7 @@
 			text-align: center;
 			}
 			
-			#actorDiv{
+			#actorDiv, .actorDiv{
 			height: 340px;
 			}
 			
@@ -94,7 +94,7 @@
 			height: 210px;
 			}
 			
-			#actorNameDiv{
+			#actorNameDiv, .actorNameDiv{
 			float: left;
 			margin-left: 80px;
 			margin-top: 60px;
@@ -125,7 +125,7 @@
 			
 			
 			
-			.imageBox, #profile{
+			.imageBox,.dProfile, #profile,#dProfile,#aProfile, .aProfile{
 				border:1px solid #333;
 				width: 200px;
 			    height: 250px;
@@ -133,7 +133,7 @@
 			    background-position: center;
 			}
 			
-			.input-file-button{
+			.input-file-button, input-file-button dImgButton{
 			  padding: 6px 20px;
 			  background-color:#3a405d;
 			  border-radius: 4px;
@@ -142,7 +142,16 @@
 			  font-size: 15px;
 			}
 			
-			#poster,#dImg,#aImg {
+			.dImgButton{
+			  padding: 6px 20px;
+			  background-color:#3a405d;
+			  border-radius: 4px;
+			  color: white;
+			  cursor: pointer;
+			  font-size: 15px;
+			}
+			
+			#poster,#d_img,#a_img, .dImgInput, .aImgInput {
 				display: none;
 			}
 			
@@ -151,47 +160,225 @@
 			}
 			
 </style>
-        
-        
-         <script type="text/javascript">
-         
-         
+<script>
+//포스터 사진 보이기
+function img() {
+	const imgUpload = document.getElementById("poster");
+	const imgDiv = document.getElementById("profile");
+
+	var blockFlag = false;
+	
+	//이미지 선택 버튼에서 파일을 선택하면 이벤트가 발생해 얘들아
+	imgUpload.addEventListener('change', function() {
+  	
+		// 선택한 파일이 이미지 파일인지 확인합니다.
+  		if (this.files && this.files[0] && this.files[0].type.match('image.*')) {
+    		const reader = new FileReader();
+	
+    		// 파일을 읽어서 이미지를 가져옵니다.
+    		reader.addEventListener('load', function(e) {
+      			const image = new Image();
+     			image.src = e.target.result;
+      	
+      			// 이미지 크기 조절
+     			image.width = 200;
+      			image.height = 250;
+
+      			// 이미지를 표시할 div에 추가합니다. 
+      			imgDiv.innerHTML = '';
+      			imgDiv.appendChild(image);
+    		});
+
+    		reader.readAsDataURL(this.files[0]);
+  		} else {
+  			if (!blockFlag) {
+  				blockFlag = true;
+	  			alert("이미지 파일만 업로드 가능합니다. \n이미지를 선택해주세요.");
+	  			blockFlag = false;
+  			}
+	  		return;
+  		}// end else
+	});
+}// image
+
+//감독 사진 보이기
+function dimg() {
+	const imgUpload = document.getElementById("d_img");
+	const dImgDiv = document.getElementById("dProfile");
+
+	var blockFlag = false;
+	
+	//이미지 선택 버튼에서 파일을 선택하면 이벤트가 발생해 얘들아
+	imgUpload.addEventListener('change', function() {
+  	
+		// 선택한 파일이 이미지 파일인지 확인합니다.
+  		if (this.files && this.files[0] && this.files[0].type.match('image.*')) {
+    		const reader = new FileReader();
+	
+    		// 파일을 읽어서 이미지를 가져옵니다.
+    		reader.addEventListener('load', function(e) {
+      			const image = new Image();
+     			image.src = e.target.result;
+      	
+      			// 이미지 크기 조절
+     			image.width = 200;
+      			image.height = 250;
+
+      			// 이미지를 표시할 div에 추가합니다. 
+      			dImgDiv.innerHTML = '';
+      			dImgDiv.appendChild(image);
+    		});
+
+    		reader.readAsDataURL(this.files[0]);
+  		} else {
+  			if (!blockFlag) {
+  				blockFlag = true;
+	  			alert("이미지 파일만 업로드 가능합니다. \n이미지를 선택해주세요.");
+	  			blockFlag = false;
+  			}
+	  		return;
+  		}// end else
+	});
+}// image
+
+//배우 사진 보이기
+function aimg() {
+	const imgUpload = document.getElementById("a_img");
+	const aImgDiv = document.getElementById("aProfile");
+
+	var blockFlag = false;
+	
+	//이미지 선택 버튼에서 파일을 선택하면 이벤트가 발생해 얘들아
+	imgUpload.addEventListener('change', function() {
+  	
+		// 선택한 파일이 이미지 파일인지 확인합니다.
+  		if (this.files && this.files[0] && this.files[0].type.match('image.*')) {
+    		const reader = new FileReader();
+	
+    		// 파일을 읽어서 이미지를 가져옵니다.
+    		reader.addEventListener('load', function(e) {
+      			const image = new Image();
+     			image.src = e.target.result;
+      	
+      			// 이미지 크기 조절
+     			image.width = 200;
+      			image.height = 250;
+
+      			// 이미지를 표시할 div에 추가합니다. 
+      			aImgDiv.innerHTML = '';
+      			aImgDiv.appendChild(image);
+    		});
+
+    		reader.readAsDataURL(this.files[0]);
+  		} else {
+  			if (!blockFlag) {
+  				blockFlag = true;
+	  			alert("이미지 파일만 업로드 가능합니다. \n이미지를 선택해주세요.");
+	  			blockFlag = false;
+  			}
+	  		return;
+  		}// end else
+	});
+}// image
+
+</script>        
+<script type="text/javascript">
+
          //감독정보 추가 삭제 버튼
          $(function() {
+        		 var counter = 0; // 고유한 식별자 카운터
         	 $("#dNamedAdd").click(function() {
-        		 
-        		 var newDiv = $('<div id="directDiv"><div class="dImgDiv"><div id="profile"></div><br/><label class="input-file-button" for="file" onclick="img()">변경</label><input type="file" name="dImg" id="dImg"/></div><div id="dNameDiv"><label>감독명</label><br/><input style="width:200px;" type="text" name="dName" id="dName" value="" placeholder="한글명"/><br/><br/><input style="width:200px;" type="text" name="dEng" id="dEng" value="" placeholder="영어명"/><input type="button" id="dNamdDelete" value="삭제" class="btn btn-danger"/></div><br/></div>');
-        		 
-        		 $("#directAddDiv").append(newDiv);
-        		 
-        		 newDiv.find("#dNamdDelete").click(function() {
-        		     newDiv.remove();
-        		      
-        		 });
-        		 
-			});//click
+        		 counter++;
+        	        var newDiv = $('<div class="directDiv"><div class="dImgDiv"><div class="dProfile"></div><br/><label class="input-file-button dImgButton" for="dImg">변경</label><input type="file" name="d_img'+counter+'" class="dImgInput"/></div><div class="dNameDiv"><label>감독명</label><br/><input style="width:200px;" type="text" name="d_name" class="d_name" value="" placeholder="한글명"/><br/><br/><input style="width:200px;" type="text" name="d_eng" class="dEng" value="" placeholder="영어명"/><input type="button" id="dNameDelete" value="삭제" class="btn btn-danger"/></div><br/></div>');
+
+        	        $("#directAddDiv").append(newDiv);
+        	     	// 숨겨진 입력 필드에 카운터 값을 설정
+        	        var hiddenInput = $('<input type="hidden" name="counter" value="' + counter + '"/>');
+        	        newDiv.append(hiddenInput);
+
+        	        newDiv.find("#dNameDelete").click(function() {
+        	        	counter--;
+        	            $(this).closest(".directDiv").remove();
+        	        });
+
+        	        var imgUpload = newDiv.find(".dImgInput");
+        	        var dProfile = newDiv.find(".dProfile");
+
+        	        imgUpload.on("change", function() {
+        	            if (this.files && this.files[0] && this.files[0].type.match('image.*')) {
+        	                var reader = new FileReader();
+
+        	                reader.addEventListener('load', function(e) {
+        	                    var image = new Image();
+        	                    image.src = e.target.result;
+
+        	                    image.width = 200;
+        	                    image.height = 250;
+
+        	                    dProfile.html('');
+        	                    dProfile.append(image);
+        	                });
+
+        	                reader.readAsDataURL(this.files[0]);
+        	            } else {
+        	                alert("이미지 파일만 업로드 가능합니다. \n이미지를 선택해주세요.");
+        	                return;
+        	            }
+        	        });
+
+        	        newDiv.find(".dImgButton").click(function() {
+        	            imgUpload.click();
+        	        });
+        	    });
 			
          //출연진정보 추가 삭제 버튼
-        	 $("#aNameAdd").click(function() {
-        		 
-        		 var newDiv = $('<div id="actorDiv"><div class="aImgDiv"><div id="profile"></div><br/><label class="input-file-button" for="file" onclick="img()">변경</label><input type="file" name="aImg" id="aImg"/></div><div id="actorNameDiv"><label>배우명</label><br/><input style="width:200px;" type="text" name=aName id="aName" value="" placeholder="한글명"/><input style="width:200px;" type="text" name="aEng" id="aEng" value="" placeholder="영어명"/><br/><br/><label>역할</label><br/><input style="width:200px;" type="text" name="role" id="role" value="" placeholder="역할"/><input type="button" id="aNameDelete" value="삭제" class="btn btn-danger"/></div><br/></div>');
-        		 
-        		 $("#actorAddDiv").append(newDiv);
-        		 
-        		 newDiv.find("#aNameDelete").click(function() {
-        		      newDiv.remove();
-        			});
-        		 
-			});//click
+        	$("#aNameAdd").click(function() {
+		        var newDiv = $('<div class="actorDiv"><div class="aImgDiv"><div class="aProfile"></div><br/><label class="input-file-button aImgButton" for="aImg">변경</label><input type="file" name="a_img" class="aImgInput"/></div><div class="actorNameDiv"><label>배우명</label><br/><input style="width:200px;" type="text" name="a_name" class="a_name" value="" placeholder="한글명"/><input style="width:200px;" type="text" name="a_eng" class="aEng" value="" placeholder="영어명"/><br/><br/><label>역할</label><br/><input style="width:200px;" type="text" name="role" class="role" value="" placeholder="역할"/><input type="button" id="aNameDelete" value="삭제" class="btn btn-danger"/></div><br/></div>');
+		
+		        $("#actorAddDiv").append(newDiv);
+		
+		        newDiv.find("#aNameDelete").click(function() {
+		            $(this).closest(".actorDiv").remove();
+		        });
+		
+		        var imgUpload = newDiv.find(".aImgInput");
+		        var aProfile = newDiv.find(".aProfile");
+		
+		        imgUpload.on("change", function() {
+		            if (this.files && this.files[0] && this.files[0].type.match('image.*')) {
+		                var reader = new FileReader();
+		
+		                reader.addEventListener('load', function(e) {
+		                    var image = new Image();
+		                    image.src = e.target.result;
+		
+		                    image.width = 200;
+		                    image.height = 250;
+		
+		                    aProfile.html('');
+		                    aProfile.append(image);
+		                });
+		
+		                reader.readAsDataURL(this.files[0]);
+		            } else {
+		                alert("이미지 파일만 업로드 가능합니다. \n이미지를 선택해주세요.");
+		                return;
+		            }
+		        });
+		
+		        newDiv.find(".aImgButton").click(function() {
+		            imgUpload.click();
+		        });
+		    });
 			
 			$("#registBtn").click(function() {
 				$("#registFrm").submit();
 			})
         	 
 		});//ready
+		
          
-         
-        </script>
+</script>
     </head>
    <body>
         <div class="d-flex" id="wrapper" >
@@ -236,13 +423,12 @@
 					   <hr/>
 					   
 					<div id="moviengTitle">
-	               	 <form action="movie_success.do" method="get" id="registFrm" name="registFrm">
-					
+	               	 <form action="movie_success.do" method="post" id="registFrm" name="registFrm" enctype="multipart/form-data">
 					 <!-- 영화제목 -->
 						<div>
 							<label>영화제목</label><br/>
-							<input type="text" name="mTitle" id="mTitle" value="" placeholder="한글 영화명"/>
-							<input type="text" name="engTitle" id="engTitle" value="" placeholder="영어 영화명"/>
+							<input type="text" name="m_title" id="m_title" value="" placeholder="한글 영화명"/>
+							<input type="text" name="eng_title" id="eng_title" value="" placeholder="영어 영화명"/>
 						</div>
 						
 							<div class="imgDiv">
@@ -250,7 +436,7 @@
 								<div id="profile">
 								</div>
 								<br/>
-								<label class="input-file-button" for="file" onclick="img()">
+								<label class="input-file-button" for="poster" onclick="img()">
 		  							변경
 								</label>
 								<input type="file" name="poster" id="poster"/>							
@@ -266,11 +452,11 @@
 								</div>
 								<div id="runDiv">
 									<label>러닝타임</label><br/>
-									<input style="width:200px;" type="text" name="runTime" id="runTime" value="" placeholder="러닝타임"/>
+									<input style="width:200px;" type="text" name="run_time" id="run_time" value="" placeholder="러닝타임"/>
 								</div>
 								<div id="dateDiv">
 									<label>개봉일</label><br/>
-									<input style="width:200px;" type="text" name="releaseDate" id="releaseDate" value="" placeholder="개봉일"/>
+									<input style="width:200px;" type="text" name="release_date" id="release_date" value="" placeholder="개봉일"/>
 								</div>
 								<div id="rateDiv">
 									<label>등급</label><br/>
@@ -290,19 +476,20 @@
 						<!-- 감독정보 -->
 							<div id="directDiv">
 								<div class="dImgDiv">
-									<div id="profile">
+									<div id="dProfile">
 									</div>
 									<br/>
-									<label class="input-file-button" for="file" onclick="img()">
+									<label class="input-file-button" for="d_img" onclick="dimg()">
 			  							변경
 									</label>
-									<input type="file" name="dImg" id="dImg"/>							
+									<input type="file" name="d_img" id="d_img"/>							
 								</div>
+								
 								<div id="dNameDiv">
 									<label>감독명</label><br/>
-									<input style="width:200px;" type="text" name=dName id="dName" value="" placeholder="한글명"/>
+									<input style="width:200px;" type="text" name="d_name" id="d_name" value="" placeholder="한글명"/>
 									<br/><br/>
-									<input style="width:200px;" type="text" name="dEng" id="dEng" value="" placeholder="영어명"/>
+									<input style="width:200px;" type="text" name="d_eng" id="d_eng" value="" placeholder="영어명"/>
 									<input type="button" id="dNamedAdd" value="추가" class="btn btn-secondary"/>
 								</div><br/>
 							</div>
@@ -314,18 +501,18 @@
 						<!-- 출연진 -->
 						<div id="actorDiv">
 							<div class="aImgDiv">
-								<div id="profile">
+								<div id="aProfile">
 								</div>
 								<br/>
-								<label class="input-file-button" for="file" onclick="img()">
+								<label class="input-file-button" for="a_img" onclick="aimg()">
 		  							변경
 								</label>
-								<input type="file" name="aImg" id="aImg"/>							
+								<input type="file" name="a_img" id="a_img"/>							
 							</div>
 							<div id="actorNameDiv">
 								<label>배우명</label><br/>
-								<input style="width:200px;" type="text" name=aName id="aName" value="" placeholder="한글명"/>
-								<input style="width:200px;" type="text" name="aEng" id="aEng" value="" placeholder="영어명"/>
+								<input style="width:200px;" type="text" name=a_name id="a_name" value="" placeholder="한글명"/>
+								<input style="width:200px;" type="text" name="a_eng" id="a_eng" value="" placeholder="영어명"/>
 								<br/><br/>
 								<label>역할</label><br/>
 								<input style="width:200px;" type="text" name="role" id="role" value="" placeholder="역할"/>

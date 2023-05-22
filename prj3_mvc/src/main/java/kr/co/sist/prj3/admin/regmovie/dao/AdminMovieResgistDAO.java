@@ -1,6 +1,7 @@
 package kr.co.sist.prj3.admin.regmovie.dao;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import kr.co.sist.prj3.MyBatisHandler;
@@ -23,7 +24,7 @@ public class AdminMovieResgistDAO {
 		SqlSession ss=MyBatisHandler.getInstance().getMyBatisHandler(false);
 		
 		//2.Handler사용
-		int cnt=ss.insert("kr.co.sist.prj3.testMapper.insertMovie",amVO);
+		int cnt=ss.insert("kr.co.sist.prj3.registMapper.insertMovie",amVO);
 		
 		//3. transaction완료
 		if( cnt==1) {
@@ -37,7 +38,17 @@ public class AdminMovieResgistDAO {
 	
 	
 	//감독정보등록
-	public void insertDirectorInfo(AdminDirectVO adVO) {
+	public void insertDirectorInfo(AdminDirectVO[] adVO) {
+		//1.MyBatisHandler얻기
+		SqlSession ss=MyBatisHandler.getInstance().getMyBatisHandler(false);
+		//2.Handler사용
+		int cnt=ss.insert("kr.co.sist.prj3.registMapper.insertDirector",adVO);
+		//3. transaction완료
+		if( cnt==1) {
+			ss.commit();
+		}
+				
+		if(ss!=null) {ss.close();}
 		
 	}//insertMovieInfo
 	
@@ -62,7 +73,6 @@ public class AdminMovieResgistDAO {
 		
 		return num;
 	}//deleteDirector
-	
 	
 
 }//class

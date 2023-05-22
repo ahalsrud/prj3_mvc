@@ -15,12 +15,12 @@ import kr.co.sist.prj3.admin.regscreen.vo.ScreenInfoVO;
 public class ScreenRegDAO {
 	
 	//상용정보등록화면 select
-	public ScreenInfoDomain selectOneMovie(int mNum) {
+	public ScreenInfoDomain selectOneMovie(int m_num) {
 		ScreenInfoDomain sid=new ScreenInfoDomain();
 		
 		SqlSession ss=MyBatisHandler.getInstance().getMyBatisHandler(false);
 		
-		sid=ss.selectOne("kr.co.sist.prj3.screenInfo.selectOneMovie", mNum);
+		sid=ss.selectOne("kr.co.sist.prj3.screenInfo.selectOneMovie", m_num);
 		
 		if(ss!=null) {ss.close();}//end if
 		

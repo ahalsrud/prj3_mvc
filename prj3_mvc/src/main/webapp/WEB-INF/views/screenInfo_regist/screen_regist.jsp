@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"
     info="관리자 - 상영정보등록"
     %>
-<!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<!DOCTYPE html> 
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -162,6 +163,14 @@
 	        	    else {$('.no-result').hide();}
 	        			  });
 	        	});
+	        
+	        $(function() {
+	        	$("#saveBtn").click(function() {
+					
+	        		$("#frm").submit();
+				});//click
+				
+			});
         </script>
     </head>
    <body>
@@ -212,53 +221,55 @@
 	
 		<div id="content">
 			<h1 class="skip"><!-- 회원정보 수정 --></h1>
-<!--폼태그 --><form action="" id="frm" name="frm" method="post" enctype="multipart/form-data">
+<!--폼태그 --><form action="movie_list.do" id="frm" name="frm" method="post">
+			<input type="hidden" name="m_num" value="${movieInfo.m_num}"/>
 				<div class="mbrSec mbrMngInfo" >
 					<div class="mbrTplDesc">
 						<p>상영정보를 등록할 수 있습니다.</p>
 					</div>
 <!-- <hr/> -->
+
 					<div class="mbrTplData2">
 					<br>
 						<table summary="이 표는 회원정보 수정 입력폼입니다" style="margin-bottom:100px;">
 		<!--skip  -->		<caption><span class="skip"><!-- 회원정보 수정 입력폼 --></span></caption>
-			
+				
 							<tbody>
 							<tr >
 								<td><label>영화 제목</label><br>
-								<input type="text" class="text" placeholder="영화 제목을 입력해주세요" name="mTitle" id="mTitle" value=""></td>
+								<input type="text" class="text" placeholder="영화 제목을 입력해주세요" name="m_title" id="m_title" readonly="readonly" value="${movieInfo.m_title}"></td>
 								<td><label>영어 제목</label><br>
-								<input type="text" class="text" readonly="readonly" placeholder="영어 제목을 입력해주세요" name="engTitle" id="engTitle" value=""></td>
+								<input type="text" class="text" placeholder="영어 제목을 입력해주세요" name="eng_title" id="eng_title" readonly="readonly" value="${movieInfo.eng_title}"></td>
 							</tr>
 							<tr>
 								<td ><label>개봉일</label><br>
-								<input type="date" class="text" placeholder="개봉일" name="releaseDate" id="releaseDate" value="" maxlength="13" oninput="addHyphen(this)"></td>
+								<input type="date" class="text" placeholder="개봉일" name="release_date" id="release_date" readonly="readonly" value="${movieInfo.release_date}" maxlength="13" oninput="addHyphen(this)"></td>
 													<td><label>등급</label><br> 
-													<select name="" id="" class="text">
+													<select name="rank" id="rank" class="text" disabled="disabled">
 															<option value="">--Please choose an option--</option>
-															<option value="">12세</option>
-															<option value="">15세</option>
+															<option value="12세"${movieInfo.rank eq "12세" ? 'selected' : ' ' }>12세</option>
+															<option value="15세"${movieInfo.rank eq "15세" ? 'selected' : ' ' }>15세</option>
 													</select> 
 													</td>
 												</tr>
 							<tr>
 								<td ><label>극장</label><br>
-								<input type="text" class="text" placeholder="극장" name="theater" id=""theater"" value=""></td>
+								<input type="text" class="text" placeholder="극장" name="theater" id="theater" value="${modifyInfo.theater}"></td>
 								<td ><label>상영시간</label><br>
-								<input type="text" class="text" placeholder="상영시간" name="releaseHour" id="releaseHour" value="" maxlength="13" oninput="addHyphen(this)"></td>
+								<input type="text" class="text" placeholder="상영시간" name="release_hour" id="release_hour" value="${modifyInfo.release_hour}" maxlength="13" oninput="addHyphen(this)"></td>
 							</tr>
 							<tr>
 								<td colspan="2"><label>상영날짜</label><br>
-								<input type="date" class="text" placeholder="시작날짜" name="openDate" id="openDate" value="" maxlength="13" oninput="addHyphen(this)">
+								<input type="text" class="text" placeholder="시작날짜" name="open_date" id="open_date" value="${modifyInfo.open_date}" maxlength="13" oninput="addHyphen(this)">
 								&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;
-								<input type="date" class="text" placeholder="종료날짜" name="endDate" id="endDate" value="" maxlength="13" oninput="addHyphen(this)"></td>
+								<input type="text" class="text" placeholder="종료날짜" name="end_date" id="end_date" value="${modifyInfo.end_date}" maxlength="13" oninput="addHyphen(this)"></td>
 							</tr>
 							</tbody>
 						</table>
 						
 						
 						<p class="mbrBtnFunc" style="text-align:center">
-					<input type="button" id="cancelBtn" value="저장">
+					<input type="button" id="saveBtn" value="저장">
 					<input type="button" id="cancelBtn" value="취소">
 					<!-- <input type="button" id="cancelBtn" onclick="location.href='http://localhost/prj2/project_admin/6.memberAdmin/member_manage.jsp'"><span>취소</span></span>
  -->				</p>

@@ -23,9 +23,9 @@ public class ScreenRegController {
 	
 		//상영정보등록화면
 		@GetMapping("/screen_regist.do")//상영정보등록.do
-		public String screenInfoFrm(int mNum,Model model) {
+		public String screenInfoFrm(int m_num,Model model) {
 			
-			model.addAttribute("movieInfo",srs.screenInfoService(mNum));//일단 8번넣기
+			model.addAttribute("movieInfo",srs.screenInfoService(m_num));//일단 8번넣기
 			
 			return "screenInfo_regist/screen_regist";
 		}//screenInfoFrm

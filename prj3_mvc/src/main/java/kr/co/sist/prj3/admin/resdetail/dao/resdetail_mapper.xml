@@ -9,6 +9,5 @@ select	m_title,theater,release_hour,release_date,r_rate
 from	movie
 </select>
 
-
 </mapper>
 

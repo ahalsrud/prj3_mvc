@@ -6,7 +6,7 @@ package kr.co.sist.prj3.admin.regmovie.vo;
  */
 public class AdminMovieVO {
 	
-	private int m_num;
+	private int m_num; 
 	private String poster,m_title,eng_title,genre,run_time,rank,country,summary,
 					origin,script,produce,ration,imports,release_date;
 	

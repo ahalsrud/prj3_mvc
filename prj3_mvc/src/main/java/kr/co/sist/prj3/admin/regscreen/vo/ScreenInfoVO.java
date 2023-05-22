@@ -6,7 +6,7 @@ package kr.co.sist.prj3.admin.regscreen.vo;
  */
 public class ScreenInfoVO {
 	
-	private int m_num;
+	private int m_num; 
 	private String theater, release_hour, open_date, end_date;
 	
 	

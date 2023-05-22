@@ -3,7 +3,7 @@ package kr.co.sist.prj3.admin.resdetail.domain;
 /**
  * 에매현황 Domain
  * @author user
- */
+ */ 
 public class ReservationDomain {
 	
 	private int r_rate;

@@ -7,7 +7,7 @@ package kr.co.sist.prj3.admin.regscreen.domain;
 public class ScreenInfoDomain {
 	
 	private int m_num;
-	private String m_title, eng_title, rank, release_date;
+	private String m_title, eng_title, rank, release_date; 
 
 	public ScreenInfoDomain() {
 	}

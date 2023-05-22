@@ -10,7 +10,7 @@ import kr.co.sist.prj3.admin.resdetail.service.ReservationService;
 /**
  * 에매현황 컨트롤러
  * @author user
- */
+ */ 
 @Controller
 public class AdminReservationController {
 	

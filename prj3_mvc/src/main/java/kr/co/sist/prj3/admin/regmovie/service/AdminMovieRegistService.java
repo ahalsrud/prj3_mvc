@@ -29,8 +29,9 @@ public class AdminMovieRegistService {
 	
 	
 	//감독정보등록
-	public void addDirectorInfo(AdminDirectVO adVO) {
+	public void addDirectorInfo(AdminDirectVO[] adVO) {
 		
+		  amDAO.insertDirectorInfo(adVO);
 		
 	}//addMovieInfo
 	
@@ -41,6 +42,7 @@ public class AdminMovieRegistService {
 		
 		
 	}//addMovieInfo
+
 
 	
 }//class

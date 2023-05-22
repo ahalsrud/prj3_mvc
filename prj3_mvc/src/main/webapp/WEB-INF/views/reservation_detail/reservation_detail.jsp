@@ -2,8 +2,9 @@
     pageEncoding="UTF-8"
     info="관리자 - 예매 현황 view"
     %>
+   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> 
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -106,16 +107,16 @@
                     <!-- 검색바 끝 -->
 					
 					<!-- 테이블을 담은 div 시작 -->	
-                    <div style="width:1000px"><!-- 테이블의 div너비 -->
+                    <div style="width:1600px; margin: 0px auto;"><!-- 테이블의 div너비 -->
                     <table class="table table-hover table-bordered results">
                     <!-- 테이블 각 행의 넓이 비율 설정 원하면 늘리거나 줄이면 됨-->
                     <colgroup>
-					<col style="width:3%"> <!-- 번호 행 넓이 비율 3% -->
-					<col style="width:15%"> <!-- 제목 행 넓이 비율 15% -->
-					<col style="width:6%"> <!-- 극장 행 넓이 비율 6% -->
-					<col style="width:6%"> <!-- 상영날짜 행 넓이 비율 6% -->
-					<col style="width:6%"> <!-- 상영시간 행 넓이 비율 6% -->
-					<col style="width:6%"> <!-- 예매율 행 넓이 비율 6% -->
+					<col style="width:8%"> <!-- 번호 행 넓이 비율 3% -->
+					<col style="width:20%"> <!-- 제목 행 넓이 비율 15% -->
+					<col style="width:11%"> <!-- 극장 행 넓이 비율 6% -->
+					<col style="width:11%"> <!-- 상영날짜 행 넓이 비율 6% -->
+					<col style="width:11%"> <!-- 상영시간 행 넓이 비율 6% -->
+					<col style="width:11%"> <!-- 예매율 행 넓이 비율 6% -->
 					</colgroup>
                     <!-- 테이블 각 행의 넓이 비율 설정 끝 -->
 					<thead style="text-align:center">
@@ -132,38 +133,16 @@
 						</tr>
 					</thead>
 					<tbody style="text-align:center">
-						<tr>
-							<td>1</td>
-							<td>가디언즈 오브 갤럭시3</td>
-							<td>강남역점</td>
-							<td>2023-05-09</td>
-							<td>13:00~15:00</td>
-							<td>85%</td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>황충연입니다</td>
-							<td>강남역점</td>
-							<td>2023-05-09</td>
-							<td>15:30~17:00</td>
-							<td>99%</td>
-						</tr>
-						<tr>
-							<td>3</td>
-							<td>가디언즈 오브 갤럭시2</td>
-							<td>강남역점</td>
-							<td>2023-05-09</td>
-							<td>18:00~19:30</td>
-							<td>85%</td>
-						</tr>
-						<tr>
-							<td>4</td>
-							<td>어벤져스:엔드게임</td>
-							<td>강남역점</td>
-							<td>2023-05-09</td>
-							<td>22:00~23:30</td>
-							<td>88%</td>
-						</tr>
+						<c:forEach var="res" items="${ resDeatil }" varStatus="i">
+							<tr>
+								<td><c:out value="${ i.count }"/></td>
+								<td><c:out value="${ res.m_title }"/></td>
+								<td><c:out value="${ res.theater }"/></td>
+								<td><c:out value="${ res.release_hour }"/></td>
+								<td><c:out value="${ res.release_date }"/></td>
+								<td><c:out value="${ res.r_rate }"/></td>
+							</tr>
+						</c:forEach>
 					</tbody>
 					
 					</table>

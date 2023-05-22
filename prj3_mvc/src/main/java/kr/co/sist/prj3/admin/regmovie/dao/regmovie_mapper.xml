@@ -2,10 +2,19 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.co.sist.prj3.testMapper">
+<mapper namespace="kr.co.sist.prj3.registMapper">
+
 <insert id="insertMovie" parameterType="kr.co.sist.prj3.admin.regmovie.vo.AdminMovieVO">
-insert into movie(m_num, poster, m_title,eng_title, genre, runtime, rank, country, summary, origin, script, produce, ration, imports, releasedate)
-values(1,123,#{mTitle},#{engTitle},#{genre},#{runTime},#{rank},#{country},#{summary},#{origin},#{script},#{produce},#{ration},#{imports},sysdate)
+<selectKey keyProperty="m_num" resultType="int" order="BEFORE">
+    select movie.seq_movie.nextval from dual
+ </selectKey>
+insert into movie(m_num, poster, m_title,eng_title, genre, run_time, rank, country, summary, origin, script, produce, ration, imports, release_date, m_reg_date)
+values(MOVIE.SEQ_MOVIE.NEXTVAL,#{poster},#{m_title},#{eng_title},#{genre},#{run_time},#{rank},#{country},#{summary},#{origin},#{script},#{produce},#{ration},#{imports},#{release_date},sysdate)
+</insert>
+
+<insert id="insertDirector" parameterType="kr.co.sist.prj3.admin.regmovie.vo.AdminDirectVO">
+INSERT INTO director(d_num, m_num, d_name, d_eng, d_img)
+VALUES (MOVIE.SEQ_DIRECTOR.NEXTVAL,MOVIE.SEQ_MOVIE.CURRVAL, #{d_name}, #{d_eng}, #{d_img})
 </insert>
 
 </mapper>

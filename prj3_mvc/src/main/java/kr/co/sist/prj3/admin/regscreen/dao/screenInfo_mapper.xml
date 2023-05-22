@@ -10,7 +10,6 @@ from	movie
 where	m_num=#{mNum}
 </select>
 
-
 <update id="updateScreen" parameterType="kr.co.sist.prj3.admin.regscreen.vo.ScreenInfoVO">
 update	movie
 set		theater=#{theater},open_date=#{open_date},end_date=#{end_date},release_hour=#{release_hour}
