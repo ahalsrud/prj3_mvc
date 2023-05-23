@@ -14,13 +14,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>회원정보 수정</title>
 
-<link rel="stylesheet" type="text/css" href="http://localhost/test_prj/css/common.css"/>
-		<link rel="stylesheet" type="text/css" href="http://localhost/test_prj/css/footer_sub.css"/>
-		<link rel="stylesheet" type="text/css" href="http://localhost/test_prj/css/gnb_sub.css"/>
-		<link rel="stylesheet" type="text/css" href="http://localhost/test_prj/css/gnb.css"/>
-		<link rel="stylesheet" type="text/css" href="http://localhost/test_prj/css/mbr_common.css"/>
-		<link rel="stylesheet" type="text/css" href="http://localhost/test_prj/css/mbr_style.css"/>
-		<link rel="stylesheet" type="text/css" href="http://localhost/test_prj/css/mbr_tpl.css"/>
+<link rel="stylesheet" type="text/css" href="http://localhost/prj3_mvc/css/common.css"/>
+		<link rel="stylesheet" type="text/css" href="http://localhost/prj3_mvc/css/footer_sub.css"/>
+		<link rel="stylesheet" type="text/css" href="http://localhost/prj3_mvc/css/gnb_sub.css"/>
+		<link rel="stylesheet" type="text/css" href="http://localhost/prj3_mvc/css/gnb.css"/>
+		<link rel="stylesheet" type="text/css" href="http://localhost/prj3_mvc/css/mbr_common.css"/>
+		<link rel="stylesheet" type="text/css" href="http://localhost/prj3_mvc/css/mbr_style.css"/>
+		<link rel="stylesheet" type="text/css" href="http://localhost/prj3_mvc/css/mbr_tpl.css"/>
 
 
 	    
@@ -117,7 +117,7 @@
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
                 document.getElementById('zipcode').value = data.zonecode;
                 document.getElementById("addr").value = roadAddr;
-                document.getElementById("detailAddr").focus(); 
+                document.getElementById("detail_addr").focus(); 
                 
                 
             }
@@ -191,7 +191,7 @@ function selectEmail() {
 <!--// Header area(회원정보관리) -->
 <div>
 	<div style="width:800px;">
-		<a href="#"><img alt="무브플래닛" src="http://localhost/test_prj/images/movie.png" style="width:150px; margin-top: 10px;"></a>
+		<a href="#"><img alt="무브플래닛" src="http://localhost/prj3_mvc/images/movie.png" style="width:150px; margin-top: 10px;"></a>
 	</div>
 </div>
 <hr>
@@ -204,7 +204,7 @@ function selectEmail() {
 
 		<div id="content">
 <!--skip은 안보임  -->	<h1 class="skip"><!-- 회원정보 수정 --></h1>
-			<form id="frm" name="frm" method="get" action="http://localhost/devplanet_project/project_user/5.memberInfo/correctionInfo_process.jsp">
+			<form id="frm" name="frm" method="post" action="main.do">
 				<input type="hidden" name="M_Hand_Phone" id="M_Hand_Phone" value="">
 				<input type="hidden" name="M_Home_Phone" id="M_Home_Phone" value="">
 				<input type="hidden" name="R_No" id="R_No" value="">
@@ -232,7 +232,8 @@ function selectEmail() {
 							<tr>
 								<th scope="row" colspan="2"><label for="lb_id"><span class="blank"></span> 아이디</label></th>
 								<td>
-									<div class="social_row"><span id="userId" name="userId"><strong>${ id }</strong></span>
+								
+									<div class="social_row"><span id="user_id" name="user_id" value="${selectInfo.user_id }"><strong>${ selectInfo.user_id }</strong></span>
 							
 									</div>
 								</td>
@@ -241,12 +242,12 @@ function selectEmail() {
 						
 							<tr>
 								<th scope="row" colspan="2"><span class="blank"></span> 이름 </th>
-								<td colspan="3"><input type="hidden" class="txtForm" id="M_Name"  name="name" size="12" maxlength="15" value="${ name }"><span>${ name }</span>
+								<td colspan="3"><input type="hidden" class="txtForm" id="name"  name="name" size="12" maxlength="15" value="${ selectInfo.name }"><span>${ selectInfo.name }</span>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row" colspan="2"><span class="blank"></span> <label for="postcheck">닉네임</label></th>
-								<td colspan="3">
+								<!-- <th scope="row" colspan="2"><span class="blank"></span> <label for="postcheck">닉네임</label></th> -->
+								<%-- <td colspan="3">
 									<div class="mbrHelpWrap" style="z-index:1000;">
                                         <input type="text" id="" name="" style="width:150px;" class="ipText" maxlength="" value="${ zipcode }" readonly="readonly" >
 										<span>
@@ -254,22 +255,15 @@ function selectEmail() {
 											<button id="" type="button" class="delBtn" >중복 확인</button>
 										</span>
 									</div>
-								</td>
+								</td> --%>
 							</tr>
 							<tr>
-								<th scope="row" colspan="2"><span class="blank"></span> 생년월일/성별 </th>
+								<th scope="row" colspan="2"><span class="blank"></span>생년월일</th>
 								<td>
 								<div class="input input-certificate-term is-label is-value">
-							    <label>생년월일</label> <input type="text" name="getDateL" id="getDate"
-								maxlength="10" oninput="formatDate(this)" value="${ birth_date }" readonly="readonly">
+							    <label>생년월일</label> <input type="text" name="birth_date" id="birth_date"
+								maxlength="10" oninput="formatDate(this)" value="${ selectInfo.birth_date }" readonly="readonly">
 						        </div>
-						        
-						        <div class="birth" id="gen">
-											<input type="radio" id="M_Gender0" name="M_Gender" value="m" ${gender eq "m" ?"checked":""} >
-											<label for="lb_man">남</label>
-											<input type="radio" id="M_Gender1" name="M_Gender" value="f" ${gender eq "f" ?"checked":""} >
-											<label for="lb_woman">여</label>
-										</div>
 							 	</td>
 							</tr>
 						
@@ -280,9 +274,7 @@ function selectEmail() {
 									<div class="mbrHelpWrap">
 										<div class="mobile">
 											<label for="M_Hand_Phone1" class="blind">휴대폰</label>
-											<input type="text" name="tel" id="tel1" maxlength="4" title="휴대폰 앞자리" class="ipText ipTel ipNum devNoPh moveNext" onkeydown="handlerNum(this);" value="${ tel[0] }" style="ime-mode:disabled; float:left;">
-											<span class="delimiter" style="padding: 6px 3px; float:left;">-</span>
-											<input type="text" name="tel" id="tel2" maxlength="4" title="휴대폰 앞자리" class="ipText ipTel ipNum devNoPh moveNext" onkeydown="handlerNum(this);" value="${ tel[1] }" style="ime-mode:disabled; float:left;"> <span class="delimiter" style="padding: 6px 3px; float:left;">-</span> <input type="text" name="tel" id="tel3" maxlength="4" title="휴대폰 뒷자리" class="ipText ipTel ipNum devNoPh moveNext" onkeydown="handlerNum(this);" value="${ tel[2] }" style="ime-mode:disabled; float:left;" nextId="M_Home_Phone1">
+											<input type="text" name="tel" id="tel" maxlength="13" class="ipText ipTel ipNum devNoPh moveNext" onkeydown="handlerNum(this);" value="${ selectInfo.tel }" style="ime-mode:disabled; float:left;">
 											<div style="left:403px; top:0px;display:none;" class="mbrTplLayer mbrTplLayer_1 mbrLayerHelp" id="CautionResult1" name="CautionResult">
 												<div class="desc">
 													<p>휴대폰 번호를 입력해 주세요</p>
@@ -298,9 +290,8 @@ function selectEmail() {
 								<th scope="row"><label for="Email_ID">이메일</label></th>
 								<td>
 									<div class="mbrHelpWrap">
-										<input type="hidden" name="M_Email" id="M_Email" value="">
-										<input type="text" name="email" id="email1" maxlength="30" style="width:150px;" class="ipText" value="${ email[0] }">
-										<span class="delimiter">@</span>
+										<input type="text" name="email" id="email" maxlength="30" style="width:150px;" class="ipText" value="${ selectInfo.email }">
+										<%-- <span class="delimiter">@</span>
 										<input type="text" name="email" id="email2" title="이메일 서비스 입력" maxlength="25" class="ipText" style="width:150px" onkeyup="Email_Addr_Text_Move(); Gmail_Check();" value="${ email[1] }">
 										<select title="이메일 사업자" name="Email_Addr" id="Email_Addr" onChange="mail_sum(); Gmail_Check();" class="ipSelect" onclick="selectEmail()">
 											<option value="" selected>선택하세요</option>
@@ -311,13 +302,13 @@ function selectEmail() {
 											<option value="gmail.com" >gmail.com</option>
 											<option value="dreamwiz.com" >dreamwiz.com</option>
 											<option value="" >직접입력</option>
-										</select>
-										<div style="left:455px; display:none;" class="mbrTplLayer mbrTplLayer_1 mbrLayerHelp" id="CautionResult2" name="CautionResult">
+										</select> --%>
+										<!-- <div style="left:455px; display:none;" class="mbrTplLayer mbrTplLayer_1 mbrLayerHelp" id="CautionResult2" name="CautionResult">
 											<div class="desc">
 												<p>이메일을 입력해 주세요</p>
 											</div>
 											<span class="arrow"></span>
-										</div>
+										</div> -->
 									</div>
 								</td>
 							</tr>
@@ -326,10 +317,7 @@ function selectEmail() {
 								<th scope="row" colspan="2"><span class="blank"></span> <label for="postcheck">우편번호</label></th>
 								<td colspan="3">
 									<div class="mbrHelpWrap" style="z-index:1000;">
-										<input type="hidden" id="M_ZipCode" name="M_ZipCode" value="">
-										<input type="hidden" id="M_AddAddr" name="M_AddAddr" value="서울 동대문구 회기동">
-                                        <input type="hidden" id="M_AddrType" name="M_AddrType" value="R">
-                                        <input type="text" id="zipcode" name="zipcode" style="width:300px;" class="ipText" maxlength="8" value="${ zipcode }" readonly="readonly" >
+                                        <input type="text" id="zipcode" name="zipcode" style="width:300px;" class="ipText" maxlength="8" value="${ selectInfo.zipcode }" readonly="readonly" >
 										<span>
 
 											<button id="kakao" type="button" class="delBtn" >주소 검색</button>
@@ -350,13 +338,14 @@ function selectEmail() {
 								<th scope="row" colspan="2"><span class="blank"></span> <label for="M_Addr_Text">주소</label></th>
 								<td colspan="3">
 									<div class="mbrHelpWrap">
-										<input type="text" id="addr" name="addr" style="width:300px;" class="ipText" maxlength="100" readonly value="${ addr }" onfocus="$(this).unbind('focus');" onclick="$('#btnSearchAddr').click();"> <input type="text" id="detailAddr" name="detailAddr" style="width:300px;" class="ipText" maxlength="35" onFocus="$(this).unbind('focus');if (this.value=='상세주소를 입력해 주세요.') this.value='';" value="${ detail_addr }">
-										<div style="left:623px;display:none;" class="mbrTplLayer mbrTplLayer_1 mbrLayerHelp" id="CautionResult5" name="CautionResult">
+										<input type="text" id="addr" name="addr" style="width:300px;" class="ipText" maxlength="100" readonly value="${ selectInfo.addr }" onfocus="$(this).unbind('focus');" onclick="$('#btnSearchAddr').click();"> 
+										<input type="text" id="detail_addr" name="detail_addr" style="width:300px;" class="ipText" maxlength="35" onFocus="$(this).unbind('focus');if (this.value=='상세주소를 입력해 주세요.') this.value='';" value="${ selectInfo.detail_addr }">
+										<!-- <div style="left:623px;display:none;" class="mbrTplLayer mbrTplLayer_1 mbrLayerHelp" id="CautionResult5" name="CautionResult">
 											<div class="desc">
 												<p>주소를 입력해 주세요.</p>
 											</div>
 											<span class="arrow"></span>
-										</div>
+										</div> -->
 									</div>
 								</td>
 							</tr>

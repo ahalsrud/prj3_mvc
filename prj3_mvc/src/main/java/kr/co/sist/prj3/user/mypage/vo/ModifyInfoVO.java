@@ -2,44 +2,31 @@ package kr.co.sist.prj3.user.mypage.vo;
 
 public class ModifyInfoVO {
 	
-	private int zipcode;
-	private String nick_name,email,tel,addr,detail_addr,birth_date;
+	private String user_id,email,tel,addr,detail_addr,zipcode;
 	
 	
 	public ModifyInfoVO() {
 	}
 
 
-	public ModifyInfoVO(int zipcode, String nick_name, String email, String tel, String addr, String detail_addr,
-			String birth_date) {
+	public ModifyInfoVO(String user_id, String email, String tel, String addr, String detail_addr, String zipcode) {
 		super();
-		this.zipcode = zipcode;
-		this.nick_name = nick_name;
+		this.user_id = user_id;
 		this.email = email;
 		this.tel = tel;
 		this.addr = addr;
 		this.detail_addr = detail_addr;
-		this.birth_date = birth_date;
-	}
-
-
-	public int getZipcode() {
-		return zipcode;
-	}
-
-
-	public void setZipcode(int zipcode) {
 		this.zipcode = zipcode;
 	}
 
 
-	public String getNick_name() {
-		return nick_name;
+	public String getUser_id() {
+		return user_id;
 	}
 
 
-	public void setNick_name(String nick_name) {
-		this.nick_name = nick_name;
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
 	}
 
 
@@ -83,23 +70,23 @@ public class ModifyInfoVO {
 	}
 
 
-	public String getBirth_date() {
-		return birth_date;
+	public String getZipcode() {
+		return zipcode;
 	}
 
 
-	public void setBirth_date(String birth_date) {
-		this.birth_date = birth_date;
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
 	}
 
 
 	@Override
 	public String toString() {
-		return "ModifyInfoVO [zipcode=" + zipcode + ", nick_name=" + nick_name + ", email=" + email + ", tel=" + tel
-				+ ", addr=" + addr + ", detail_addr=" + detail_addr + ", birth_date=" + birth_date + "]";
+		return "ModifyInfoVO [user_id=" + user_id + ", email=" + email + ", tel=" + tel + ", addr=" + addr
+				+ ", detail_addr=" + detail_addr + ", zipcode=" + zipcode + "]";
 	}
 	
-
+	
 	
 	
 }//class

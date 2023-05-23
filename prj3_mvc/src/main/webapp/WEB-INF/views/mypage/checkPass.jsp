@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
 
@@ -25,11 +26,11 @@
     <link rel="shortcut icon" href="https://img.cgv.co.kr/theater_img/favicon.ico" type="image/x-icon" />
     <title id="ctl00_ctl00_headerTitle">개인정보변경 &lt; 나의 정보 | 영화 그 이상의 감동.</title>
     <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/webfont.css" />
-	<link rel="stylesheet" media="all" type="text/css" href="http://localhost/test_prj/css/reset.css" />
-    <link rel="stylesheet" media="all" type="text/css" href="http://localhost/test_prj/css/layout.css" />
-    <link rel="stylesheet" media="all" type="text/css" href="http://localhost/test_prj/css/module.css" />
-    <link rel="stylesheet" media="all" type="text/css" href="http://localhost/test_prj/css/content.css" />
-    <link rel="stylesheet" media="all" type="text/css" href="http://localhost/test_prj/css/common.css" />
+	<link rel="stylesheet" media="all" type="text/css" href="http://localhost/prj3_mvc/css/reset.css" />
+    <link rel="stylesheet" media="all" type="text/css" href="http://localhost/prj3_mvc/css/layout.css" />
+    <link rel="stylesheet" media="all" type="text/css" href="http://localhost/prj3_mvc/css/module.css" />
+    <link rel="stylesheet" media="all" type="text/css" href="http://localhost/prj3_mvc/css/content.css" />
+    <link rel="stylesheet" media="all" type="text/css" href="http://localhost/prj3_mvc/css/common.css" />
     
     <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/eggupdate.css" />
     <link rel="stylesheet" media="print" type="text/css" href="https://img.cgv.co.kr/R2014/css/print.css" />    
@@ -79,9 +80,9 @@
     <link rel="stylesheet" type="text/css" href="https://img.cgv.co.kr/R2014/css/mypagenew.css" />
     
     <!-- devplanet css -->
-    <link rel="stylesheet" type="text/css" href="http://localhost/test_prj/css/mbr_style.css"/>
-	<link rel="stylesheet" type="text/css" href="http://localhost/test_prj/css/footer-sv-202301261521.css"/>
-	<link rel="stylesheet" type="text/css" href="http://localhost/test_prj/css/mbr_tpl.css"/>
+    <link rel="stylesheet" type="text/css" href="http://localhost/prj3_mvc/css/mbr_style.css"/>
+	<link rel="stylesheet" type="text/css" href="http://localhost/prj3_mvc/css/footer-sv-202301261521.css"/>
+	<link rel="stylesheet" type="text/css" href="http://localhost/prj3_mvc/css/mbr_tpl.css"/>
 	
 	<style type="text/css">
 	#okBtn {
@@ -190,6 +191,16 @@
             <!-- Contents Start -->
 			
     <script type="text/javascript">
+    
+    $(function(){
+    	$("#okBtn").click(function(){
+    		
+    		$("#con_frm").submit();
+    	});
+    	
+    });//ready
+    
+    
     //<![CDATA[
         (function ($) {
             $(function () {
@@ -302,7 +313,7 @@
 	<!--// Contents Area -->
 	<div id="container">
 		<div id="content">
-			<form id="con_frm" name="con_frm" method="post" action="http://localhost/prj2/project_user/5.memberInfo/confirmInfo_process.jsp">
+			<form id="con_frm" name="con_frm" method="post" action="modifyInfo.do?user_id="${selectInfo.user_id }>
 <!--skip은 안보임  -->	<h1 class="skip"><!--비밀번호 확인--></h1>
 			<fieldset>
 				<!-- <legend>비밀번호 확인 정보 입력폼</legend> -->
@@ -316,8 +327,13 @@
 							</colgroup>
 							<tr>
 								<th scope="row">아이디</th>
-								<td> test123 </td>
+								<td>유저아이디</td>
 							</tr>
+							<c:if test="${not empty errorMessage}">
+						        <script>
+						            alert("${errorMessage}");
+						        </script>
+						    </c:if>
 							<tr>
 								<th scope="row">
 									비밀번호
@@ -328,22 +344,20 @@
 							</tr>
 						</table>
 					</div>
+							<button type="button" id="okBtn">
+								<span style="width: 120px; height: 50px; font-family: 'Noto Sans KR', sans-serif;">확인</span>
+							</button>
+							<button type="button" id="cancelBtn">
+								<span style="width: 120px; height: 50px; font-family: 'Noto Sans KR', sans-serif;">취소</span>
+							</button>
 				</div>
-				<hr>
 			</fieldset>
 			</form>
 		</div>
-		<hr>
 	</div>
 </div>
 			</div>
 		</div><!-- // 회원정보 수정 컨텐츠 -->
-							<a href="modifyInfo.do"><button type="button" id="okBtn">
-								<span style="width: 120px; height: 50px; font-family: 'Noto Sans KR', sans-serif;">확인</span>
-							</button></a>
-							<button type="button" id="cancelBtn">
-								<span style="width: 120px; height: 50px; font-family: 'Noto Sans KR', sans-serif;">취소</span>
-							</button>
 	</div>
 </div>
 </div>

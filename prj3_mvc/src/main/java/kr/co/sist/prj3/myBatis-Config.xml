@@ -66,9 +66,10 @@
 	<mapper resource="kr/co/sist/prj3/admin/admin_movie/dao/movie_mapper.xml"/>
 	<mapper resource="kr/co/sist/prj3/user/total_info/dao/total_info_mapper.xml"/>
 	<!-- 충연 -->
-	<!-- <mapper resource="kr/co/sist/prj3/admin/regmovie/dao/regmovie_mapper.xml"/>
+	<mapper resource="kr/co/sist/prj3/admin/regmovie/dao/regmovie_mapper.xml"/>
     <mapper resource="kr/co/sist/prj3/admin/regscreen/dao/screenInfo_mapper.xml"/>
-    <mapper resource="kr/co/sist/prj3/admin/resdetail/dao/resdetail_mapper.xml"/> -->
+    <mapper resource="kr/co/sist/prj3/admin/resdetail/dao/resdetail_mapper.xml"/>
+    <mapper resource="kr/co/sist/prj3/user/mypage/dao/user_mapper.xml"/>
 
   </mappers>
 </configuration>

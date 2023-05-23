@@ -3,25 +3,24 @@ package kr.co.sist.prj3.user.mypage.domain;
 public class ModifyInfoDomain {
 	
 	private int zipcode;
-	private String id,name,nick_name,email,tel,addr,detail_addr,birth_date;
+	private String user_id,name,birth_date,tel,email,addr,detail_addr;
 	
 	
 	public ModifyInfoDomain() {
 	}
 
 
-	public ModifyInfoDomain(int zipcode, String id, String name, String nick_name, String email, String tel,
-			String addr, String detail_addr, String birth_date) {
+	public ModifyInfoDomain(int zipcode, String user_id, String name, String birth_date, String tel, String email,
+			String addr, String detail_addr) {
 		super();
 		this.zipcode = zipcode;
-		this.id = id;
+		this.user_id = user_id;
 		this.name = name;
-		this.nick_name = nick_name;
-		this.email = email;
+		this.birth_date = birth_date;
 		this.tel = tel;
+		this.email = email;
 		this.addr = addr;
 		this.detail_addr = detail_addr;
-		this.birth_date = birth_date;
 	}
 
 
@@ -35,13 +34,13 @@ public class ModifyInfoDomain {
 	}
 
 
-	public String getId() {
-		return id;
+	public String getUser_id() {
+		return user_id;
 	}
 
 
-	public void setId(String id) {
-		this.id = id;
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
 	}
 
 
@@ -55,23 +54,13 @@ public class ModifyInfoDomain {
 	}
 
 
-	public String getNick_name() {
-		return nick_name;
+	public String getBirth_date() {
+		return birth_date;
 	}
 
 
-	public void setNick_name(String nick_name) {
-		this.nick_name = nick_name;
-	}
-
-
-	public String getEmail() {
-		return email;
-	}
-
-
-	public void setEmail(String email) {
-		this.email = email;
+	public void setBirth_date(String birth_date) {
+		this.birth_date = birth_date;
 	}
 
 
@@ -82,6 +71,16 @@ public class ModifyInfoDomain {
 
 	public void setTel(String tel) {
 		this.tel = tel;
+	}
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 
@@ -105,22 +104,20 @@ public class ModifyInfoDomain {
 	}
 
 
-	public String getBirth_date() {
-		return birth_date;
-	}
-
-
-	public void setBirth_date(String birth_date) {
-		this.birth_date = birth_date;
-	}
-
-
 	@Override
 	public String toString() {
-		return "ModifyInfoDomain [zipcode=" + zipcode + ", id=" + id + ", name=" + name + ", nick_name=" + nick_name
-				+ ", email=" + email + ", tel=" + tel + ", addr=" + addr + ", detail_addr=" + detail_addr
-				+ ", birth_date=" + birth_date + "]";
+		return "ModifyInfoDomain [zipcode=" + zipcode + ", user_id=" + user_id + ", name=" + name + ", birth_date="
+				+ birth_date + ", tel=" + tel + ", email=" + email + ", addr=" + addr + ", detail_addr=" + detail_addr
+				+ "]";
 	}
+	
+	
+	
+	
+	
+	
+		
+	
 	
 	
 

@@ -83,8 +83,12 @@ public class AdminMovieInfoController {
 	            amrs.addMovieInfo(amVO);
 	            
 	            //감독정보 저장
+	            int count = 0;
 	            String fileCount = mr.getParameter("counter");
-	            int count = Integer.parseInt(fileCount);
+	            if (fileCount != null) {
+	                count = Integer.parseInt(fileCount);
+	            }
+	            
 	            
 	            String d_img=mr.getFilesystemName("d_img");
 	            String[] d_name=mr.getParameterValues("d_name");
@@ -93,11 +97,13 @@ public class AdminMovieInfoController {
 	            AdminDirectVO[] adVO = new AdminDirectVO[count];
 	                for(int i=0 ; i < count ; i++) {
 	                	adVO[i] = new AdminDirectVO(); // 객체 생성 후 할당
+	                	if(count==0) {
+	                		adVO[i].setD_img(d_img);
+	                	}
 	                	adVO[i].setD_img(d_img+i);
 		                adVO[i].setD_name(d_name[i]);
 		                adVO[i].setD_eng(d_eng[i]);
 	                }
-	                
 	                amrs.addDirectorInfo(adVO);
 	            
 	            

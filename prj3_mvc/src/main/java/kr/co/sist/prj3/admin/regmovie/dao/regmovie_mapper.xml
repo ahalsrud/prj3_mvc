@@ -14,7 +14,7 @@ values(MOVIE.SEQ_MOVIE.NEXTVAL,#{poster},#{m_title},#{eng_title},#{genre},#{run_
 
 <insert id="insertDirector" parameterType="kr.co.sist.prj3.admin.regmovie.vo.AdminDirectVO">
 INSERT INTO director(d_num, m_num, d_name, d_eng, d_img)
-VALUES (MOVIE.SEQ_DIRECTOR.NEXTVAL,MOVIE.SEQ_MOVIE.CURRVAL, #{d_name}, #{d_eng}, #{d_img})
+VALUES (MOVIE.SEQ_DIRECTOR.NEXTVAL,MOVIE.SEQ_MOVIE.CURRVAL,#{d_name},#{d_eng},#{d_img})
 </insert>
 
 </mapper>

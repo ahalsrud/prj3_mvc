@@ -32,7 +32,6 @@ public class ScreenRegService {
 	//상영등록 - 상영시간 update
 	public int screenProcessService(ScreenInfoVO siVO) {
 		int cnt=srDAO.updateScreen(siVO);
-		System.out.println(cnt+"service----------");
 		
 		return cnt;
 	}//screenInfoService
