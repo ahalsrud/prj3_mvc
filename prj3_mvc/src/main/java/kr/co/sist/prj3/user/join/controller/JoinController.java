@@ -1,5 +1,9 @@
 package kr.co.sist.prj3.user.join.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,8 +27,8 @@ public class JoinController {
 	@GetMapping("join.do")
 	public String joinFrm( ) { // join_frm.jsp
 
-		return "userInfo/userJoin";
-		//return "redirect:frm/userJoin.jsp";
+		//return "userInfo/userJoin";
+		return "redirect:frm/userJoin.jsp";
 	}//
 		
 	
@@ -32,18 +36,18 @@ public class JoinController {
 	 * 회원가입 처리 
 	 * @param uVO
 	 * @return
+	 * @throws GeneralSecurityException 
+	 * @throws UnsupportedEncodingException 
 	 */
-	@PostMapping("/join_process.do")
-	public String joinProcess ( UserVO uVO )  {
+	@PostMapping("/frm/join_process.do")
+	public String joinProcess ( UserVO uVO ) throws UnsupportedEncodingException, GeneralSecurityException  {
 		
-		System.out.println(uVO);
-		String resultPage = "userInfo/failed_join";
+		String resultPage = "redirect:failed_join.jsp";
 		
 		if(jService.joinService(uVO)) { //성공 시
-			resultPage = "userInfo/complete_join";
+			resultPage = "redirect:complete_join.jsp";
 		}//end if
 		
-		System.out.println(resultPage);
 		return resultPage;
 	}//joinProcess
 		
@@ -53,10 +57,13 @@ public class JoinController {
 	 * @param userId
 	 * @param model
 	 * @return
+	 * @throws GeneralSecurityException 
+	 * @throws UnsupportedEncodingException 
+	 * @throws NoSuchAlgorithmException 
 	 */
-	@GetMapping("/idDup.do")
+	@GetMapping("/frm/idDup.do")
 	@ResponseBody
-	public String idDupProcess( String user_id) { //id_dup.jsp or void
+	public String idDupProcess( String user_id) throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException { //id_dup.jsp or void
 		
 			String jsonObj="";
 			
@@ -72,14 +79,17 @@ public class JoinController {
 	 * @param userId
 	 * @param model
 	 * @return
+	 * @throws GeneralSecurityException 
+	 * @throws UnsupportedEncodingException 
+	 * @throws NoSuchAlgorithmException 
 	 */
-	@PostMapping("/nickDup.do")
+	@PostMapping("/frm/nickDup.do")
 	@ResponseBody
-	public String nickDupProcess( String nick_name)  {// nick_dup.jsp or void
+	public String nickDupProcess( String nick_name) throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException  {// nick_dup.jsp or void
 
 		String jsonObj="";
 		
-		jsonObj =jService.idDupService(nick_name);
+		jsonObj =jService.nickDupService(nick_name);
 		
 		return jsonObj;
 		

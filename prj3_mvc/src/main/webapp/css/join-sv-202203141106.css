@@ -45,7 +45,7 @@ body.jkJoin {background-color:#f5f6f8;}
 #header .snb > .corp.on > a + .snb_type li a {display:block; height:48px; padding-top:13px; color:#333; font-size:15px; background-image:none; letter-spacing:-0.5px; text-indent:0; box-sizing:border-box; background-color:#fff;}
 #header .snb > .corp.on > a + .snb_type li.on {z-index:10; border-color:#3399fe;} 
 #header .snb > .corp.on > a + .snb_type li.on a {display:block; color:#3399fe; font-weight:bold; background-image:none; letter-spacing:-0.5px; background-image:url("/content/images/member/icn_corpTab_on.png"); background-repeat:no-repeat; padding-left:6px;}
-#header .snb > .corp.on > a + .snb_type li.on a:before {content:''; display:inline-block; position:relative; top:6px; width:12px; height:10px; margin-right:5px; vertical-align:top; background:url('/content/images/join/sprite-icon.png') no-repeat 0 -104px;}
+#header .snb > .corp.on > a + .snb_type li.on a:before {content:''; display:inline-block; position:relative; top:6px; width:12px; height:10px; margin-right:5px; vertical-align:top; background:url('http://localhost/prj3_mvc/images/sprite-icon.png') no-repeat 0 -104px;}
 #header .snb > .corp.on > a + .snb_type li.gi {margin-left:0;}
 #header .snb > .corp.on > a + .snb_type li.hr {width:161px;}
 #header .snb > .corp.on > a + .snb_type li.hh {width:161px;}
@@ -122,11 +122,11 @@ body.jkJoin {background-color:#f5f6f8;}
 .mbrRegist .mbr_zipcode .notice_msg,
 .mbrRegist .col_2 .notice_msg {display:none; z-index:9100; position:absolute; left:-1px; top:60px; min-width:100px; padding:5px 7px 6px; border:1px solid #ffbcb9; background-color:#ffeeec; color:#555; box-sizing:border-box; white-space:nowrap; font-size:12px; letter-spacing:-1px;}
 .mbrRegist .mbr_zipcode .notice_msg:after,
-.mbrRegist .col_2 .notice_msg:after {content:''; display:block; position:absolute; left:9px; top:-11px; width:19px; height:11px; background:url('/content/images/join/sprite-icon.png') no-repeat 0 -145px;}
+.mbrRegist .col_2 .notice_msg:after {content:''; display:block; position:absolute; left:9px; top:-11px; width:19px; height:11px; background:url('http://localhost/prj3_mvc/images/sprite-icon.png') no-repeat 0 -145px;}
 .mbrRegist .mbr_zipcode .notice_msg.success,
 .mbrRegist .col_2 .notice_msg.success {border-color:#b7dbff; background-color:#f7fbff;}
 .mbrRegist .mbr_zipcode .notice_msg.success:after,
-.mbrRegist .col_2 .notice_msg.success:after {width:18px; background:url('/content/images/join/sprite-icon.png') no-repeat 0 -124px;}
+.mbrRegist .col_2 .notice_msg.success:after {width:18px; background:url('http://localhost/prj3_mvc/images/sprite-icon.png') no-repeat 0 -124px;}
 
 .mbrRegist .col_2.focus .select_wrap {height:41px; padding-top:10px;}
 

@@ -191,8 +191,7 @@ public class UserReviewController {
 	 * @author KM
 	 */
 	@GetMapping("/my_review.do")
-	public String reviewSearchProcess( MyReviewSearchVO mrsVO, Model model,
-										String user_id) {
+	public String reviewSearchProcess( MyReviewSearchVO mrsVO, Model model){
 		
 		if(mrsVO.getSearch()==null && mrsVO.getSearch_type()==0) { //검색어와 옵션이 null일때
 			mrsVO.setSearch("");
@@ -201,9 +200,7 @@ public class UserReviewController {
 		
 		
 		//VO에 아이디 세팅해야함
-		if(mrsVO.getUser_id()==null) {
-			mrsVO.setUser_id(user_id);
-		}//end if
+		
 		
 		List<MyReviewDomain> list = urService.myReviewService(mrsVO);
 		
@@ -213,7 +210,6 @@ public class UserReviewController {
 		
 		
 		// 유저에 대한 정보도 넘겨줘야함 - LoginResultDomain이 세션에 저장될 것
-		
 		
 		return "/review/my_review";
 	}// my_review_borad.jsp

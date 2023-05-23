@@ -5,11 +5,10 @@
 <mapper namespace="kr.co.sist.prj3.Mapper"><!--여러 매퍼에 같은 아이디를 만들 수 있음-->
 
 
-<select id="selectMyReview" resultType="myReview" parameterType="mySearch">
-select   	 rv_num, hits, title,  dbms_lob.substr(content, 4000) as content, input_date,  m_title, eng_title, script, poster,  listagg( d_name  ,', ') within group (order by d_name) d_name
-from		 review r, movie m, director d
-where		 r.m_num = m.m_num and m.m_num = d.m_num
-and user_id = #{user_id} and
+<select id="selectMyReview" resultType="kr.co.sist.prj3.user.review.domain.MyReviewDomain" parameterType="kr.co.sist.prj3.user.review.vo.MyReviewSearchVO">
+SELECT user_id, rv_num, hits, title, input_date, DBMS_LOB.SUBSTR(r.content, 4000) AS content, m_title, eng_title, script, poster, LISTAGG(d_name, ', ') WITHIN GROUP (ORDER BY d_name) AS d_name 
+FROM review r, movie m, director d 
+WHERE r.m_num = m.m_num AND r.m_num = d.m_num AND r.user_id = #{user_id} and 
 <choose>
 <when test="search_type==0"><!-- 전체 선택-->
 1=1	
@@ -24,7 +23,8 @@ content like '%'||#{search}||'%'
 (title like '%'||#{search}||'%' or content like '%'||#{search}||'%')
 </when>
 </choose>
-group by  	 rv_num, hits, title, dbms_lob.substr(content, 4000), input_date,  m_title, eng_title, script, poster
+group by  	 user_id, rv_num, hits, title, input_date, DBMS_LOB.SUBSTR(r.content, 4000), m_title, eng_title, script, poster
+ORDER BY input_date desc
 </select>
 
 

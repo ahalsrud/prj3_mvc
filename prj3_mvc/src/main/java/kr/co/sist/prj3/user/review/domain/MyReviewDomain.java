@@ -10,7 +10,7 @@ public class MyReviewDomain {
 	private int hits; //조회수
 	
 	private String title; //리뷰제목
-	private String m_Title; //영화제목
+	private String m_title; //영화제목
 	private String eng_title; //영어제목
 	private String d_name; //감독명
 	private String script; //각본가
@@ -34,11 +34,11 @@ public class MyReviewDomain {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getM_Title() {
-		return m_Title;
+	public String getM_title() {
+		return m_title;
 	}
-	public void setM_Title(String m_Title) {
-		this.m_Title = m_Title;
+	public void setM_title(String m_title) {
+		this.m_title = m_title;
 	}
 	public String getEng_title() {
 		return eng_title;
@@ -70,6 +70,13 @@ public class MyReviewDomain {
 	public void setInput_date(String input_date) {
 		this.input_date = input_date;
 	}
+	@Override
+	public String toString() {
+		return "MyReviewDomain [rv_num=" + rv_num + ", hits=" + hits + ", title=" + title + ", m_title=" + m_title
+				+ ", eng_title=" + eng_title + ", d_name=" + d_name + ", script=" + script + ", poster=" + poster
+				+ ", input_date=" + input_date + "]";
+	}
+	
 	
 	
 	

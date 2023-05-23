@@ -1,14 +1,8 @@
-package kr.co.sist.prj3.user.profile.vo;
+package kr.co.sist.prj3.user.login.domain;
 
-/**
- * 프로필 수정<br>
- * 닉네임, 자기소개, 프로필이미지명
- * @author user
- *
- */
-public class ProfileModifyVO {
+public class LoginResultDomain {
 
-	private String user_id, nick_name, profile_msg, profile;
+	private String user_id, nick_name, birth_date, profile ;
 
 	public String getUser_id() {
 		return user_id;
@@ -26,12 +20,12 @@ public class ProfileModifyVO {
 		this.nick_name = nick_name;
 	}
 
-	public String getProfile_msg() {
-		return profile_msg;
+	public String getBirth_date() {
+		return birth_date;
 	}
 
-	public void setProfile_msg(String profile_msg) {
-		this.profile_msg = profile_msg;
+	public void setBirth_date(String birth_date) {
+		this.birth_date = birth_date;
 	}
 
 	public String getProfile() {
@@ -44,10 +38,11 @@ public class ProfileModifyVO {
 
 	@Override
 	public String toString() {
-		return "ProfileModifyVO [user_id=" + user_id + ", nick_name=" + nick_name + ", profile_msg=" + profile_msg
+		return "LoginResultDomain [user_id=" + user_id + ", nick_name=" + nick_name + ", birth_date=" + birth_date
 				+ ", profile=" + profile + "]";
-	}
-
+	} 
+	
+	
 	
 	
 }//class

@@ -78,6 +78,108 @@
     <!--/각페이지 Header End--> 
    
 
+
+<script>
+
+$(function(){
+
+	//중복확인했니?
+	var isDupChecked = false;
+	var checkedNick = "";
+	
+	//닉네임 중복버튼
+	$("#dupBtn").click(function(){
+		
+		var nickname = ($("#nick_name").val()).trim();
+		
+		
+		if(nickname!=""){ //닉네임이 입력된 상태라면
+		
+			//기존의 닉네임과 일치할 때
+			if(($("#old_nick_name").val()).trim()==nickname){
+				checkedNick=nickname;
+					return;
+			}//end if	
+			
+			
+			
+		$.ajax({
+			
+			url:"nick_dup.do",
+			data:{nick_name : nickname},
+			method:"post",
+			dataType:"json",
+			success : function(response) {
+				
+			 	if(response.available){
+					alert("사용 가능합니다.");
+					//$("#nick_name").val(nickname);
+					checkedNick = $("#nick_name").val();
+					
+				}else{
+					alert("이미 사용중 다시 입력해주세요.");
+					$("#nick_name").val("");
+					$("#nick_name").focus();
+					return;
+				}//end else
+				 
+				
+			},
+			error : function(xhr){
+					alert("서버 오류가 발생했습니다.");
+			}//end error
+			
+		});//ajax
+		
+		
+		}else{
+			alert("닉네임을 입력해주세요.");
+			return;
+		}//end else
+		
+	});//click
+	
+	
+	
+	$("#setProfileBtn").click(function() {
+
+			var nickname = ($("#nick_name").val()).trim();
+			var oldnick = ($("#old_nick_name").val()).trim();
+
+			alert("입력한 값:"+nickname + "/ 기존 닉넴:" + oldnick);
+			
+			if(nickname==""){
+				alert("닉네임은 필수 입력입니다.");
+				return;
+			}//end if
+			
+		/* 	
+			//기존 닉네임(db값)과 같으면
+			if(oldnick==nickname){
+				return;
+			}//end if
+			
+			 */
+			if (oldnick !== nickname) { //입력값과 기존값이 일치하지 않은채로 등록버튼 누름
+			
+				alert("중복확인한값:"+checkedNick+" / 최종 제출값:"+nickname);
+			
+				if (checkedNick!=nickname) { //중복확인
+					alert("닉네임 중복 확인을 먼저 수행해주세요");
+					return;
+				}//end if */
+
+			}//end if
+			//alert("일치한 상태로 냅다 등록버튼 혹은 중복확인까지 완료");
+			
+			$("#frm").submit();
+
+		});//click
+
+	});//ready
+</script>
+
+
     
 </head>
 <body class="">
@@ -87,14 +189,6 @@
 </div>    
 <div id="cgvwrap">
     
-    
-  
-	
-      <!-- S Header
-        Description
-        - class 'nav' 에 class 'active' 추가시 서브메뉴노출
-        - class 'nav' 에 class 'fixed' 추가시 상단고정되며 스타일 변경됨
-     -->
 	<div class="header">			
             <!-- 서비스 메뉴 --> 
             
@@ -193,21 +287,17 @@
 </div>
 
 
-
-<!--1-->
-
-<form name="aspnetForm" method="post" action="./edit-myinfo-myprofile.aspx" id="aspnetForm" enctype="multipart/form-data" novalidate="novalidate">
+<form name="frm" method="post" action="modify_profile.do" id="frm" enctype="multipart/form-data" novalidate="novalidate">
 <div>
-<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTE5NDY1OTc2MjJkZGXGZF9rPaBjXwH1HbdmUHs5/x2S" />
 </div>
 
 <div>
 
-	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="5FA425E8" />
+    <input type="hidden" id="user_id" name="user_id" value="${profile.user_id}" /> 
 </div>
 <div class="tbl-form">
     <table summary="나의프로필정보 이름,아이디, 닉네임,프로필이미지 표기">
-        <caption>나의프로필정보</caption>
+        <caption>나의 프로필 정보</caption>
         <colgroup>
         <col width="19%" />
         <col width="*" />
@@ -215,20 +305,20 @@
         <tbody>
             <tr>
                 <th scope="row">이름</th>
-                <td><strong><c:out value="${name}"/></strong></td>
+                <td><strong><c:out value="${profile.name}"/></strong></td>
             </tr>
             <tr>
                 <th scope="row">아이디</th>
-                <td><span><c:out value="${user_id}"/></span></td>
+                <td><span><c:out value="${profile.user_id}"/></span></td>
             </tr>
             <tr>
-                <th scope="row"><label for="nick_name">닉네임</label></th>
+                <th scope="row"><label for="nick_namee">닉네임</label></th>
                 <td>
                     <p>한글, 영문, 숫자 혼용 가능 (한글 기준 10자 이내)</p>
-                    <input type="hidden" id="old_nick_name" name="old_nick_name" value="" /> 
+                    <input type="hidden" id="old_nick_name" name="old_nick_name" value="${profile.nick_name}" /> 
                     <input type="text" id="nick_name" name="nick_name" 
-                    value="<c:out value="${nick_name}"/>" required="required" maxlength="10" class="s-medium" /> 
-                    <button id="check_duplication" type="button" class="round gray"><span>중복확인</span></button>
+                    value="<c:out value="${profile.nick_name}"/>" maxlength="10" class="s-medium" /> 
+                    <button id="dupBtn" type="button" class="round gray"><span>중복확인</span></button>
                 </td>
             </tr>
             
@@ -239,11 +329,11 @@
                     <%-- <input type="hidden" id="profile" name="profile" value="<c:out value="${profile}"/>" />
                     <input type="hidden" id="user_small_image" name="user_small_image" value="" /> --%>
                     <div class="sect-profile-img">
-                        <div class="box-image" style="border:1px solid #333;">
+                        <div class="box-image">
                             <span class="thumb-image" >
-                                <img id="profile" name="profile" src="<c:out value="${profile}"/>" alt="${name }님 프로필 사진" onerror="errorImage(this, {type:'profile'})" />
+                                <img id="profile_set" name="profile_set" src="<c:out value="http://localhost/prj3_mvc/upload/${profile.profile}"/>" alt="${profile.name }님 프로필 사진" onerror="this.src='http://localhost/prj3_mvc/images/no.png'" />
+                               	<input type="hidden" name="profile" id="profile" value="${profile.profile}"/>
                                 <span class="profile-mask"></span>
-                                
                             </span>
                         </div>
                         <div class="box-contents">
@@ -252,7 +342,6 @@
                         </div>
                     </div>
 
-					<!-- 나의 프로필 / cgv 정보 : 프로필 관리 -->
 					
 
                 </td>
@@ -262,7 +351,7 @@
                 <th scope="row"><label>자기소개</label></th>
                 <td>
                     <p>자기소개를 입력해주세요 (한글 기준 100자 이내)</p>
-                    <textarea id="profile_msg" name="profile_msg" maxlength="100" class=""><c:out value="${profile_msg }"/></textarea>
+                    <textarea id="profile_msg" name="profile_msg" maxlength="100" class=""><c:out value="${profile.profile_msg }"/></textarea>
                 </td>
             </tr>
             
@@ -271,7 +360,7 @@
         </tbody>
     </table>
 </div>
-<div class="set-btn aright"><button type="button" id="set_profile" class="round inred on" ><span>등록하기</span></button></div>
+<div class="set-btn aright"><button type="button" id="setProfileBtn" class="round inred on" ><span>등록하기</span></button></div>
 </form>
 
 
@@ -281,277 +370,7 @@
 
 
 <script type="text/javascript" src="https://img.cgv.co.kr/R2014//js/system/crypto.js"></script>
-<script type="text/javascript">
-//<![CDATA[
-    (function ($) {
-        $(function () {
 
-            //######################## SSL관련 hidden작업  (s) #######################
-
-            
-
-
-            $('#set_profile').on('click', function () {
-                var rd_agree_profileInfo = $("input[name='rd_agree_profileInfo']:checked").val();
-
-                var msg = "동의 안함 설정 시, ";
-                var itemNoCnt = 0;
-
-                if (rd_agree_profileInfo == "N") {
-                    msg = msg + "[닉네임] [프로필 사진]";
-                    itemNoCnt++;
-                }
-                msg = msg + " 를 이용하실 수 없습니다.";
-
-                if (itemNoCnt > 0) {
-                    alert(msg);
-                }
-
-
-                if (rd_agree_profileInfo == "Y") {
-                    if ($('#nick_name').val() != '' && $('#old_nick_name').val() != $('#nick_name').val() && $('#check_duplication').attr('data') != 1) {
-                        alert('닉네임 중복확인 해주세요.');
-                        $('#check_duplication').focus();
-                        return false;
-                    }
-                }
-
-            });
-
-          
-            //######################## SSL관련 hidden작업  (e) #######################
-
-
-
-          
-       
-
-            $('#delete_image').on('click', function () {
-                if (!confirm('설정된 프로필 이미지를 삭제 하시겠습니까?'))
-                    return;
-
-                $('#img_userprofileimage').attr('src', '');
-                $('#user_small_image').val('');
-                $('#user_image').val('');
-                $('#delete_image').remove();
-            });
-
-      
-
-            $('#check_duplication').on('click', function () {
-                var _this = $(this);
-                var nickNameObj = $('#nick_name');
-
-                if (nickNameObj.val() == '') {
-                    alert('닉네임을 정상적으로 입력해주세요.');
-                    return nickNameObj.focus();
-                }
-
-                var url = '/common/ajax/user.aspx/CheckDuplicationByNickName';
-                var data = { 'nickName': nickNameObj.val() };
-
-                var callback = function (result) {
-                    if (result == null || result.resultCode == null) return;
-                    var resultCode = result.resultCode;
-
-                    if (resultCode == "") {
-                        alert("오류가 발생하였습니다.");
-                        _this.attr('data', 0);
-                    }
-                    else if (resultCode != "0") {
-                        alert('입력하신 닉네임 정보는 이미 사용중 입니다.\n다른 닉네임 정보를 입력해 주세요.');
-                        nickNameObj.focus();
-                        _this.attr('data', 0);
-                    }
-                    else {
-                        alert('입력하신 닉네임 정보는 사용가능한 정보 입니다.');
-                        _this.attr('data', 1);
-                    }
-                };
-
-                app.ajax().set({ dataType: 'json', url: url, data: JSON.stringify(data), contentType: "application/json; charset=utf-8", successHandler: callback });
-            });
-
-            $('.sect-profile-img > .box-contents > input[type=radio]').on('click', function () {
-                var profileImageCode = $(this).data('code');
-                var objProfileImage = $('#profile_upload_file');
-
-                if (profileImageCode != "user") {
-                    objProfileImage.attr('disabled', 'disabled');
-
-                    var profileImageValue = $(this).val();
-                    var winPop;
-                }
-                else {
-                    objProfileImage.removeAttr('disabled');
-                }
-
-                objProfileImage.attr('src', $(this).val());
-            });
-
-            $("input[name=rd_agree_profileInfo]").on('click', function () {
-                //닉네임
-                if ($('input:radio[name="rd_agree_profileInfo"]:checked').val() == "Y") {
-                    $('#nick_name').attr("disabled", false);
-                } else if ($('input:radio[name="rd_agree_profileInfo"]:checked').val() == "N") {
-                    $('#nick_name').attr("disabled", true);
-                    $('#nick_name').val('');
-
-                    $('#img_userprofileimage').attr('src', '');
-                    $('#user_small_image').val('');
-                    $('#user_image').val('');
-                    $('#delete_image').remove();
-                }
-            });
-
-         
-            fnLoding();
-            function fnLoding() {
-
-                /* 1번 탭 S */
-                if ($('input:radio[name="rd_agree_profileInfo"]:checked').val() == "N") {
-                    $('#nick_name').attr("disabled", true);
-                }
-                /* 1번 탭 E */
-
-            }
-
-
-            function getCookie(cookieName) {
-                var nameOfcookie = name + "=";
-                var x = 0;
-                while (x <= document.cookie.length) {
-                    var y = (x + nameOfcookie.length);
-                    if (document.cookie.substring(x, y) == nameOfcookie) {
-                        if ((endOfcookie = document.cookie.indexOf(";", y)) == -1)
-                            endOfcookie = document.cookie.length;
-                        return unescape(document.cookie.substring(y, endOfcookie));
-                    }
-                    x = document.cookie.indexOf(" ", x) + 1;
-                    if (x == 0)
-                        break;
-                }
-                return "";
-            }
-
-            /*
-            function validateEmailDomain(val) {
-                return /(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(val);
-            }
-            $('#special_day').next().children().attr({
-                'alt': 'special day 선택'
-            });
-            */
-
-        });
-    })(jQuery);
-//]]>
-</script>
-<script type="text/javascript">
-    function setProfileImage(snsType, imgUrl) {
-        $('#img_userprofileimage').attr('src', imgUrl);
-    }
-    
-</script>
-
-<!-- c_tab_re 제어 -->
-<script type="text/javascript">
-    $(function () {
-        function cTabControll() {
-            $('.c_tab_re').each(function () {
-                var onTit = $(this).find('> li.on > a').attr('title');
-                $(this).find('> li > a').click(function () {
-                    var btn = $(this).parent();
-                    var myNum = btn.index();
-                    var myConts = $(this).parents('.c_tab_wrap_re').nextUntil('.c_tab_wrap_re', '.c_tab_recont');
-                    var myCont = myConts.eq(myNum);
-
-                    btn.siblings().removeClass('on');
-                    btn.siblings().find('> a').removeAttr('title');
-                    btn.addClass('on');
-                    btn.find('> a').attr('title', onTit);
-
-                    myConts.removeClass('on');
-                    myCont.addClass('on');
-
-                    return false;
-
-                })
-
-            })
-        } cTabControll();
-    });
-</script>
-<script type="text/javascript">
-/*
-    function setAddressData(data) {
-
-        var zipcode1Obj = $('#zipcode1');
-        var zipcode2Obj = $('#zipcode2');
-        var addressObj = $('#address');
-        var addressDetailObj = $('#address_detail');
-        var doroNmAddr1Obj = $('#rd_home_addr_1');
-        var doroNmAddr2Obj = $('#rd_home_addr_2');
-        var doroidObj = $('#rd_home_addr_id');
-        var doroseqObj = $('#rd_home_addr_seq');
-
-        zipcode1Obj.val(data['zipcode']);
-        zipcode2Obj.val(data['zipcode1']);
-        addressObj.val(data['address']);
-        addressDetailObj.val(data['address_detail'] + (data['addr_item'] == "" ? "" : " " + data['addr_item']));
-        doroNmAddr1Obj.val(data['doro_nm_addr']);
-        doroNmAddr2Obj.val(data['address_detail']);
-        doroidObj.val(data['doroid']);
-        doroseqObj.val(data['doroseq']);
-    }
-    */
-</script>
-
-	</div>
-</div>
-<script id="temp_view_usergrade" type="text/x-jquery-tmpl">
-
-<div class="popwrap" style="width:330px;margin-top:-500px;margin-left:-165px">
-
-						<h1>VIP 등급 이력</h1>
-						<div class="pop-contents">
-						<!-- Contents Addon -->
-							<div class="sect-my-grade">
-								<p><strong>김규미</strong> 고객님의 연도별 고객 등급 이력입니다.</p>
-								<div class="grade-lst-light scrollbox">
-									<table summary="연도별 VIP 세부 등급 이력" id="mytable">
-										<caption>VIP 등급 이력 리스트</caption>
-										<colgroup>
-											<col width="50%">
-											<col width="*">
-										</colgroup>
-										<thead>
-											<tr>
-												<th scope="col">승급 년/월별</th>
-												<th scope="col">등급</th>
-											</tr>
-										</thead>
-										<tbody>
-											
-										</tbody>
-									</table>
-								</div>
-								<ul class="tb-desclist">
-									<li>- 고객님의 등급은 당해년도 VIP 규정에 따라 부여된 등급입니다</li>
-									<li>- 연속 VIP는 전년도와 등급 갱신월이 일치해야 인정됩니다<br />
-									(예. 17년 4월 RVIP의 경우, 18년 4월 RVIP 갱신 시에만 2년 연속 RVIP로 인정되며, 2017년 5월 RVIP 승급 시 17년 5월에 1년 차 RVIP로 인정)</li>
-									<li>- 등급이 하락된 경우 하락된 등급의 1년 차로 인정됩니다<br />
-									(예. 17년 4월 SVIP의 경우 18년 4월 VVIP로 등급 하락 시 VVIP 1년 차로 인정)</li>
-								</ul>
-
-							
-							</div>
-						<!-- //Contents Addon -->
-						</div>
-						<button type="button" class="btn-close">MY 지난 등급 이력 팝업 닫기</button>
-					</div>
-
-</script>
 <script type="text/javascript">
     //<![CDATA[
     (function ($) {

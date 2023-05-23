@@ -8,13 +8,13 @@
 <typeAliases>
 	
 	 <!-- 규미 -->
-	<!-- <typeAlias type="kr.co.sist.prj3.admin.member.domain.MemberBrdDomain" alias="memBrd"/>
+	 <typeAlias type="kr.co.sist.prj3.admin.member.domain.MemberBrdDomain" alias="memBrd"/>
 	<typeAlias type="kr.co.sist.prj3.admin.member.domain.MemberInfoDomain" alias="memInfo"/>
 	<typeAlias type="kr.co.sist.prj3.user.review.domain.MyReviewDomain" alias="myReview"/>
 	<typeAlias type="kr.co.sist.prj3.user.review.vo.MyReviewSearchVO" alias="mySearch"/>
 	<typeAlias type="kr.co.sist.prj3.user.comment.vo.CommVO" alias="comm"/>
 	<typeAlias type="kr.co.sist.prj3.user.comment.vo.ReplyVO" alias="reply"/>
-	<typeAlias type="kr.co.sist.prj3.user.join.vo.UserVO" alias="user"/> -->
+	<typeAlias type="kr.co.sist.prj3.user.join.vo.UserVO" alias="user"/> 
 	
 	<typeAlias type="kr.co.sist.prj3.admin.admin_movie.domain.EditMovieDomain" alias="emd"/> 
 	<typeAlias type="kr.co.sist.prj3.admin.admin_movie.domain.DirectorDomain" alias="dd"/>
@@ -22,10 +22,10 @@
     	<typeAlias type="kr.co.sist.prj3.admin.admin_movie.domain.MovieListDomain" alias="md"/>
 	
 	 <!-- 경태 -->
-	<!-- <typeAlias type="kr.co.sist.prj3.admin.review.domain.ReviewBoardDomain" alias="reviewAdminRBD"/>
+	 <typeAlias type="kr.co.sist.prj3.admin.review.domain.ReviewBoardDomain" alias="reviewAdminRBD"/>
 	<typeAlias type="kr.co.sist.prj3.user.review.vo.LikeVO" alias="userReviewInfo"/>
 	<typeAlias type="kr.co.sist.prj3.user.review.domain.ReviewInfoDomain" alias="reviewInfo"/>
-	<typeAlias type="kr.co.sist.prj3.user.review.domain.ReviewBoardDomain" alias="reviewUserRBD"/> -->
+	<typeAlias type="kr.co.sist.prj3.user.review.domain.ReviewBoardDomain" alias="reviewUserRBD"/> 
 </typeAliases>
 
 <!-- typeHandlers -->
@@ -47,21 +47,22 @@
   <mappers>
   
   	<!-- 규미 -->
-  	<!-- <mapper resource="kr/co/sist/prj3/user/join/dao/join_mapper.xml"/>
+  	 <mapper resource="kr/co/sist/prj3/user/login/dao/login_mapper.xml"/>
+  	 <mapper resource="kr/co/sist/prj3/user/join/dao/join_mapper.xml"/>
   	<mapper resource="kr/co/sist/prj3/user/review/dao/review_like_mapper.xml"/>
   	<mapper resource="kr/co/sist/prj3/user/review/dao/review_my_mapper.xml"/>
   	<mapper resource="kr/co/sist/prj3/user/comment/dao/comment_mapper.xml"/>
 	<mapper resource="kr/co/sist/prj3/user/profile/dao/profile_mapper.xml"/>
-	<mapper resource="kr/co/sist/prj3/admin/member/dao/admin_member_mgt.xml"/> -->
+	<mapper resource="kr/co/sist/prj3/admin/member/dao/admin_member_mgt.xml"/> 
 	
    	<!-- 상준 -->
     	<mapper resource="kr/co/sist/prj3/user/mainpage/dao/mainPage_mapper.xml"/>
 	<mapper resource="kr/co/sist/prj3/user/mypage/dao/myPage_mapper.xml"/>
 	<!-- 경태 -->
-	<!-- <mapper resource="kr/co/sist/prj3/admin/review/dao/review_manage_mapper.xml"/>
+	 <mapper resource="kr/co/sist/prj3/admin/review/dao/review_manage_mapper.xml"/>
 	<mapper resource="kr/co/sist/prj3/user/review/dao/review_list_mapper.xml"/>
 	<mapper resource="kr/co/sist/prj3/user/review/dao/review_write_mapper.xml"/>
-	<mapper resource="kr/co/sist/prj3/user/review/dao/review_post_mapper.xml"/> -->
+	<mapper resource="kr/co/sist/prj3/user/review/dao/review_post_mapper.xml"/> 
 	<!-- 민경 -->
 	<mapper resource="kr/co/sist/prj3/admin/admin_movie/dao/movie_mapper.xml"/>
 	<mapper resource="kr/co/sist/prj3/user/total_info/dao/total_info_mapper.xml"/>

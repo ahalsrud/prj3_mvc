@@ -71,7 +71,7 @@ body {font:12px "Malgun Gothic","맑은 고딕", verdana, dotum,"돋움",sans-se
 .secLogin .input_row .inpID {border:1px solid #e1e1e2;border-bottom:0 none;}
 .secLogin .input_row .inpPW {border:1px solid #e1e1e2;}
 .secLogin .input_row .end {background-image:none;}
-.secLogin .input_row .btLoin {position: absolute;top:0;right:0;width:120px;height:99px;background:#3399ff;color:#fff;font:bold 16px;min-height:55px; font:bold 16px "Malgun Gothic","맑은 고딕", verdana, dotum,"돋움",sans-serif;letter-spacing:-1px;}
+.secLogin .input_row .btLoin {position: absolute;top:0;right:0;width:120px;height:99px;background:#E74C3C; color:#fff;font:bold 16px;min-height:55px; font:bold 16px "Malgun Gothic","맑은 고딕", verdana, dotum,"돋움",sans-serif;letter-spacing:-1px;}
 
 .secLogin .check_row {position: relative;text-align: left;letter-spacing:-1px;margin-top:7px;}
 .secLogin .check_row .btnSecurity {width:29px;height:17px; font:11px "Malgun Gothic","맑은 고딕", verdana, dotum,"돋움",sans-serif; background:#fff url(/content/images/Login/ver_1/bg_sp.png?20160421) -21px -129px no-repeat;}

@@ -318,11 +318,7 @@
 									<br><br>
 									<p class="mbrBtnFunc" style="text-align: center">
 										<input type="button" id="cancelBtn"
-											class="btn btn-outline-danger" value="목록으로 돌아가기"></p>
-									
-									
-									
-									
+											class="btn btn-outline-danger" value="목록으로 돌아가기" onclick="location.href='member_board.do'"></p>
 								</div>
 										<!-- <input type="button" id="cancelBtn" onclick="location.href='http://localhost/prj2/project_admin/6.memberAdmin/member_manage.jsp'"><span>취소</span></span>
 									</p>
