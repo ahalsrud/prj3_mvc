@@ -4,13 +4,10 @@
     %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
 <head>
 
-
-    
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta http-equiv="Expires" content="-1" />
@@ -365,6 +362,16 @@ $(function() {
     });
 
 </script>
+<!-- 경태 테스트 -->
+<div>
+<h2><a href="../review_post.do?rv_num=10">경-세션 저장된 채로 리뷰 [review_post] </a></h1>
+<h2><a href="../review_list.do"> 리뷰로 이동 [review_post] </a></h1>
+<h2>${ lrDomain.user_id }</h2>
+<h2>${ lrDomain.nick_name }</h2>
+<h2>${ lrDomain.profile }</h2>
+<h2>${ lrDomain.birth_date }</h2>
+</div>
+<!-- 경태 테스트 -->
 <div class="nav">
     <div class="contents">
         <h1><a href="/" tabindex="-1"><img src="https://img.cgv.co.kr/R2014/images/common/logo/logoWhite.png" alt="CGV" /></a></h1>
@@ -372,7 +379,6 @@ $(function() {
             <li>
                 <h2><a href="search_movie.do">영화</a></h2>
             </li>
-            
             <li>
                 <h2><a href="/ticket/"><strong>예매</strong></a></h2>
             </li>

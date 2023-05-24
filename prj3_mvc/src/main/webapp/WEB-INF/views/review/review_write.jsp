@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../checkLogin.jsp" %> 
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -168,7 +170,7 @@ $(document).ready(function() {
 		                 </div>
 		                 </div>
 		                  <!-- header -->
-							<h2 class="bd_title"><i class="far fa-list-alt big-icon"></i><a href="#">쓰기</a></h2>
+							<h2 class="bd_title"><i class="far fa-list-alt big-icon"></i><a href="#">리뷰 작성</a></h2>
 						</div>
 						<div class="bd_write round20">
 						<div style="height: 40px;">
@@ -178,7 +180,7 @@ $(document).ready(function() {
 						<!-- summernote 시작 -->
 							<input type="text" class="search form-control" name="title" id="title" placeholder="제목" style="width:600px; margin-left: 15px; margin-bottom: 30px;">
 							<input type="hidden" name="m_num" value="2">
-							<input type="hidden" name="user_id" value="user3">
+							<input type="hidden" name="user_id" value="${ lrDomain.user_id }">
 						  	<div class="container">
 								  <textarea class="summernote" name="content" id="content"></textarea>    
 								</div>

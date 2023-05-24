@@ -9,10 +9,10 @@ public class ReviewBoardDomain {
 	private String title; //리뷰제목
 	private String nick_name; //닉네임
 	private String input_date; //작성일
+	private String user_id; //아이디
 	private int hits; //조회수
 	private int like_total; //총 좋아요
 	private int rv_num; //리뷰번호
-	
 	public String getTitle() {
 		return title;
 	}
@@ -30,6 +30,12 @@ public class ReviewBoardDomain {
 	}
 	public void setInput_date(String input_date) {
 		this.input_date = input_date;
+	}
+	public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
 	}
 	public int getHits() {
 		return hits;
@@ -52,11 +58,9 @@ public class ReviewBoardDomain {
 	@Override
 	public String toString() {
 		return "ReviewBoardDomain [title=" + title + ", nick_name=" + nick_name + ", input_date=" + input_date
-				+ ", hits=" + hits + ", like_total=" + like_total + ", rv_num=" + rv_num + ", getTitle()=" + getTitle()
-				+ ", getNick_name()=" + getNick_name() + ", getInput_date()=" + getInput_date() + ", getHits()="
-				+ getHits() + ", getLike_total()=" + getLike_total() + ", getRv_num()=" + getRv_num() + ", getClass()="
-				+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+				+ ", user_id=" + user_id + ", hits=" + hits + ", like_total=" + like_total + ", rv_num=" + rv_num + "]";
 	}
+
 	
 	
 	

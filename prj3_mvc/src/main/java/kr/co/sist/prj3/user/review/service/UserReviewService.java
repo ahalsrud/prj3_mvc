@@ -12,6 +12,7 @@ import kr.co.sist.prj3.user.review.domain.MovieInfoDomain;
 import kr.co.sist.prj3.user.review.domain.MyReviewDomain;
 import kr.co.sist.prj3.user.review.domain.ReviewBoardDomain;
 import kr.co.sist.prj3.user.review.domain.ReviewInfoDomain;
+import kr.co.sist.prj3.user.review.domain.ReviewLikeUserDomain;
 import kr.co.sist.prj3.user.review.domain.ReviewWriteDomain;
 import kr.co.sist.prj3.user.review.vo.LikeVO;
 import kr.co.sist.prj3.user.review.vo.MyReviewSearchVO;
@@ -209,6 +210,20 @@ public class UserReviewService {
 		return list;
 	}//MyReviewService
 
+	/**
+	 * 유저
+	 * 리뷰 좋아요 누른 user들 보여주기
+	 * 2023.05.22
+	 * @author KT
+	 */
+	public List<ReviewLikeUserDomain> showLikeUser(int rv_num){
+		List<ReviewLikeUserDomain> list = new ArrayList<ReviewLikeUserDomain>();
+		
+		list = urDAO.selectLikeUser(rv_num);
+		
+		return list;
+	}//showLikeUser
+	
 	///////////////////////////////////////////////////////////////////
 	
 	/**

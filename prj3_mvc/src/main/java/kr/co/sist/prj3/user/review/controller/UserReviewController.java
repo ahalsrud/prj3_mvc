@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
+import kr.co.sist.prj3.user.login.domain.LoginResultDomain;
 import kr.co.sist.prj3.user.review.domain.MyReviewDomain;
 import kr.co.sist.prj3.user.review.service.UserReviewService;
 import kr.co.sist.prj3.user.review.vo.LikeVO;
@@ -88,12 +90,12 @@ public class UserReviewController {
 	 * 2023.05.20
 	 * @author KT
 	 */
-	@GetMapping("/review_write_modify_process.do")
+	@PostMapping("/review_write_modify_process.do")
 	public String reviewProcess(ReviewModifyVO rmVO, Model model) {
 		
 		model.addAttribute("review", urService.reviewModify(rmVO));
 		
-		return "/review/review_write";
+		return "redirect:/review_list.do";
 	}//reviewFrm
 	
 	/**
@@ -118,19 +120,24 @@ public class UserReviewController {
 	 * @author KT,KM
 	 */
 	@GetMapping("/review_post.do")
-	public String showReview(LikeVO lVO, Model model) {
+	public String showReview(LikeVO lVO, Model model, @SessionAttribute(value="lrDomain", required = false) LoginResultDomain lrDomain) {
+		String user_id = "";
 
-		//리뷰정보
-		model.addAttribute("reviewInfo",urService.showReview(lVO));
 		
-//		id(모델에서 꺼냄)와 rvNum(쿼리에서 넘어옴) 세팅
-//		lVO.setUser_id("user1");
+		try {
+			user_id = lrDomain.getUser_id();
+		} catch (NullPointerException e) {
+			// lrDomain이 null인 경우 예외 처리
+			user_id = " ";
+		}
 		
+		 //리뷰정보
+		 model.addAttribute("reviewInfo",urService.showReview(lVO));
 		 
-		//id는 세션에서 꺼냄+VO에 세팅 
-		if(lVO.getUser_id()==null) {
-			lVO.setUser_id("user5");						
-		}//end if
+		 //좋아요 누른 사람
+		 model.addAttribute("likeUser",urService.showLikeUser(lVO.getRv_num()));
+
+		lVO.setUser_id(user_id);
 		
 		//////////////// 규미 ////////////////
 		boolean likeStatus=false;

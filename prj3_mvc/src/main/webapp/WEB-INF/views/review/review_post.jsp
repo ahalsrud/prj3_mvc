@@ -242,6 +242,7 @@ height:100px;
 
 
 <script>
+
 $(function() {
 	var currentLikes = $("#cntLike").text();
 
@@ -282,7 +283,7 @@ $(function() {
 							$("#likeBtn").removeClass('submitted');
 							currentLikes--;
 							$("#cntLike").text(currentLikes);
-
+							return;
 						} else { // 안 눌린 상태였다면 누르기
 
 							$("#likeBtn").addClass('submitted');
@@ -376,8 +377,18 @@ $(function() {
 											class="fas fa-heart" title="좋아요 수"><c:out value="${reviewInfo.like_total}"/></i></span> <span
 											class="count_cmt pt_col2"><i
 											class="fas fa-comment-dots" tilte="댓글"><c:out value="${reviewInfo.com_total}"/></i></span>
-											<span><a href="review_write_modify.do?rv_num=${ param.rv_num }"><button class="ib ib2 ib_color" style="background-color: #75A99C" type="submit">수정</button></a></span>
-											<span><a href="review_write_delete.do?rv_num=${ param.rv_num }"><button class="ib ib2 ib_color" type="submit">삭제</button></a></span>
+									
+									<!-- 수정 삭제 버튼 choose -->
+									<c:choose>
+										<c:when test="${lrDomain.user_id eq reviewInfo.user_id}">
+													<span><a href="review_write_modify.do?rv_num=${ param.rv_num }"><button class="ib ib2 ib_color" style="background-color: #75A99C" type="submit">수정</button></a></span>
+													<span><a href="review_write_delete.do?rv_num=${ param.rv_num }"><button class="ib ib2 ib_color" type="submit">삭제</button></a></span>
+										</c:when>
+		
+										<c:when test="${ empty lrDomain }">
+											
+										</c:when>
+									</c:choose>
 									</div>
 								</div>
 							</header>
@@ -386,7 +397,10 @@ $(function() {
 								<!--BeforeDocument(90958928,66498994)-->
 								<div
 									class="document_90958928_66498994 rhymix_content xe_content">
-									<p><c:out value="${reviewInfo.content}"/>
+									<p>
+									${reviewInfo.content}
+									
+									${ empty lrDomain.user_id?'lrDomain 없어요! ':'lrDomain 있어요!' }
 									</p>
 								</div>
 								<!--AfterDocument(90958928,66498994)-->
@@ -438,9 +452,13 @@ $(function() {
 										</h3>
 										<div class="inner scrollbar-macosx">
 											<ul class="scroll_x">
-												<li><span class="inkpf color round"> <img src=""
-														alt="닉네임" class="inkpf_img" onerror="this.src='http://localhost/prj3_mvc/images/no.png'"/></span><br /> <span
-													class="vote_nickname">닉네임</span></li>
+												<c:if test="${ empty likeUser }">
+													추천인이 존재하지 않습니다.
+												</c:if>
+												<c:forEach var="user" items="${ likeUser }">
+													<li><span class="inkpf color round"> <img src="http://localhost/prj3_mvc/images/${user.profile} alt="닉네임" class="inkpf_img" onerror="this.src='http://localhost/prj3_mvc/images/no.png'"/></span><br />
+													<span class="vote_nickname"><c:out value="${ user.nick_name }"/></span></li>
+												</c:forEach>
 											</ul>
 										</div>
 									</div>
@@ -465,7 +483,6 @@ $(function() {
 								<!-- //cmt_notice -->
 								<div class="cmt_wrap has_top">
 									<div class="cmt_list">
-									
 									<!-- 댓글 시작  -->
 										<article class="cmt_unit" id="comment_번호">
 											<!--프로필 이미지 wrapper 시작  -->
@@ -543,20 +560,16 @@ $(function() {
 
 								<!-- //cmt_write_re -->
 
-							<!--로그인 상태인지 확인  -->
+							<!-- 여러가지 댓글 창 상태 확인 -->
+							<!-- when 1.아이디 접속 + 내가 쓴 게시글-->
+							<!-- when 2.아이디 접속 + 다른 사람 게시글 -->
+							<!-- when 3.비로그인 -->
 							<c:choose>
-								<c:when test="${empty id}">
-								<div class="cmt_write cmt_write_unit no_grant">
-									<div class="cmt_not_permitted">
-										<i class="fas fa-comment-dots font_grey1"></i> 권한이 없습니다.<a
-											class="ink_link2" href="javascript:void(0)"
-											onclick="">로그인</a>
-									</div>
-								</div>
-							</c:when>
-							<c:otherwise>
-								<div class="cmt_write cmt_write_unit">
-									<span class="inkpf round"></span>
+								<c:when test="${lrDomain.user_id eq reviewInfo.user_id}">
+									<div class="cmt_write cmt_write_unit">
+										<span class="writer pt_bg2" style="padding: 0 8px; font-size: 10px; line-height: 16px; display: inline-block; margin-left: 3px; border-radius: 10px; vertical-align: bottom; margin-bottom: 5px;">작성자</span>
+									<span class="inkpf round"><img class="inkpf_img"
+											src="http://localhost/prj3_mvc/images/${lrDomain.profile}" onerror="this.src='http://localhost/prj3_mvc/images/no.png'"/></span>
 									<form action="add_comment.do" method="post" id="frm" class="cmt_form">
 										<input type="hidden" id="user_id" name="user_id" value="">
 										<input type="hidden" id="rv_num" name="rv_num" value="${param.rv_num}">
@@ -570,8 +583,37 @@ $(function() {
 											</div>
 										</div>
 									</form>
-								</div>
-								</c:otherwise>
+									</div>
+								</c:when>
+								
+								<c:when test="${lrDomain.user_id ne reviewInfo.user_id and !empty lrDomain.user_id}">
+									<div class="cmt_write cmt_write_unit">
+									<span class="inkpf round"><img class="inkpf_img"
+											src="http://localhost/prj3_mvc/images/${lrDomain.profile}" onerror="this.src='http://localhost/prj3_mvc/images/no.png'"/></span>
+									<form action="add_comment.do" method="post" id="frm" class="cmt_form">
+										<input type="hidden" id="user_id" name="user_id" value="">
+										<input type="hidden" id="rv_num" name="rv_num" value="${param.rv_num}">
+										<div class="cmt_write_input text_ver">
+											<textarea class="cmt_textarea" id="editor" name="content" cols="50"
+												rows="4" placeholder="댓글 내용을 입력해주세요."></textarea>
+										</div>
+										<div class="cmt_write_option">
+											<div class="bt_area bt_right">
+												<button id="commentBtn" class="ib ib2 ib_color" type="button">댓글 등록</button>
+											</div>
+										</div>
+									</form>
+									</div>
+								</c:when>
+
+								<c:when test="${ empty lrDomain.user_id }">
+									<div class="cmt_write cmt_write_unit no_grant">
+										<div class="cmt_not_permitted">
+											<i class="fas fa-comment-dots font_grey1"></i> 권한이 없습니다.
+											<a class="ink_link2" href="login.do" onclick="">로그인</a>
+										</div>
+									</div>
+								</c:when>
 							</c:choose>
 
 							</div><!-- //cmt_wrap -->

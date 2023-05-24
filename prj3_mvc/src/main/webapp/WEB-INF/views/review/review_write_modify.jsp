@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../checkLogin.jsp" %> 
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -168,16 +170,16 @@ $(document).ready(function() {
 		                 </div>
 		                 </div>
 		                  <!-- header -->
-							<h2 class="bd_title"><i class="far fa-list-alt big-icon"></i><a href="#">쓰기</a></h2>
+							<h2 class="bd_title"><i class="far fa-list-alt big-icon"></i><a href="#">리뷰 수정</a></h2>
 						</div>
 						<div class="bd_write round20">
 						<div style="height: 40px;">
 						</div>
 						<!-- form 시작 -->
-						<form action="review_write_process.do" method="post" id="searchFrm">
+						<form action="review_write_modify_process.do" method="post" id="searchFrm">
 						<!-- summernote 시작 -->
 							<input type="text" class="search form-control" name="title" id="title" value="${ review.title }" placeholder="제목" style="width:600px; margin-left: 15px; margin-bottom: 30px;">
-							<input type="hidden" name="m_num" value="2">
+							<input type="hidden" name="rv_num" value="${ param.rv_num }">
 							<input type="hidden" name="user_id" value="user3">
 						  	<div class="container">
 								  <textarea class="summernote" name="content" id="content" ><c:out value="${review.content}"/></textarea>    
@@ -193,7 +195,7 @@ $(document).ready(function() {
 						<!-- summernote 끝 -->
 							<div class="bt_area bt_right" style="padding-top: 20px;">
 								<button class="ib ib_mono" onclick="window.history.back();return false;" type="button">취소</button>
-								<button class="ib ib_color" type="submit" id="subBtn">등록</button>
+								<button class="ib ib_color" type="submit" id="subBtn">수정</button>
 							</div>
 						</div>
 			<div class="ink_align_center">

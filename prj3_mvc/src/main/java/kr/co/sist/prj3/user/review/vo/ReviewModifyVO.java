@@ -11,8 +11,7 @@ public class ReviewModifyVO {
 	private String user_id; // 아이디
 	private String title; // 제목
 	private int rv_num; // 이력서번호
-	private Clob content; // 내용
-	
+	private String content; // 내용
 	public String getUser_id() {
 		return user_id;
 	}
@@ -31,19 +30,18 @@ public class ReviewModifyVO {
 	public void setRv_num(int rv_num) {
 		this.rv_num = rv_num;
 	}
-	public Clob getContent() {
+	public String getContent() {
 		return content;
 	}
-	public void setContent(Clob content) {
+	public void setContent(String content) {
 		this.content = content;
 	}
-	public ReviewModifyVO(String user_id, String title, int rv_num, Clob content) {
-		super();
-		this.user_id = user_id;
-		this.title = title;
-		this.rv_num = rv_num;
-		this.content = content;
+	@Override
+	public String toString() {
+		return "ReviewModifyVO [user_id=" + user_id + ", title=" + title + ", rv_num=" + rv_num + ", content=" + content
+				+ "]";
 	}
+
 	
 	
 	

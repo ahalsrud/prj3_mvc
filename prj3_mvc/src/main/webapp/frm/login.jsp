@@ -16,22 +16,57 @@
 
 <script type="text/javascript">
 $(function() {
+	
+	
 	$("#btnLogin").click(function() {
 		
-		if($("#user_id").val()=="") {
+		var userId = $("#user_id").val();
+		
+		if(userId=="") {
 			alert("아이디를 입력해 주세요.");
 			return;
 		}//end if
 		
-		if($("#pass").val()=="") {
+		
+		var pass = $("#pass").val();
+		
+		if(pass=="") {
 			alert("비밀번호를 입력해 주세요.");
 			return;
 		}//end if
+	
 		
-		$("#loginFrm").submit();
+		
+		
+		$.ajax({
+			url:"login_process.do",
+			method: "post",
+			data:{user_id : userId ,
+				  pass : pass },
+			dataType:"json",
+			success : function(response) {
+
+				if(!response.success){ //조회 x
+					alert(response.msg);
+				 
+					$("#pass").val("");
+					$("#pass").focus();
+					return;
+				}//end if
+				
+				
+					//로그인으로 이동하는 요청
+					window.location.href = response.url;				
+				
+			},
+			error : function(xhr){
+				console.log(xhr.status+"/"+xhr.statusText);
+				alert("로그인에 실패했습니다. 잠시 후 다시 시도해주세요.");
+			}//end error
+				
+		});//ajax
+		
 	});// click
-	
-	
 	
 	
 });// ready

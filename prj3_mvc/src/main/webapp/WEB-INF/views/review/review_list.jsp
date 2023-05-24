@@ -7,7 +7,7 @@
 <html lang="ko">
 <head>
     <meta charset="utf-8">
-<title>토끼와 거북이 - 1조</title>
+<title>토끼와 거북이 - 1조 </title>
 
 <link href="//m2.daumcdn.net/img-media/2010ci/Daum_favicon.ico" rel="shortcut icon">
 <link rel="stylesheet" type="text/css" href="//t1.daumcdn.net/media/kraken/movie/386a1cd/PcCommonCssBundle.merged.css"/>
@@ -122,7 +122,7 @@
             </div>
             <h3 class="tit_movie">
                 <span class="txt_tit">
-                    토끼와 거북이 - 1조
+                    토끼와 거북이 - 1조 ${ lrDomain.user_id }
                 </span>
                     <span class="txt_tag">
                         <span class="txt_state">상영중</span>
@@ -243,7 +243,7 @@
                       </div>
                     </div>
                		<span class="counter pull-right"></span>
-               <!-- 검색바 끝 -->
+               		<!-- 검색바 끝 -->
                 </form>
                 <!-- form 끝 -->
 					<!-- 테이블을 담은 div 시작 -->	
@@ -270,6 +270,7 @@
 						</tr>
 					</thead>
 					  <tbody>
+					 <form action="review_post.do" name="reviewFrm" id="reviewFrm" method="post">
 					  <c:if test="${ empty reviewList }">
 					  	<tr>
 					  		<td colspan="6">해당영화에 대한 리뷰가 존재하지 않습니다.</td>
@@ -277,7 +278,8 @@
 					  </c:if>
 					  <c:forEach var="review" items="${ reviewList }" varStatus="reviewCnt">
 					  <tr>
-					  	<td scope="row"><c:out value="${ reviewCnt.count }"/></td>
+					  	<td scope="row"><c:out value="${ reviewCnt.count }"/>
+					  		<input type="hidden" name="user_id" value="${ review.user_id }"/></td>
 					  	<td><a href="review_post.do?rv_num=${ review.rv_num }&m_title='토끼와 거북이'" ><c:out value="${ review.title }"/></a></td>
 					  	<td><c:out value="${ review.nick_name }"/></td>
 					  	<td><c:out value="${ review.input_date }"/></td>
@@ -285,6 +287,7 @@
 					  	<td><c:out value="${ review.like_total }"/></td>
 					  </tr>
 					  </c:forEach>
+           			</form>
 					  </tbody>					
 					</table>
            			</div>

@@ -9,6 +9,7 @@
 		SELECT
 		  review.title,
 		  user_table.nick_name,
+		  user_table.user_id,
 		  review.input_date,
 		  review.hits,
 		  review.rv_num,
@@ -36,6 +37,7 @@
 		GROUP BY
 		  review.title,
 		  user_table.nick_name,
+		  user_table.user_id,
 		  review.input_date,
 		  review.rv_num,
 		  review.hits

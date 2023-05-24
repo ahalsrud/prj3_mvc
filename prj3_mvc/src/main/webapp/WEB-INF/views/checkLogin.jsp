@@ -2,7 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-
 if(session.getAttribute("lrDomain")==null) {
 	String msg="<script>alert('로그인 후 이용해 주세요');  location.href='http://localhost/prj3_mvc/frm/login.jsp'</script>";
 	out.print(msg);

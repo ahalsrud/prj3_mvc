@@ -3,12 +3,19 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.sist.prj3.reviewPostMapper">
-	
+
+<!-- clob 데이터를 문자열로 매핑 -->  
+<resultMap id="reviewInfoDomain" type="kr.co.sist.prj3.user.review.domain.ReviewInfoDomain">
+	<result column="content" property="content" jdbcType="CLOB" javaType="java.lang.String"></result>
+</resultMap>
+
+<!-- 밑에 쿼리문에서 resultType이 아닌 resultMap="아이디" 로 연결해서 씁시다 -->
 	
 	<select id="reviewInfo" parameterType="userReviewInfo" resultType="kr.co.sist.prj3.user.review.domain.ReviewInfoDomain">
-		SELECT
+	SELECT
     main.title,
     main.nick_name,
+    main.user_id,
     main.input_date,
     main.hits,
     main.rv_num,
@@ -21,6 +28,7 @@
 		        SELECT
 		            review.title,
 		            user_table.nick_name,
+		            user_table.user_id,
 		            review.input_date,
 		            review.hits,
 		            review.rv_num,
@@ -36,6 +44,7 @@
 		        GROUP BY
 		            review.title,
 		            user_table.nick_name,
+		            user_table.user_id,
 		            review.input_date,
 		            review.rv_num,
 		            user_table.profile,
@@ -52,5 +61,12 @@
 		            rv_num = #{rv_num}
 		    ) content_review ON main.rv_num = content_review.rv_num
                 
+	</select>
+	
+	<select id="reviewLikeUser" parameterType="Integer" resultType="kr.co.sist.prj3.user.review.domain.ReviewLikeUserDomain">
+		select u.user_id, u.nick_name, u.profile
+		from likes l
+		join user_table u on l.user_id = u.user_id
+		where l.rv_num = #{rv_num}
 	</select>
 </mapper>

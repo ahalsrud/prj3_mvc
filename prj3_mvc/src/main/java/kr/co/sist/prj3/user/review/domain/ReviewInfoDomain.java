@@ -14,12 +14,13 @@ public class ReviewInfoDomain {
 	private String profile; //프로필d
 	private String input_date; //작성일d
 	private String profile_msg; //자기소개
+	private String user_id; //아이디
 
 	private int hits; //조회수
 	private int like_total; //총 좋아요
 	private int com_total; //총 댓글수
 	
-	private Clob content; //내용
+	private String content; //내용
 
 	public String getTitle() {
 		return title;
@@ -69,6 +70,14 @@ public class ReviewInfoDomain {
 		this.profile_msg = profile_msg;
 	}
 
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
 	public int getHits() {
 		return hits;
 	}
@@ -93,20 +102,22 @@ public class ReviewInfoDomain {
 		this.com_total = com_total;
 	}
 
-	public Clob getContent() {
+	public String getContent() {
 		return content;
 	}
 
-	public void setContent(Clob content) {
+	public void setContent(String content) {
 		this.content = content;
 	}
 
 	@Override
 	public String toString() {
 		return "ReviewInfoDomain [title=" + title + ", m_title=" + m_title + ", nick_name=" + nick_name + ", profile="
-				+ profile + ", input_date=" + input_date + ", profile_msg=" + profile_msg + ", hits=" + hits
-				+ ", like_total=" + like_total + ", com_total=" + com_total + ", content=" + content + "]";
+				+ profile + ", input_date=" + input_date + ", profile_msg=" + profile_msg + ", user_id=" + user_id
+				+ ", hits=" + hits + ", like_total=" + like_total + ", com_total=" + com_total + ", content=" + content
+				+ "]";
 	}
 
+	
 	
 }//class

@@ -11,14 +11,14 @@
 	
 	<update id="updateReview" parameterType="kr.co.sist.prj3.user.review.vo.ReviewModifyVO">
 		update REVIEW
-		set    TITLE = ${title}, CONTENT = ${content}
-		where  rv_num = ${rv_num}
+		set    TITLE = #{title}, CONTENT = #{content, typeHandler=org.apache.ibatis.type.ClobTypeHandler}
+		where  rv_num = #{rv_num}
 	</update>
 	
 	<select id="selectReview" parameterType="Integer" resultType="kr.co.sist.prj3.user.review.domain.ReviewWriteDomain">
 		select title, content
 		from review
-		where rv_num = ${rv_num}
+		where rv_num = #{rv_num}
 	</select>
 	
 	<delete id="deleteReview" parameterType="Integer">
