@@ -287,20 +287,20 @@ function aimg() {
          //감독정보 추가 삭제 버튼
          $(function() {
         		 var counter = 0; // 고유한 식별자 카운터
+        		 var counterA = 0; // 고유한 식별자 카운터
         	 $("#dNamedAdd").click(function() {
         		 counter++;
-        	        var newDiv = $('<div class="directDiv"><div class="dImgDiv"><div class="dProfile"></div><br/><label class="input-file-button dImgButton" for="dImg">변경</label><input type="file" name="d_img'+counter+'" class="dImgInput"/></div><div class="dNameDiv"><label>감독명</label><br/><input style="width:200px;" type="text" name="d_name" class="d_name" value="" placeholder="한글명"/><br/><br/><input style="width:200px;" type="text" name="d_eng" class="dEng" value="" placeholder="영어명"/><input type="button" id="dNameDelete" value="삭제" class="btn btn-danger"/></div><br/></div>');
+        	        var newDiv = $('<div class="directDiv"><div class="dImgDiv"><div class="dProfile"></div><br/><label class="input-file-button dImgButton" for="dImg">변경</label><input type="file" name="d_img'+counter+'" class="dImgInput"/></div><div class="dNameDiv"><label>감독명</label><br/><input style="width:200px;" type="text" name="d_name'+counter+'" class="d_name" value="" placeholder="한글명"/><br/><br/><input style="width:200px;" type="text" name="d_eng'+counter+'" class="dEng" value="" placeholder="영어명"/><input type="button" id="dNameDelete" value="삭제" class="btn btn-danger"/></div><br/></div>');
 
         	        $("#directAddDiv").append(newDiv);
-        	     	// 숨겨진 입력 필드에 카운터 값을 설정
-        	        var hiddenInput = $('<input type="hidden" name="counter" value="' + counter + '"/>');
-        	        newDiv.append(hiddenInput);
 
         	        newDiv.find("#dNameDelete").click(function() {
         	        	counter--;
         	            $(this).closest(".directDiv").remove();
         	        });
 
+        	        $("#fileLeng").val(counter);
+        	        
         	        var imgUpload = newDiv.find(".dImgInput");
         	        var dProfile = newDiv.find(".dProfile");
 
@@ -332,14 +332,18 @@ function aimg() {
         	    });
 			
          //출연진정보 추가 삭제 버튼
+         
         	$("#aNameAdd").click(function() {
-		        var newDiv = $('<div class="actorDiv"><div class="aImgDiv"><div class="aProfile"></div><br/><label class="input-file-button aImgButton" for="aImg">변경</label><input type="file" name="a_img" class="aImgInput"/></div><div class="actorNameDiv"><label>배우명</label><br/><input style="width:200px;" type="text" name="a_name" class="a_name" value="" placeholder="한글명"/><input style="width:200px;" type="text" name="a_eng" class="aEng" value="" placeholder="영어명"/><br/><br/><label>역할</label><br/><input style="width:200px;" type="text" name="role" class="role" value="" placeholder="역할"/><input type="button" id="aNameDelete" value="삭제" class="btn btn-danger"/></div><br/></div>');
+        		counterA++;
+		        var newDiv = $('<div class="actorDiv"><div class="aImgDiv"><div class="aProfile"></div><br/><label class="input-file-button aImgButton" for="aImg">변경</label><input type="file" name="a_img'+counterA+'" class="aImgInput"/></div><div class="actorNameDiv"><label>배우명</label><br/><input style="width:200px;" type="text" name="a_name'+counterA+'" class="a_name" value="" placeholder="한글명"/><input style="width:200px;" type="text" name="a_eng'+counterA+'" class="aEng" value="" placeholder="영어명"/><br/><br/><label>역할</label><br/><input style="width:200px;" type="text" name="role'+counterA+'" class="role" value="" placeholder="역할"/><input type="button" id="aNameDelete" value="삭제" class="btn btn-danger"/></div><br/></div>');
 		
 		        $("#actorAddDiv").append(newDiv);
 		
 		        newDiv.find("#aNameDelete").click(function() {
+		        	counterA--;
 		            $(this).closest(".actorDiv").remove();
 		        });
+		        $("#fileLengA").val(counterA);
 		
 		        var imgUpload = newDiv.find(".aImgInput");
 		        var aProfile = newDiv.find(".aProfile");
@@ -482,14 +486,14 @@ function aimg() {
 									<label class="input-file-button" for="d_img" onclick="dimg()">
 			  							변경
 									</label>
-									<input type="file" name="d_img" id="d_img"/>							
+									<input type="file" name="d_img0" id="d_img"/>							
 								</div>
 								
 								<div id="dNameDiv">
 									<label>감독명</label><br/>
-									<input style="width:200px;" type="text" name="d_name" id="d_name" value="" placeholder="한글명"/>
+									<input style="width:200px;" type="text" name="d_name0" id="d_name" value="" placeholder="한글명"/>
 									<br/><br/>
-									<input style="width:200px;" type="text" name="d_eng" id="d_eng" value="" placeholder="영어명"/>
+									<input style="width:200px;" type="text" name="d_eng0" id="d_eng" value="" placeholder="영어명"/>
 									<input type="button" id="dNamedAdd" value="추가" class="btn btn-secondary"/>
 								</div><br/>
 							</div>
@@ -507,15 +511,15 @@ function aimg() {
 								<label class="input-file-button" for="a_img" onclick="aimg()">
 		  							변경
 								</label>
-								<input type="file" name="a_img" id="a_img"/>							
+								<input type="file" name="a_img0" id="a_img"/>							
 							</div>
 							<div id="actorNameDiv">
 								<label>배우명</label><br/>
-								<input style="width:200px;" type="text" name=a_name id="a_name" value="" placeholder="한글명"/>
-								<input style="width:200px;" type="text" name="a_eng" id="a_eng" value="" placeholder="영어명"/>
+								<input style="width:200px;" type="text" name="a_name0" id="a_name" value="" placeholder="한글명"/>
+								<input style="width:200px;" type="text" name="a_eng0" id="a_eng" value="" placeholder="영어명"/>
 								<br/><br/>
 								<label>역할</label><br/>
-								<input style="width:200px;" type="text" name="role" id="role" value="" placeholder="역할"/>
+								<input style="width:200px;" type="text" name="role0" id="role" value="" placeholder="역할"/>
 								<input type="button" id="aNameAdd" value="추가" class="btn btn-secondary"/>
 							</div><br/>
 						</div>
@@ -556,7 +560,8 @@ function aimg() {
 							<input type="button" value="취소" id="cancelBtn" name="cancelBtn" class="btn btn-danger"/>
 							
 						</div>
-						
+						<input type="hidden" name="fileLeng" id="fileLeng"/> 
+						<input type="hidden" name="fileLengA" id="fileLengA"/> 
 						</form>
 					</div>
 					

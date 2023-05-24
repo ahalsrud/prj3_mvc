@@ -18,6 +18,14 @@ public class AdminMovieRegistService {
 	@Autowired(required=false)
 	private AdminMovieResgistDAO amDAO;
 	
+	public int sequenceNum() {
+		int m_num=0;
+		
+		m_num=amDAO.sequenceMnum();
+		
+		return m_num;
+	}//sequenceNum
+	
 	
 	//영화정보등록
 	public void addMovieInfo(AdminMovieVO amVO) {
@@ -32,15 +40,15 @@ public class AdminMovieRegistService {
 	public void addDirectorInfo(AdminDirectVO[] adVO) {
 		
 		  amDAO.insertDirectorInfo(adVO);
-		
+		  
 	}//addMovieInfo
 	
 	
 	
 	//배우정보등록
-	public void addActorInfo(AdminActorVO aaVO) {
+	public void addActorInfo(AdminActorVO[] aaVO) {
 		
-		
+		amDAO.insertActorInfo(aaVO);
 	}//addMovieInfo
 
 

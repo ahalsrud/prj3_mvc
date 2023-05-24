@@ -1,5 +1,8 @@
 package kr.co.sist.prj3.user.mypage.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,8 +25,7 @@ public class UserController {
 	}//checkPassFrm
 	
 	@PostMapping("/modifyInfo.do")
-	public String checkPassFrmProcess(String user_id,String pass,Model model) {
-		user_id="kyum731";
+	public String checkPassFrmProcess(String user_id,String pass,Model model) throws GeneralSecurityException, UnsupportedEncodingException {
 		
 		boolean isPasswordCorrect = us.checkPassService(user_id,pass);
 		
@@ -31,7 +33,6 @@ public class UserController {
 		
 		//비밀번호 확인 process
 		if (isPasswordCorrect) {
-			  
 		    // 비밀번호가 맞는 경우, 다음 페이지로 이동
 		    return "mypage/modifyInfo";
 		} else {
@@ -43,18 +44,28 @@ public class UserController {
 		 
 	}//checkPassFrmProcess
 	
+	
 	@PostMapping("/main.do")
 	public String modifyInfoProcess(ModifyInfoVO miVO,Model model) {
 		
+		System.out.println(miVO.getUser_id());
 		model.addAttribute("modifyInfo",us.modifyInfo(miVO));
+		
 		
 		return "main/main_frm";//메인페이지로 이동
 	}//modifyInfoProcess
 	
-	public String dupNicname(String user_id) {
+	
+	
+	@PostMapping("/quitMember.do")
+	public String quitMember(String user_id) {
 		
-		return "";
-	}//dubNicname
+		us.quitMember(user_id);
+		
+		return "main/main_frm";
+	}//quitMember
+	
+	
 	
 
 }//class

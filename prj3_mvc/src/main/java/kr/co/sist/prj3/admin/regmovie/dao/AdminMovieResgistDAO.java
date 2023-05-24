@@ -16,6 +16,18 @@ import kr.co.sist.prj3.admin.regmovie.vo.AdminMovieVO;
 @Component
 public class AdminMovieResgistDAO {
 	
+	public int sequenceMnum() {
+		int m_num=0;
+		
+		SqlSession ss=MyBatisHandler.getInstance().getMyBatisHandler(false);
+				
+		m_num=ss.selectOne("kr.co.sist.prj3.registMapper.selectMovieKey");
+		
+		if(ss!=null) {ss.close();}//end if
+		
+		return m_num;
+	}//sequenceMnum
+	
 	
 	//영화정보등록
 	public void insertMovieInfo(AdminMovieVO amVO) {
@@ -39,14 +51,21 @@ public class AdminMovieResgistDAO {
 	
 	//감독정보등록
 	public void insertDirectorInfo(AdminDirectVO[] adVO) {
+		
 		//1.MyBatisHandler얻기
 		SqlSession ss=MyBatisHandler.getInstance().getMyBatisHandler(false);
+		
 		//2.Handler사용
-		int cnt=ss.insert("kr.co.sist.prj3.registMapper.insertDirector",adVO);
-		//3. transaction완료
-		if( cnt==1) {
-			ss.commit();
-		}
+		for(int i=0; i<adVO.length; i++) {
+			
+			int cnt=ss.insert("kr.co.sist.prj3.registMapper.insertDirector",adVO[i]);
+			
+			//3. transaction완료
+			if( cnt==1) {
+				ss.commit();
+			}//end if
+			
+		}//end for
 				
 		if(ss!=null) {ss.close();}
 		
@@ -54,7 +73,24 @@ public class AdminMovieResgistDAO {
 	
 	
 	//배우정보등록
-	public void insertActorInfo(AdminActorVO aaVO) {
+	public void insertActorInfo(AdminActorVO[] aaVO) {
+		
+		//1.MyBatisHandler얻기
+		SqlSession ss=MyBatisHandler.getInstance().getMyBatisHandler(false);
+			
+		//2.Handler사용
+		for(int i=0; i<aaVO.length; i++) {
+					
+			int cnt=ss.insert("kr.co.sist.prj3.registMapper.insertActor",aaVO[i]);
+					
+			//3. transaction완료
+			if( cnt==1) {
+				ss.commit();
+			}//end if
+					
+		}//end for
+						
+		if(ss!=null) {ss.close();}
 		
 	}//insertMovieInfo
 	

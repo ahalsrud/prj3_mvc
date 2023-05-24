@@ -313,7 +313,8 @@
 	<!--// Contents Area -->
 	<div id="container">
 		<div id="content">
-			<form id="con_frm" name="con_frm" method="post" action="modifyInfo.do?user_id="${selectInfo.user_id }>
+			<form id="con_frm" name="con_frm" method="post" action="modifyInfo.do">
+			
 <!--skip은 안보임  -->	<h1 class="skip"><!--비밀번호 확인--></h1>
 			<fieldset>
 				<!-- <legend>비밀번호 확인 정보 입력폼</legend> -->
@@ -327,7 +328,7 @@
 							</colgroup>
 							<tr>
 								<th scope="row">아이디</th>
-								<td>유저아이디</td>
+								<td><input type="text" id="pass" name="user_id" style="width:200px;" class="ipText" maxlength="20" /></td>
 							</tr>
 							<c:if test="${not empty errorMessage}">
 						        <script>

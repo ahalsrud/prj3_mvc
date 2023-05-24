@@ -22,4 +22,11 @@ set		tel=#{tel},email=#{email},zipcode=#{zipcode},addr=#{addr},detail_addr=#{det
 where	user_id=#{user_id}
 </update>
 
+
+<update id="updateQuitMember" parameterType="String">
+update	user_table
+set		nick_name='n/a', pass='n/a', name='n/a', email='n/a', tel='n/a', zipcode='n/a', addr='n/a', detail_addr='n/a', reg_date='n/a', birth_date='n/a', profile='n/a', profile_msg='n/a', quit_date=sysdate
+where	user_id=#{user_id}
+</update>
+
 </mapper>

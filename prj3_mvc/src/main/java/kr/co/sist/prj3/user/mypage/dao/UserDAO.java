@@ -26,12 +26,11 @@ public class UserDAO {
 	    //map.put("user_id", user_id);
 		
 	    // 2. Handler 사용
-		String check = ss.selectOne("kr.co.sist.prj3.userMapper.selectUserInfo", user_id);
+		String selectPass = ss.selectOne("kr.co.sist.prj3.userMapper.selectUserInfo", user_id);
 		
-	    // 3. 입력된 비밀번호와 데이터베이스에 저장된 비밀번호 비교
-	    if (check != null && check.equals(pass)) {
+	    // 3. 데이터베이스에 저장된 비밀번호와 입력된 비밀번호 비교
+	    if (selectPass != null && selectPass.equals(pass)) {
 	        isPasswordCorrect = true;
-	        
 	    }//end if
 
 	    if (ss != null) { ss.close(); }//end if
@@ -48,7 +47,6 @@ public class UserDAO {
 		mid=ss.selectOne("kr.co.sist.prj3.userMapper.selectMemberInfo", user_id);
 		
 		if(ss!=null) {ss.close();}//end if
-		
 		
 		
 		return mid;
@@ -74,6 +72,19 @@ public class UserDAO {
 	//회원탈퇴
 	public int updateQuitMember(String user_id) {
 		int cnt=0;
+		
+		// 1.MyBatis 핸들러 얻기
+		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+
+		// 2. Handler를 사용하기
+		cnt = ss.update("kr.co.sist.prj3.userMapper.updateQuitMember", user_id);
+				
+		if(cnt==1) {ss.commit();}
+				
+		// 4. 연결 끊기
+		if (ss != null) {
+			ss.close();
+		} // end if
 		
 		return cnt;
 	}//updateQuitMember

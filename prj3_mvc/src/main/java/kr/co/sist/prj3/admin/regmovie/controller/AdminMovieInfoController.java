@@ -14,6 +14,7 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import kr.co.sist.prj3.admin.regmovie.service.AdminMovieRegistService;
+import kr.co.sist.prj3.admin.regmovie.vo.AdminActorVO;
 import kr.co.sist.prj3.admin.regmovie.vo.AdminDirectVO;
 import kr.co.sist.prj3.admin.regmovie.vo.AdminMovieVO;
 
@@ -45,7 +46,10 @@ public class AdminMovieInfoController {
 		
 		 try {
 			 MultipartRequest mr = new MultipartRequest(request, saveDir.getAbsolutePath(), fileSize, "UTF-8", new DefaultFileRenamePolicy());
-
+			 
+			 	//m_num을 조회 변수에 저장 : select 영화추가시퀀스.nextval dual;
+	            int m_num=amrs.sequenceNum();
+	            
 	            //영화정보등록
 	            String poster = mr.getFilesystemName("poster");
 	            
@@ -64,6 +68,7 @@ public class AdminMovieInfoController {
 	            String release_date = mr.getParameter("release_date");
 	            
 	            AdminMovieVO amVO=new AdminMovieVO();
+	            amVO.setM_num(m_num);
 	            amVO.setM_title(m_title);
 	            amVO.setEng_title(eng_title);
 	            amVO.setGenre(genre);
@@ -82,29 +87,85 @@ public class AdminMovieInfoController {
 	            // 데이터 삽입 처리
 	            amrs.addMovieInfo(amVO);
 	            
+	            
+	            
 	            //감독정보 저장
 	            int count = 0;
-	            String fileCount = mr.getParameter("counter");
-	            if (fileCount != null) {
+	            String fileCount = mr.getParameter("fileLeng");
+	            if(fileCount==null || fileCount.equals("")) {
+	            	count=0;
+	            }else {
 	                count = Integer.parseInt(fileCount);
 	            }
 	            
+	            AdminDirectVO[] adVO = new AdminDirectVO[count+1];
+	            String d_img=mr.getFilesystemName("d_img0");
+	            String d_name=mr.getParameter("d_name0");
+	            String d_eng=mr.getParameter("d_eng0");
 	            
-	            String d_img=mr.getFilesystemName("d_img");
-	            String[] d_name=mr.getParameterValues("d_name");
-	            String[] d_eng=mr.getParameterValues("d_eng");
+	            AdminDirectVO adVO1 = new AdminDirectVO();
+	            adVO1.setM_num(m_num);
+	            adVO1.setD_name(d_name);
+	            adVO1.setD_img(d_img);
+	            adVO1.setD_eng(d_eng);
+	            adVO[0]=adVO1;
 	            
-	            AdminDirectVO[] adVO = new AdminDirectVO[count];
-	                for(int i=0 ; i < count ; i++) {
-	                	adVO[i] = new AdminDirectVO(); // 객체 생성 후 할당
-	                	if(count==0) {
-	                		adVO[i].setD_img(d_img);
-	                	}
-	                	adVO[i].setD_img(d_img+i);
-		                adVO[i].setD_name(d_name[i]);
-		                adVO[i].setD_eng(d_eng[i]);
-	                }
+	            AdminDirectVO adVOTemp=null;
+                for(int i=0 ; i < count ; i++) {
+                	
+                	adVOTemp=new AdminDirectVO();
+                	adVOTemp.setM_num(m_num); // 여기 반복분에 m_num 안넣었음.. 그래서 추가된거에대한 m_num 값이 없언던거임..
+                	adVOTemp.setD_name(d_name+(i+1));
+                	adVOTemp.setD_img(d_img+(i+1));
+                	adVOTemp.setD_eng(d_eng+(i+1));
+      	            
+      	            adVO[i+1]=adVOTemp;
+      	            
+                }//end for
+                
 	                amrs.addDirectorInfo(adVO);
+	                
+	            //출연진정보 저장
+	            int countA=0;
+	            String fileCountA = mr.getParameter("fileLengA");
+		        if(fileCountA==null || fileCountA.equals("")) {
+		        	countA=0;
+		        }else {
+		        	countA = Integer.parseInt(fileCountA);
+		        }
+		            
+		            
+	            AdminActorVO[] aaVO=new AdminActorVO[countA+1];
+	            String a_img=mr.getFilesystemName("a_img0");
+	            String a_name=mr.getParameter("a_name0");
+	            String a_eng=mr.getParameter("a_eng0");
+	            String role=mr.getParameter("role0");
+	            
+	            AdminActorVO aaVO1=new AdminActorVO();
+	            aaVO1.setM_num(m_num);
+	            aaVO1.setA_img(a_img);
+	            aaVO1.setA_name(a_name);
+	            aaVO1.setA_eng(a_eng);
+	            aaVO1.setRole(role);
+	            aaVO[0]=aaVO1;
+	            System.out.println("--------"+aaVO1.getA_name());
+	            AdminActorVO aaVOTemp=null;
+	            
+	            for(int i=0 ; i < countA ; i++) {
+                	
+	            	aaVOTemp=new AdminActorVO();
+	            	aaVOTemp.setM_num(m_num); // 여기 반복분에 m_num 안넣었음.. 그래서 추가된거에대한 m_num 값이 없언던거임..
+	            	aaVOTemp.setA_img(d_name+(i+1));
+	            	aaVOTemp.setA_name(d_img+(i+1));
+	            	aaVOTemp.setA_eng(d_eng+(i+1));
+	            	aaVOTemp.setRole(d_eng+(i+1));
+      	            
+	            	aaVO[i+1]=aaVOTemp;
+      	            
+                }//end for
+	            
+	            amrs.addActorInfo(aaVO);
+	            
 	            
 	            
 

@@ -53,7 +53,7 @@
 .mbrSec .mbrTplData2 table td .birth {
     padding: 7px 0 0 2px;
 }
-	#findPwBtn {
+	#quitMember {
 	display: inline-block;
 	overflow: visible;
 	background: transparent;
@@ -128,6 +128,7 @@
 
 <script type="text/javascript">
 
+
 $(function(){
 	
 	
@@ -137,6 +138,28 @@ $(function(){
 		$("#frm").submit();
 		
 	});//click
+	
+	//탈퇴하기 버튼 ajax
+	 $('#quitMember').click(function() {
+         var user_id = "${selectInfo.user_id}"; // 탈퇴할 사용자의 ID를 얻는 로직을 추가해야 합니다.
+
+         $.ajax({
+             url: "quitMember.do",
+             type: "POST",
+             data: { user_id: user_id },
+             success: function(response) {
+                 // 요청이 성공적으로 처리되었을 때의 로직을 작성합니다.
+                 // 예를 들어, 메인 페이지로 이동하는 코드 등을 추가할 수 있습니다.
+                 alert("회원탈퇴를 하시겠습니까");
+                location.href = "mainPage.do"; //상준이가 만든 select된 메인페이지로 이동하는 요청url.do
+             },
+             error: function(xhr, status, error) {
+            	 alert("오류발생"+ xhr.status + " / " + xhr.statusText);
+                 // 요청이 실패했을 때의 로직을 작성합니다.
+                 // 예를 들어, 오류 메시지를 표시하는 코드 등을 추가할 수 있습니다.
+             }
+         });
+     });
 	
 	$("#kakao").click(function() {
 		findZip();
@@ -233,7 +256,7 @@ function selectEmail() {
 								<th scope="row" colspan="2"><label for="lb_id"><span class="blank"></span> 아이디</label></th>
 								<td>
 								
-									<div class="social_row"><span id="user_id" name="user_id" value="${selectInfo.user_id }"><strong>${ selectInfo.user_id }</strong></span>
+									<div class="social_row"><input type="hidden" id="user_id" name="user_id" value="${selectInfo.user_id }" readonly="readonly"/><strong><span>${selectInfo.user_id }</span></strong>
 							
 									</div>
 								</td>
@@ -242,7 +265,7 @@ function selectEmail() {
 						
 							<tr>
 								<th scope="row" colspan="2"><span class="blank"></span> 이름 </th>
-								<td colspan="3"><input type="hidden" class="txtForm" id="name"  name="name" size="12" maxlength="15" value="${ selectInfo.name }"><span>${ selectInfo.name }</span>
+								<td colspan="3"><input type="hidden" class="txtForm" id="name"  name="name" size="12" maxlength="15" value="${ selectInfo.name }"><strong><span>${selectInfo.name }</span></strong>
 								</td>
 							</tr>
 							<tr>
@@ -356,8 +379,8 @@ function selectEmail() {
 				<hr>
 				<p class="mbrBtnFunc">
 					<span class="mbrBtn mbrBtnModify_1"><a id="modifyBtn" name="modifyBtn" style="cursor:pointer;"><span>수정하기</span></a></span>
-					<span class="mbrBtn mbrBtnCancel_1"><button type="button" id="cancel"><span>취소</span></button></span>
-					<button type="button" id="findPwBtn" style="float:right; vertical-align: middle;">
+					<span class="mbrBtn mbrBtnCancel_1"><button type="button" id="cancel"><span>취소</span></button></span><!-- 취소버튼 누르면 마이페이지로 -->
+					<button type="button" id="quitMember" style="float:right; vertical-align: middle;">
 						<span style="width: 120px; height: 50px;">탈퇴하기</span>
 					</button>
 				</p>
