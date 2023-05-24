@@ -137,9 +137,42 @@
 			
 		}//end else
 		
-		
-		
 		});//keyup
+		
+		$("#pass").blur(function(){
+			var pass = $("#pass").val();
+
+			if(pass!=null && pass!=""){
+			
+			$.ajax({
+				
+				url:"confirm_pass_process.do",
+				type:"POST",
+				data:{pass : pass},
+				dataType:"json",
+				success : function(response) {
+					
+				 	if(response.available){
+				 		$("#passResult").html(response.msg);
+					}else{
+						alert(response.msg);
+						$("#pass").val("");
+						$("#pass").focus();
+						$("#passResult").html("");
+						return;
+					}//end else
+					 
+					
+				},
+				error : function(xhr){
+						alert("서버 오류가 발생했습니다.");
+				}//end error
+				
+			});//ajax
+			
+			}//end if-null아닐때
+			
+		});//click
 		
 		
 	});//ready
@@ -317,7 +350,7 @@
 	<div id="container">
 		<div id="content">
 <!--skip은 안보임  -->	<h1 class="skip"><!-- 비밀번호 변경 --></h1>
-			<form name="frm" id="frm" method="post" action="confirmPass_process.jsp">
+			<form name="frm" id="frm" method="post" action="confirm_pass_process.do">
 			<fieldset>
 <!--skip은 안보임  -->	<legend><!-- 비밀번호 변경 정보 입력폼 --></legend>
 				<div class="mbrSec mbrMngPWD">
@@ -332,10 +365,11 @@
 								<th scope="row"><label for="M_PWD">현재 비밀번호</label></th>
 								<td>
 									<div class="mbrHelpWrap">		
-										<input type="password" id="passNow" name="passNow" style="width:200px;" class="ipText" maxlength="20" onkeydown="blank_key_check()"/>
-										<div style="left:215px;display:none;" class="mbrTplLayer mbrTplLayer_1 mbrLayerHelp" id="CautionResult1" name="CautionResult">
-											<div class="desc">
-												<p>현재 사용중인 비밀번호를 입력해 주세요.</p>
+										<input type="password" id="pass" name="pass" style="width:200px;" class="ipText" maxlength="20" onkeydown="blank_key_check()"/>
+										<!-- <div style="left:215px;display:none;" class="mbrTplLayer mbrTplLayer_1 mbrLayerHelp" id="CautionResult1" name="CautionResult"> -->
+											<!-- <div class="desc">
+												<p>현재 사용중인 비밀번호를 입력해 주세요.</p> -->
+											<div id="passResult">
 											</div>
 											<span class="arrow"></span>
 										</div>

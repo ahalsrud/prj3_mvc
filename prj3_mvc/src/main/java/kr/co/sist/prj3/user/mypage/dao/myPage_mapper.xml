@@ -16,16 +16,28 @@ from		movie, reservation
 where		movie.m_num=reservation.m_num and r_state='N'<!-- 바인드변수 session id 추가하기 -->
 </select>
 
-<update id="updateRes">
+<update id="updateRes" parameterType="int">
 update	reservation
 set			r_state='N', cancel_date=to_char(sysdate), seat_state='N'
-where		r_num=21<!-- 21 바인드변수로 바꾸기 -->
+where		r_num=#{ r_num }
 </update>
 
-<update id="updateSeats">
+<update id="updateSeats" parameterType="int">
 update	seats
 set			h_seat='', v_seat=''
-where		r_num=21<!-- 21 바인드변수로 바꾸기 -->
+where		r_num=#{ r_num }
+</update>
+
+<select id="checkPass" resultType="String" parameterType="kr.co.sist.prj3.user.mypage.vo.ModifyPassVO">
+select		user_id
+from		user_table
+where		pass=#{ pass } and user_id=#{ user_id }
+</select>
+
+<update id="updatePass" parameterType="kr.co.sist.prj3.user.mypage.vo.ModifyPassVO">
+update	user_table
+set			pass=#{ pass }
+where		user_id=#{ user_id }
 </update>
 
 </mapper>
