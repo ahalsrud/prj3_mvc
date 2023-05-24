@@ -167,7 +167,7 @@ $(function() {
                     <a href="/user/mycgv/myinfo/?g=1" >회원정보<i></i></a>
 	                <ul>
                         <li>
-                            <a href="checkPass.do" >개인정보 변경</a>
+                            <a href="check_pass.do" >개인정보 변경</a>
                         </li>
                         <li>
                             <a href="confirm_pass.do" >비밀번호 변경</a>
@@ -176,7 +176,7 @@ $(function() {
 	                </ul>
 	            </li>
                  <li >
-                    <a href="/user/mycgv/myinfo/edit-myinfo-myprofile.aspx?g=1" >프로필 관리<i></i></a>
+                    <a href="my_profile.do" >프로필 관리<i></i></a>
                 </li>
                 <li class="my-event"><a href="/user/movielog/watched.aspx">내가 본 영화</a></li>
 	        </ul>

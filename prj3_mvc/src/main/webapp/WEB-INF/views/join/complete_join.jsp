@@ -41,7 +41,7 @@ request.setCharacterEncoding("UTF-8");
 <script type="text/javascript">
 $(function() {
 	$("#btn").click(function() {
-		location.href="login.jsp";
+		location.href="login.do";
 	});// click
 });// ready
 </script>

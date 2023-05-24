@@ -146,7 +146,7 @@ $(function(){
 			var nickname = ($("#nick_name").val()).trim();
 			var oldnick = ($("#old_nick_name").val()).trim();
 
-			alert("입력한 값:"+nickname + "/ 기존 닉넴:" + oldnick);
+			//alert("입력한 값:"+nickname + "/ 기존 닉넴:" + oldnick);
 			
 			if(nickname==""){
 				alert("닉네임은 필수 입력입니다.");
@@ -162,7 +162,7 @@ $(function(){
 			 */
 			if (oldnick !== nickname) { //입력값과 기존값이 일치하지 않은채로 등록버튼 누름
 			
-				alert("중복확인한값:"+checkedNick+" / 최종 제출값:"+nickname);
+				//alert("중복확인한값:"+checkedNick+" / 최종 제출값:"+nickname);
 			
 				if (checkedNick!=nickname) { //중복확인
 					alert("닉네임 중복 확인을 먼저 수행해주세요");

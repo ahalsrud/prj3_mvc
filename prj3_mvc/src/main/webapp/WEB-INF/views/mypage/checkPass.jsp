@@ -328,7 +328,7 @@
 							</colgroup>
 							<tr>
 								<th scope="row">아이디</th>
-								<td><input type="text" id="pass" name="user_id" style="width:200px;" class="ipText" maxlength="20" /></td>
+								<td>${lrDomain.user_id }</td>
 							</tr>
 							<c:if test="${not empty errorMessage}">
 						        <script>

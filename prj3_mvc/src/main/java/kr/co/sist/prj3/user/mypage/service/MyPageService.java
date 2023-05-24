@@ -1,5 +1,6 @@
 package kr.co.sist.prj3.user.mypage.service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import kr.co.sist.prj3.user.mypage.domain.CanDetailDomain;
 import kr.co.sist.prj3.user.mypage.domain.ProfileDomain;
 import kr.co.sist.prj3.user.mypage.domain.ResDetailDomain;
 import kr.co.sist.prj3.user.mypage.vo.ModifyPassVO;
+import kr.co.sist.util.cipher.DataEncrypt;
 
 @Component
 public class MyPageService {
@@ -69,9 +71,10 @@ public class MyPageService {
 	
 	
 	
-	public String checkPass(ModifyPassVO mpVO) {
+	public String checkPass(ModifyPassVO mpVO) throws NoSuchAlgorithmException {
 		boolean available = false;
 		JSONObject jsonObj= new JSONObject();
+		mpVO.setPass(DataEncrypt.messageDigest("MD5", mpVO.getPass()));
 		
 		jsonObj.put("available", available);
 		jsonObj.put("msg", "잘못된 비밀번호 입니다.");
@@ -90,8 +93,10 @@ public class MyPageService {
 		
 	}//checkPass
 	
-	public int modifyPass(ModifyPassVO mpVO) {
+	public int modifyPass(ModifyPassVO mpVO) throws NoSuchAlgorithmException {
 		int result=0;
+		System.out.println("-------------------------------------ser1"+mpVO.getNewPass());
+		mpVO.setNewPass(DataEncrypt.messageDigest("MD5", mpVO.getNewPass()));
 		
 		result=mpd.updatePass(mpVO);
 		

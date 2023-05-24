@@ -24,11 +24,11 @@ public class JoinController {
 	 * 회원가입 폼
 	 * @return
 	 */
-	@GetMapping("join.do")
+	@GetMapping("/join.do")
 	public String joinFrm( ) { // join_frm.jsp
 
 		//return "userInfo/userJoin";
-		return "redirect:frm/userJoin.jsp";
+		return "join/userJoin";
 	}//
 		
 	
@@ -39,13 +39,13 @@ public class JoinController {
 	 * @throws GeneralSecurityException 
 	 * @throws UnsupportedEncodingException 
 	 */
-	@PostMapping("/frm/join_process.do")
+	@PostMapping("/join_process.do")
 	public String joinProcess ( UserVO uVO ) throws UnsupportedEncodingException, GeneralSecurityException  {
 		
-		String resultPage = "redirect:failed_join.jsp";
+		String resultPage = "join/failed_join";
 		
 		if(jService.joinService(uVO)) { //성공 시
-			resultPage = "redirect:complete_join.jsp";
+			resultPage = "join/complete_join";
 		}//end if
 		
 		return resultPage;
@@ -61,7 +61,7 @@ public class JoinController {
 	 * @throws UnsupportedEncodingException 
 	 * @throws NoSuchAlgorithmException 
 	 */
-	@GetMapping("/frm/idDup.do")
+	@GetMapping("/idDup.do")
 	@ResponseBody
 	public String idDupProcess( String user_id) throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException { //id_dup.jsp or void
 		
@@ -83,7 +83,7 @@ public class JoinController {
 	 * @throws UnsupportedEncodingException 
 	 * @throws NoSuchAlgorithmException 
 	 */
-	@PostMapping("/frm/nickDup.do")
+	@PostMapping("/nickDup.do")
 	@ResponseBody
 	public String nickDupProcess( String nick_name) throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException  {// nick_dup.jsp or void
 

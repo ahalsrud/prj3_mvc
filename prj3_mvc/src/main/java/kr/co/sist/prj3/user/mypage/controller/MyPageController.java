@@ -1,23 +1,29 @@
 package kr.co.sist.prj3.user.mypage.controller;
 
+import java.security.NoSuchAlgorithmException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import kr.co.sist.prj3.user.login.domain.LoginResultDomain;
 import kr.co.sist.prj3.user.mypage.service.MyPageService;
 import kr.co.sist.prj3.user.mypage.vo.ModifyPassVO;
 
 @Controller
+@SessionAttributes("lrDomain")
 public class MyPageController {
 	
 	@Autowired(required = false)
 	private MyPageService mps;
 	
-	@GetMapping("/mypage.do")
+	@RequestMapping(value="/mypage.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String myPage(String id,Model model) { // 나중에 session으로 받고 String id 지우기
 		
 		model.addAttribute("resInfo", mps.showResDetail(id));
@@ -52,10 +58,10 @@ public class MyPageController {
 	
 	@ResponseBody
 	@PostMapping("/confirm_pass_process.do")
-	public String confirm_pass_process(ModifyPassVO mpVO, Model model) {
+	public String confirm_pass_process(ModifyPassVO mpVO, Model model) throws NoSuchAlgorithmException {
 		String jsonObj="";
 		LoginResultDomain lrDomain=(LoginResultDomain)model.getAttribute("lrDomain");
-		System.out.println("-------------------------------"+lrDomain);
+		System.out.println("--------------------------test-----"+lrDomain);
 		System.out.println("-----------------------------id"+lrDomain.getUser_id());
 		mpVO.setUser_id(lrDomain.getUser_id());
 		jsonObj = mps.checkPass(mpVO);
@@ -64,10 +70,14 @@ public class MyPageController {
 	}//confirm_pass_process
 	
 	@PostMapping("/modify_pass.do")
-	public String modify_pass(ModifyPassVO mpVO) {
+	public String modify_pass(ModifyPassVO mpVO, Model model) throws NoSuchAlgorithmException {
 		int result=0;
 		String page="";
-		
+		System.out.println("--------------------------------------con"+mpVO.getNewPass());
+		LoginResultDomain lrDomain=(LoginResultDomain)model.getAttribute("lrDomain");
+		String user_id=lrDomain.getUser_id();
+		System.out.println("-------------------------------dasdf-"+user_id);
+		mpVO.setUser_id(user_id);
 		result = mps.modifyPass(mpVO);
 		if(result == 1) {
 			page="mypage/mypage";

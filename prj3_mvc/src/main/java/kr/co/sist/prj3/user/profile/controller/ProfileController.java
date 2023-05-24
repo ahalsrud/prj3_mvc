@@ -23,6 +23,7 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import kr.co.sist.prj3.user.join.service.JoinService;
+import kr.co.sist.prj3.user.login.domain.LoginResultDomain;
 import kr.co.sist.prj3.user.profile.service.ProfileService;
 import kr.co.sist.prj3.user.profile.vo.ProfileModifyVO;
 
@@ -33,6 +34,7 @@ import kr.co.sist.prj3.user.profile.vo.ProfileModifyVO;
  */ 
 
 @Controller
+@SessionAttributes("lrDomain")
 public class ProfileController {
 
 	@Autowired(required = false)
@@ -45,11 +47,16 @@ public class ProfileController {
 	 * 프로필 관리 폼 보여주기
 	 * @param model
 	 * @return
+	 * @throws UnsupportedEncodingException 
+	 * @throws GeneralSecurityException 
+	 * @throws NoSuchAlgorithmException 
 	 */
 	@RequestMapping(value="/my_profile.do", method= {RequestMethod.POST, RequestMethod.GET})
-	public String profileFrm( Model model , String user_id ) {
+	public String profileFrm( Model model ) throws UnsupportedEncodingException, NoSuchAlgorithmException, GeneralSecurityException {
 		
 		//로그인 했는지 확인 후 세션에서 꺼내기
+		LoginResultDomain lrDomain=(LoginResultDomain)model.getAttribute("lrDomain");
+		String user_id=lrDomain.getUser_id();
 		model.addAttribute("profile", pService.profileSetService(user_id));
 		
 		return "/profile/my_profile";
@@ -116,7 +123,7 @@ public class ProfileController {
 			
 			//update 수행하자
 			if(pService.profileModifyService(pVO)) {//성공
-				movePage = "redirect:my_profile.do?user_id="+pVO.getUser_id();
+				movePage = "forward:mypage.do";
 			}//end if
 			
 			

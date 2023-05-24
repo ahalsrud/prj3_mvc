@@ -24,6 +24,16 @@ public class MainPageController {
 		return "main/main_frm";
 	}//mainPage
 	
+	@GetMapping("/main_loged_frm.do")
+	public String mainLogedFrm(Model model) {
+		
+		
+		model.addAttribute("best",mps.mainPageBestMovie());
+		model.addAttribute("all",mps.mainPageFrmService());
+		
+		return "main/main_loged_frm";
+	}//mainPage
+	
 	@GetMapping("/search_movie.do")
 	public String searchMovieFrm(String title, Model model) {
 		

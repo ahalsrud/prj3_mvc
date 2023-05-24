@@ -8,11 +8,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
+import kr.co.sist.prj3.user.login.domain.LoginResultDomain;
 import kr.co.sist.prj3.user.mypage.service.UserService;
 import kr.co.sist.prj3.user.mypage.vo.ModifyInfoVO;
 
 @Controller
+@SessionAttributes("lrDomain")
 public class UserController {
 	
 	@Autowired(required=false)
@@ -25,7 +28,10 @@ public class UserController {
 	}//checkPassFrm
 	
 	@PostMapping("/modifyInfo.do")
-	public String checkPassFrmProcess(String user_id,String pass,Model model) throws GeneralSecurityException, UnsupportedEncodingException {
+	public String checkPassFrmProcess(String pass,Model model) throws GeneralSecurityException, UnsupportedEncodingException {
+		
+		LoginResultDomain lrDomain=(LoginResultDomain)model.getAttribute("lrDomain");
+		String user_id=lrDomain.getUser_id();
 		
 		boolean isPasswordCorrect = us.checkPassService(user_id,pass);
 		

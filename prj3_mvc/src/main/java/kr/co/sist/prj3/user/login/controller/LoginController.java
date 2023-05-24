@@ -19,7 +19,7 @@ import kr.co.sist.prj3.user.login.domain.LoginResultDomain;
 import kr.co.sist.prj3.user.login.service.LoginService;
 import kr.co.sist.prj3.user.login.vo.LoginVO;
 
-@SessionAttributes("lrDomain")
+@SessionAttributes({"lrDomain"})
 @Controller
 public class LoginController {
 
@@ -30,13 +30,13 @@ public class LoginController {
 	@GetMapping("/login.do")
 	public String loginFrm() {
 		
-		return "redirect:/frm/login.jsp";
+		return "/login/login";
 	}//loginFrm
 	
 	
 	// Model을 이용하여 세션저장 및 이름 화면에 띄우기
 	@ResponseBody
-	@RequestMapping(value="/frm/login_process.do", method= {RequestMethod.POST, RequestMethod.GET})
+	@RequestMapping(value="/login_process.do", method= {RequestMethod.POST, RequestMethod.GET})
 	public String loginFrmProcess(LoginVO lVO, Model model) throws UnsupportedEncodingException, NoSuchAlgorithmException{
 
 		LoginResultDomain lrDomain=null;
@@ -58,7 +58,7 @@ public class LoginController {
 		
 		if(lrDomain!=null) {
 			jsonObj.put("success", true);
-			jsonObj.put("url", "../main/login_success.do");
+			jsonObj.put("url", "login_success.do");
 			
 		}//end if
 
@@ -68,20 +68,20 @@ public class LoginController {
 	}//loginFrmProcess
 		
 		
-	@GetMapping("/main/login_success.do")
+	@GetMapping("/login_success.do")
 	public String mainHome() {
-		return "/main/main_loged_frm";
+		return "forward:main_loged_frm.do";
 	}
 	
 	
 	
 	//로그아웃
-	@GetMapping("/frm/logout.do")
+	@GetMapping("/logout.do")
 	public String logoutFrm(SessionStatus ss) {
 	
 		ss.setComplete();
 		
-		return "/main/main_frm";
+		return "forward:mainPage.do";
 	}//logoutFrm
 	
 	

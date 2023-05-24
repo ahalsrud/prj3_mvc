@@ -36,7 +36,7 @@ where		pass=#{ pass } and user_id=#{ user_id }
 
 <update id="updatePass" parameterType="kr.co.sist.prj3.user.mypage.vo.ModifyPassVO">
 update	user_table
-set			pass=#{ pass }
+set			pass=#{ newPass }
 where		user_id=#{ user_id }
 </update>
 

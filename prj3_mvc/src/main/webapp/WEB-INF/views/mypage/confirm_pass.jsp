@@ -174,6 +174,10 @@
 			
 		});//click
 		
+		$("#okBtn").click(function() {
+			$("#frm").submit();
+		});//click
+		
 		
 	});//ready
 	</script>
@@ -350,7 +354,7 @@
 	<div id="container">
 		<div id="content">
 <!--skip은 안보임  -->	<h1 class="skip"><!-- 비밀번호 변경 --></h1>
-			<form name="frm" id="frm" method="post" action="confirm_pass_process.do">
+			<form name="frm" id="frm" method="post" action="modify_pass.do">
 			<fieldset>
 <!--skip은 안보임  -->	<legend><!-- 비밀번호 변경 정보 입력폼 --></legend>
 				<div class="mbrSec mbrMngPWD">

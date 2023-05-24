@@ -1,5 +1,9 @@
 package kr.co.sist.prj3.user.profile.service;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -8,6 +12,7 @@ import kr.co.sist.prj3.user.join.dao.JoinDAO;
 import kr.co.sist.prj3.user.profile.dao.ProfileDAO;
 import kr.co.sist.prj3.user.profile.domain.MyProfileDomain;
 import kr.co.sist.prj3.user.profile.vo.ProfileModifyVO;
+import kr.co.sist.util.cipher.DataDecrypt;
 
 @Component
 public class ProfileService {
@@ -65,6 +70,9 @@ public class ProfileService {
 	 * 자기소개만 세팅 (나머지는 세션에서)
 	 * @param user_id
 	 * @return
+	 * @throws UnsupportedEncodingException 
+	 * @throws GeneralSecurityException 
+	 * @throws NoSuchAlgorithmException 
 	 */
 /*	public String profileMsgSetService(String user_id) {
 		
@@ -77,10 +85,12 @@ public class ProfileService {
 	}//profileSetService
 */	
 	
-	public MyProfileDomain profileSetService(String user_id) {
+	public MyProfileDomain profileSetService(String user_id) throws UnsupportedEncodingException, NoSuchAlgorithmException, GeneralSecurityException {
 		
 		MyProfileDomain profile = null;
 		profile = pDAO.selectProfile(user_id);
+		DataDecrypt dd=new DataDecrypt("FsRt4SfY4US0IWtK4JPJsw==");
+		profile.setName(dd.decryption(profile.getName()));
 		return profile;
 		
 	}//profileService
