@@ -28,7 +28,7 @@ public class ProfileService {
 		
 		boolean available = false;
 		JSONObject jsonObj = new JSONObject();
-		
+		 
 		//¿œ¥‹ false
 		jsonObj.put("available", available);
 		

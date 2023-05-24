@@ -12,7 +12,7 @@ public class ProfileDAO {
 
 	
 	/**
-	 * 닉네임으로 검색
+	 * 닉네임으로 검색 
 	 * @param nickName
 	 * @return
 	 */

@@ -1,6 +1,6 @@
 package kr.co.sist.prj3.user.profile.domain;
 
-public class MyProfileDomain {
+public class MyProfileDomain { 
 
 	private String user_id,name,nick_name,profile_msg, profile;
 

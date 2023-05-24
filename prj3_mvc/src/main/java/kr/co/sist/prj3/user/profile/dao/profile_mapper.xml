@@ -17,5 +17,4 @@ set		nick_name = #{nick_name}, profile = #{profile}, profile_msg = #{profile_msg
 where	user_id = #{user_id} 
 </update>
 
-
 </mapper>

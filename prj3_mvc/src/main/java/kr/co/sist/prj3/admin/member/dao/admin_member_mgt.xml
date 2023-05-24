@@ -16,7 +16,7 @@ and name=#{name}
 
 </select>
 
-<select id="selectMemberInfo" resultType="memInfo" parameterType="String">
+<select id="selectMemInfo" resultType="memInfo" parameterType="String">
 select	 user_id, name, nick_name, email, tel, addr, detail_addr, profile, profile_msg, birth_date, zipcode 
 from     user_table
 where	 user_id = #{user_id}

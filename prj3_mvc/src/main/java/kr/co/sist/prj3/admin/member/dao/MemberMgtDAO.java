@@ -51,7 +51,7 @@ public class MemberMgtDAO {
 		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
 
 		// 2. Handler를 사용하기
-		mid = ss.selectOne("selectMemberInfo", userId);
+		mid = ss.selectOne("selectMemInfo", userId);
 
 		// 4. 연결 끊기
 		if (ss != null) {
