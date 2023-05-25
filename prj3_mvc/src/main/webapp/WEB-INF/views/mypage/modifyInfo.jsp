@@ -97,6 +97,32 @@
 <!-- 다음 우편번호 API시작 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+
+var textValue = $("#email").val();
+var emailCheck = /\S+@\S+\.\S+/;
+ if (!emailCheck.test(textValue)) {
+   alert("이메일을 확인 해 주세요.");
+   return;
+ }//end if
+
+/* text 휴대폰번호 형식 유효성 검증 
+// ex)010-1234-5678
+2023-04-23 최종 확인 */
+function telValidation(input) {
+//입력에서 숫자가 아닌 모든 문자 제거
+var sanitized = input.value.replace(/[^0-9]/g, '');
+
+// 입력이 6자보다 더 이상인지 점검하십시오.
+if (sanitized.length > 6) {
+// 적절한 위치에 대시 삽입
+sanitized = sanitized.slice(0, 3) + '-' + sanitized.slice(3, 7) + '-' + sanitized.slice(7,11);
+}
+
+// 형식 지정된 날짜로 입력 값 업데이트
+input.value = sanitized;
+}//end tel
+
+
     function findZip() {
         new daum.Postcode({
             oncomplete: function(data) {
@@ -297,7 +323,7 @@ function selectEmail() {
 									<div class="mbrHelpWrap">
 										<div class="mobile">
 											<label for="M_Hand_Phone1" class="blind">휴대폰</label>
-											<input type="text" name="tel" id="tel" maxlength="13" class="ipText ipTel ipNum devNoPh moveNext" onkeydown="handlerNum(this);" value="${ selectInfo.tel }" style="ime-mode:disabled; float:left;">
+											<input type="text" name="tel" id="tel" maxlength="13" class="ipText ipTel ipNum devNoPh moveNext" oninput="telValidation(this)" onkeydown="handlerNum(this);" value="${ selectInfo.tel }" style="ime-mode:disabled; float:left;">
 											<div style="left:403px; top:0px;display:none;" class="mbrTplLayer mbrTplLayer_1 mbrLayerHelp" id="CautionResult1" name="CautionResult">
 												<div class="desc">
 													<p>휴대폰 번호를 입력해 주세요</p>

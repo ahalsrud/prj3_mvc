@@ -35,7 +35,6 @@ public class ScreenRegDAO {
 		
 		cnt=ss.update("kr.co.sist.prj3.screenInfo.updateScreen",siVO);
 		
-		System.out.println(siVO.getM_num()+"----------------");
 
 		if(cnt==1) {ss.commit();}//end if
 		

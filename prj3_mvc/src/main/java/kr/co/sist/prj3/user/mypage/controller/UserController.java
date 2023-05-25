@@ -2,6 +2,7 @@ package kr.co.sist.prj3.user.mypage.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,8 +34,11 @@ public class UserController {
 		LoginResultDomain lrDomain=(LoginResultDomain)model.getAttribute("lrDomain");
 		String user_id=lrDomain.getUser_id();
 		
+		//회원정보수정 페이지 들어갈때 비밀번호 확인
 		boolean isPasswordCorrect = us.checkPassService(user_id,pass);
 		
+		
+		//회원정보수정 페이지 값 select해서 보여주기
 		model.addAttribute("selectInfo",us.showMyInfo(user_id));
 		
 		//비밀번호 확인 process
@@ -52,9 +56,9 @@ public class UserController {
 	
 	
 	@PostMapping("/main.do")
-	public String modifyInfoProcess(ModifyInfoVO miVO,Model model) {
+	public String modifyInfoProcess(ModifyInfoVO miVO,Model model) throws UnsupportedEncodingException, NoSuchAlgorithmException, GeneralSecurityException {
 		
-		System.out.println(miVO.getUser_id());
+		
 		model.addAttribute("modifyInfo",us.modifyInfo(miVO));
 		
 		

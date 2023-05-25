@@ -16,6 +16,9 @@ public class ReservationController {
 	
 	@GetMapping("/seat_reserve.do")
 	public String reservationSeat(Model model) {
+		int m_num=0;
+		
+		
 		return "movie_reservation/seat_reserve";
 	}//reservationSeat
 	

@@ -76,7 +76,7 @@
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="movie_list.do">영화 관리</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="movie_grade.do">영화 한줄평 관리</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="review_manage.do">영화 리뷰 현황판 관리</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="ticket_situaion.do">예매 현황</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="reservation_detail.do">예매 현황</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="member_manage.do">회원 관리</a>
                 </div>
             </div>

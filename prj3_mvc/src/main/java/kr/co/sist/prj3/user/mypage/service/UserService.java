@@ -51,7 +51,15 @@ public class UserService {
 	
 	
 	@PostMapping()//회원정보수정
-	public int modifyInfo(ModifyInfoVO miVO) {
+	public int modifyInfo(ModifyInfoVO miVO) throws UnsupportedEncodingException, NoSuchAlgorithmException, GeneralSecurityException {
+		
+		DataEncrypt de=new DataEncrypt("FsRt4SfY4US0IWtK4JPJsw==");
+		
+		miVO.setTel(de.encryption(miVO.getTel()));
+		miVO.setAddr(de.encryption(miVO.getAddr()));
+		miVO.setEmail(de.encryption(miVO.getEmail()));
+		
+		
 		int cnt=uDAO.updateInfo(miVO);
 		
 		return cnt;
