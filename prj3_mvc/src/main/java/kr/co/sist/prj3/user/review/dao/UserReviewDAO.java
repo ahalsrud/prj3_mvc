@@ -36,7 +36,7 @@ public class UserReviewDAO {
 
 		// 2. handler 쿼리문 수행
 		if (rsVO.getSearch_type() == null || rsVO.getSearch() == null) { // 검색 유형 정해지지 않음
-			rsVO.setM_num(2);
+			//rsVO.setM_num(2);
 			list = ss.selectList("kr.co.sist.prj3.reviewListMapper.reviewUserList", rsVO);
 		} else {
 			list = ss.selectList("kr.co.sist.prj3.reviewListMapper.reviewUserList", rsVO);
@@ -66,7 +66,6 @@ public class UserReviewDAO {
 
 		// 2. handler 쿼리문 수행
 		cnt = ss.delete("kr.co.sist.prj3.reviewMapper.insertReview", wrVO);
-		System.out.println("나는 DAO insertReview //"+ wrVO.getContent());
 		
 		// 3. 조회결과 처리
 		if (cnt == 1) {
@@ -317,7 +316,6 @@ public class UserReviewDAO {
 		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
 		// 2. Handler를 사용하기
 		
-		System.out.println(mrsVO);
 		list = ss.selectList("selectMyReview", mrsVO);
 
 		// 4. 연결 끊기

@@ -31,5 +31,26 @@ delete from movie_like
 where m_num = #{ m_num }
 </delete>
 
+<!-- 줄거리 -->
+<select id="selectSummary" resultType="String">
+select		summary
+from		movie
+where		m_num=#{m_num}
+</select>
+
+<!-- 감독 -->							
+<select id="selectDirectorMain" resultType="kr.co.sist.prj3.user.total_info.domain.DirectorDomain">
+select 		d_img, d_name
+from 		director
+where		m_num=#{m_num}
+</select>
+
+<!-- 배우 -->							
+<select id="selectActorMain" resultType="kr.co.sist.prj3.user.total_info.domain.ActorDomain">
+select 		a_img, a_name
+from 		actor
+where		m_num=#{m_num}
+</select>
+
 
 </mapper>

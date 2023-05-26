@@ -1,7 +1,11 @@
 package kr.co.sist.prj3.user.review.controller;
 
+import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.ibatis.exceptions.PersistenceException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import kr.co.sist.prj3.user.login.domain.LoginResultDomain;
 import kr.co.sist.prj3.user.review.domain.MyReviewDomain;
+import kr.co.sist.prj3.user.review.domain.ReviewBoardDomain;
 import kr.co.sist.prj3.user.review.service.UserReviewService;
 import kr.co.sist.prj3.user.review.vo.LikeVO;
 import kr.co.sist.prj3.user.review.vo.MyReviewSearchVO;
@@ -22,6 +28,7 @@ import kr.co.sist.prj3.user.review.vo.ReviewSearchVO;
 import kr.co.sist.prj3.user.review.vo.WriteReviewVO;
 
 @Controller
+@SessionAttributes("lrDomain")
 public class UserReviewController {
 	
 	@Autowired(required = false)
@@ -37,6 +44,7 @@ public class UserReviewController {
 	public String showSearchReviewList(ReviewSearchVO rsVO, Model model) {
 		
 		String url = "";
+		
 		model.addAttribute("reviewList", urService.showSearchReviewList(rsVO));
 		url = "/review/review_list";
 		
@@ -50,11 +58,11 @@ public class UserReviewController {
 	 * @author KT
 	 */
 	@GetMapping("/review_write_delete.do")
-	public String review(int rv_num) {
+	public String review(int rv_num, int m_num, Model model) {
 		
 		urService.reviewDelete(rv_num);
 		
-		return "redirect:/review_list.do";
+		return "redirect:/main_info.do?m_num="+m_num;
 	}//reviewFrm
 	
 	/**
@@ -76,7 +84,7 @@ public class UserReviewController {
 	 * 2023.05.20
 	 * @author KT
 	 */
-	@GetMapping("/review_write_modify.do")
+	@PostMapping("/review_write_modify.do")
 	public String reviewFrm(int rv_num, Model model) {
 		
 		model.addAttribute("review", urService.reviewWriteShow(rv_num));
@@ -95,7 +103,7 @@ public class UserReviewController {
 		
 		model.addAttribute("review", urService.reviewModify(rmVO));
 		
-		return "redirect:/review_list.do";
+		return "redirect:/main_info.do?m_num="+rmVO.getM_num();
 	}//reviewFrm
 	
 	/**
@@ -109,7 +117,7 @@ public class UserReviewController {
 	
 		urService.reviewProcess(wrVO);
 		
-		return "redirect:/review_list.do";
+		return "redirect:/main_info.do?m_num="+wrVO.getM_num();
 	}//reviewProcessA
 	
 	
@@ -122,7 +130,10 @@ public class UserReviewController {
 	@GetMapping("/review_post.do")
 	public String showReview(LikeVO lVO, Model model, @SessionAttribute(value="lrDomain", required = false) LoginResultDomain lrDomain) {
 		String user_id = "";
-
+		
+		
+		model.getAttribute("lrDomain");
+		
 		
 		try {
 			user_id = lrDomain.getUser_id();
@@ -137,7 +148,7 @@ public class UserReviewController {
 		 //좋아요 누른 사람
 		 model.addAttribute("likeUser",urService.showLikeUser(lVO.getRv_num()));
 
-		lVO.setUser_id(user_id);
+		 lVO.setUser_id(user_id);
 		
 		//////////////// 규미 ////////////////
 		boolean likeStatus=false;
@@ -202,12 +213,12 @@ public class UserReviewController {
 		
 		if(mrsVO.getSearch()==null && mrsVO.getSearch_type()==0) { //검색어와 옵션이 null일때
 			mrsVO.setSearch("");
-			mrsVO.setSearch_type(0);
 		}//end if
 		
 		
 		//VO에 아이디 세팅해야함
-		
+		LoginResultDomain lrDomain = (LoginResultDomain)model.getAttribute("lrDomain");
+		mrsVO.setUser_id(lrDomain.getUser_id());
 		
 		List<MyReviewDomain> list = urService.myReviewService(mrsVO);
 		
@@ -224,9 +235,41 @@ public class UserReviewController {
 ///////////////////////////////////////////////////////////////////
 	
 	
-	// 해당 리뷰 창에서 조회수 +1씩 증가
+		// 해당 리뷰 창에서 조회수 +1씩 증가
 		public String hitsUpProcess(int rvNum) {
 			return "";
 		}
 	
+		//////////////////////////////////////주요정보(화면전환)//////////////////////////
+		@ResponseBody
+		@GetMapping("/review_info.do")
+		public String reviewInfo(ReviewSearchVO rsVO, Model model) throws PersistenceException, SQLException {
+		
+		JSONObject jsonObj = new JSONObject();
+
+		// 리뷰 리스트
+		List<ReviewBoardDomain> reviewList = urService.showSearchReviewList(rsVO); 
+		JSONArray reviewArray = new JSONArray();
+		
+		jsonObj.put("reviewSize", reviewList.size());
+		
+		for (ReviewBoardDomain review : reviewList) {
+		JSONObject reviewObj = new JSONObject(); 
+		reviewObj.put("title", review.getTitle());
+		reviewObj.put("nick_name", review.getNick_name());
+		reviewObj.put("input_date", review.getInput_date());
+		reviewObj.put("user_id", review.getUser_id());
+		reviewObj.put("hits", review.getHits());
+		reviewObj.put("like_total", review.getLike_total());
+		reviewObj.put("rv_num", review.getRv_num());
+		reviewArray.add(reviewObj);
+		}//end for
+		
+		jsonObj.put("review", reviewArray);
+		
+		return jsonObj.toJSONString(); 
+
+		}//review_info	
+		
+		
 }//class

@@ -3,7 +3,7 @@
     pageEncoding="UTF-8"%>
 <%
 if(session.getAttribute("lrDomain")==null) {
-	String msg="<script>alert('로그인 후 이용해 주세요');  location.href='http://localhost/prj3_mvc/frm/login.jsp'</script>";
+	String msg="<script>alert('로그인 후 이용해 주세요');  location.href='login.do'</script>";
 	out.print(msg);
 }
 %>

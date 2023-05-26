@@ -1,7 +1,5 @@
 package kr.co.sist.prj3.user.review.domain;
 
-import java.sql.Clob;
-
 /**
  * 해당 리뷰 정보
  * @author kt

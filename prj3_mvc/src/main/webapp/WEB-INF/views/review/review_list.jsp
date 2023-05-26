@@ -22,7 +22,7 @@
     <meta property="og:title" content="슈퍼 마리오 브라더스">
     <meta property="og:image" content="https://t1.daumcdn.net/movie/8876ecefc861afc397a9943ab781bdf0316c4983">
     <meta property="og:description" content="Daum영화에서 자세한 내용을 확인하세요!">
-    <!-- bootstrap 시작-->
+    	<!-- bootstrap 시작-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
         <!-- bootstrap 끝-->
@@ -122,7 +122,7 @@
             </div>
             <h3 class="tit_movie">
                 <span class="txt_tit">
-                    토끼와 거북이 - 1조 ${ lrDomain.user_id }
+                    토끼와 거북이 - 1조
                 </span>
                     <span class="txt_tag">
                         <span class="txt_state">상영중</span>
@@ -229,6 +229,7 @@
               		</select>
                     </div>
                     <div>
+                    
                     <div class="form-group pull-right" style="width:300px; float: left;  padding-bottom: 20px;"><!-- 검색바 너비 -->
                 		<input type="text" class="search form-control" placeholder="리뷰 검색" id="search" name="search">
                 		<input type="hidden" name="m_num" value="2" />
@@ -242,6 +243,7 @@
                 		</a>
                       </div>
                     </div>
+                    
                		<span class="counter pull-right"></span>
                		<!-- 검색바 끝 -->
                 </form>

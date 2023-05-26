@@ -206,7 +206,7 @@ $(function() {
             </a>
         </div>
         <div class="box-inner mvdiary">
-            <a href="" title="내가 쓴 리뷰">
+            <a href="my_review.do" title="내가 쓴 리뷰">
                 <h3>내가 쓴 리뷰</h3>
                 <span>관람 후 내 감상평을 적어 <br />추억하고 싶다면?</span>
             </a>

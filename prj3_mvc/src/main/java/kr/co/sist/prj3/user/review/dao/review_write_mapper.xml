@@ -4,9 +4,13 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.sist.prj3.reviewMapper">
 
+	<!-- <resultMap type="kr.co.sist.prj3.user.review.vo.WriteReviewVO" id="writeVO">
+		<result column="content" property="content"></result>	
+	</resultMap> -->
+
 	<insert id="insertReview" parameterType="kr.co.sist.prj3.user.review.vo.WriteReviewVO">
 		insert into review(rv_num, title, input_date, hits, content, m_num, user_id)
-		values(seq_review.nextval, #{title}, TO_CHAR(SYSDATE, 'yyyy-mm-dd hh24:mi:ss'), 0, #{content, typeHandler=org.apache.ibatis.type.ClobTypeHandler}, #{m_num}, #{user_id})
+		values(seq_review.nextval, #{title}, TO_CHAR(SYSDATE, 'yyyy-mm-dd hh24:mi:ss'), 0, #{content}, #{m_num}, #{user_id})
 	</insert>
 	
 	<update id="updateReview" parameterType="kr.co.sist.prj3.user.review.vo.ReviewModifyVO">

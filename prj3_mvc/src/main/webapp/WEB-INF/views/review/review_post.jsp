@@ -245,18 +245,16 @@ height:100px;
 
 $(function() {
 	var currentLikes = $("#cntLike").text();
-
+	
 	// 유저의 id 받기
-	var id = "user5";
-	$("#user_id").val(id);
-
-	var rvNum = "${param.rv_num}";
+	var user_id = $("#hiddenId").val();
+	var rv_num = ${param.rv_num};
 
 	// 좋아요 버튼이 눌리면
 	$("#likeBtn").click(function() {
 
 		// 사용자가 로그인 상태인지 확인
-		if (id !== "") {
+		if (user_id !== "") {
 
 			// 현재 버튼의 클래스를 확인
 			var liked = $(this).hasClass('submitted');
@@ -267,8 +265,8 @@ $(function() {
 				url: "/prj3_mvc/likeClicked.do",
 				method: "get",
 				data: {
-					user_id: id,
-					rv_num: rvNum,
+					user_id: user_id,
+					rv_num: rv_num,
 					liked: liked
 				},
 				dataType: "json",
@@ -335,6 +333,7 @@ $(function() {
 <!-- BODY START -->
 <body>
 	<!-- PC -->
+	<input type="hidden" id="hiddenId" value="${ lrDomain.user_id }"/>
 	<div class="ink_wrap lightmode">
 		<div id="container" class="ink_container header_typeB3 containerN">
 
@@ -381,8 +380,14 @@ $(function() {
 									<!-- 수정 삭제 버튼 choose -->
 									<c:choose>
 										<c:when test="${lrDomain.user_id eq reviewInfo.user_id}">
-													<span><a href="review_write_modify.do?rv_num=${ param.rv_num }"><button class="ib ib2 ib_color" style="background-color: #75A99C" type="submit">수정</button></a></span>
-													<span><a href="review_write_delete.do?rv_num=${ param.rv_num }"><button class="ib ib2 ib_color" type="submit">삭제</button></a></span>
+												<form action="review_write_modify.do" name="" method="post" style="display: inline-block;">
+													<input type="hidden" name="rv_num" value="${ param.rv_num }"/>
+													<input type="hidden" name="m_num" value="${ param.m_num }"/>
+													<span style="margin-left: 15px;"><button class="ib ib2 ib_color" style="background-color: #75A99C" type="submit">수정</button></span>
+												</form>
+												<a href="review_write_delete.do?rv_num=${ param.rv_num }&m_num=${ param.m_num }">
+													<span><button class="ib ib2 ib_color" type="submit">삭제</button></span>
+												</a>
 										</c:when>
 		
 										<c:when test="${ empty lrDomain }">
@@ -400,7 +405,6 @@ $(function() {
 									<p>
 									${reviewInfo.content}
 									
-									${ empty lrDomain.user_id?'lrDomain 없어요! ':'lrDomain 있어요!' }
 									</p>
 								</div>
 								<!--AfterDocument(90958928,66498994)-->
@@ -431,13 +435,18 @@ $(function() {
 											<span class="inkpf color round"><img class="inkpf_img"
 												src="http://localhost/prj3_mvc/images/${reviewInfo.profile}" onerror="this.src='http://localhost/prj3_mvc/images/no.png'"
 												alt="NeoSun" /></span> <span class="nickname"><c:out value="${ reviewInfo.nick_name }"/></span>
-											<div class="ink_pointbar text_en">
-											</div>
 										</h3>
 										<div class="sign_body">
 											<div
 												style="max-height: 100px; overflow: auto; overflow-x: hidden; height: expression(this.scrollHeight &gt; 100 ? '100px' : 'auto')">
-												<p><c:out value="${reviewInfo.profile_msg}"/></p>
+												<p>
+												<c:choose>
+													<c:when test="${ 123 }">
+														
+													</c:when>
+												</c:choose>
+												<c:out value="${reviewInfo.profile_msg}"/>
+												</p>
 											</div>
 										</div>
 									</div>
@@ -456,7 +465,7 @@ $(function() {
 													추천인이 존재하지 않습니다.
 												</c:if>
 												<c:forEach var="user" items="${ likeUser }">
-													<li><span class="inkpf color round"> <img src="http://localhost/prj3_mvc/images/${user.profile} alt="닉네임" class="inkpf_img" onerror="this.src='http://localhost/prj3_mvc/images/no.png'"/></span><br />
+													<li><span class="inkpf color round"> <img src="http://localhost/prj3_mvc/images/${user.profile} class="inkpf_img" onerror="this.src='http://localhost/prj3_mvc/images/no.png'"/></span><br />
 													<span class="vote_nickname"><c:out value="${ user.nick_name }"/></span></li>
 												</c:forEach>
 											</ul>

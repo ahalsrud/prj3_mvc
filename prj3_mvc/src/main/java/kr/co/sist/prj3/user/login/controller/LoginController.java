@@ -1,7 +1,6 @@
 package kr.co.sist.prj3.user.login.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
 
 import org.json.simple.JSONObject;

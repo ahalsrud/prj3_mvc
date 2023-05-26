@@ -1,7 +1,5 @@
 package kr.co.sist.prj3.user.review.vo;
 
-import java.sql.Clob;
-
 /**
  * ∏Æ∫‰ ¿€º∫
  * @author kt

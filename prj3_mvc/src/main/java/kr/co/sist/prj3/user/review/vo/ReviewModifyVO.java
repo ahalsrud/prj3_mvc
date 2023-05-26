@@ -1,7 +1,5 @@
 package kr.co.sist.prj3.user.review.vo;
 
-import java.sql.Clob;
-
 /**
  * 리뷰 수정
  * @author KT
@@ -12,6 +10,7 @@ public class ReviewModifyVO {
 	private String title; // 제목
 	private int rv_num; // 이력서번호
 	private String content; // 내용
+	private int m_num; // 영화번호
 	public String getUser_id() {
 		return user_id;
 	}
@@ -36,12 +35,20 @@ public class ReviewModifyVO {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	public int getM_num() {
+		return m_num;
+	}
+	public void setM_num(int m_num) {
+		this.m_num = m_num;
+	}
 	@Override
 	public String toString() {
 		return "ReviewModifyVO [user_id=" + user_id + ", title=" + title + ", rv_num=" + rv_num + ", content=" + content
-				+ "]";
+				+ ", m_num=" + m_num + "]";
 	}
 
+	
+	
 	
 	
 	

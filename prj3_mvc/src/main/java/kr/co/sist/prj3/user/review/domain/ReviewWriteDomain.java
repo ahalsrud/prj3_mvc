@@ -1,21 +1,19 @@
 package kr.co.sist.prj3.user.review.domain;
 
-import java.sql.Clob;
-
 public class ReviewWriteDomain {
 
 	private String title;
-	private Clob content;
+	private String content;
 	public String getTitle() {
 		return title;
 	}
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public Clob getContent() {
+	public String getContent() {
 		return content;
 	}
-	public void setContent(Clob content) {
+	public void setContent(String content) {
 		this.content = content;
 	}
 	@Override
