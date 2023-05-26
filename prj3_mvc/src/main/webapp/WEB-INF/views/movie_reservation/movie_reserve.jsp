@@ -1172,29 +1172,79 @@ i {
    
 
 </script>
-            <!-- 서비스 메뉴 -->
-           
-			<!-- 서브 메뉴 -->
-			
 
 <script>
 
-	
-$(document).ready(function() {
-	$('#step2').hide();
-	  // step1의 block 스타일을 설정
-	  $('#step1').css('display', 'block');
-	  
-	  // 확인 버튼 클릭 이벤트 처리
-	  $('#tnb_step_btn_right').click(function() {
-	    // step1 숨김
-	    $('#step1').hide();
-	    // step2 보여줌
-	    $('#step2').show();
+$(function() {
+	//li 클릭시 버튼 변경
+	$("li").click(function() {
+	    var parentLi = $(this).closest("li");
+	    var siblingLi = parentLi.siblings();
+	    
+	    // 현재 클릭된 요소와 형제 요소의 클래스 조작
+	    parentLi.addClass("press selected");
+	    siblingLi.removeClass("press selected");
 	  });
-	});
-
+	
+	$("[id^='liDate']").click(function() {
+		
+		var liId = $(this).attr("id");
+	    var m_num = $("#" + liId).find("#mNum").val();
+		$.ajax({
+			
+			url:"movie_date.do",
+			type:"GET",
+			data: {m_num : m_num},
+			dataType:"json",
+			success: function(jsonObj) {
+				
+				var cnt=0;
+				var output="<li class='month dimmed'>"
+				+"<div> <span class='year'>"+jsonObj.year+"</span>"
+				+"<span class='month'>"+jsonObj.month+"</span>"
+				+"<div></div></div></li>";
+				for(var date=jsonObj.open_date; date<=jsonObj.end_date; date++) {
+					output += "<li data-index='"+cnt+"' class='day'>"
+					+"<a href='#' ><span class='dayweek'>"+jsonObj.day+"</span>"
+					+"<span class='day'>"+date+"</span></a></li>";
+					cnt++;
+				}//end for
+				
+				$("#mDate").html(output);
+				
+				//li 클릭시 배경 설정
+				
+				$("li").click(function() {
+				    var parentLi = $(this).closest("li");
+				    var siblingLi = parentLi.siblings();
+				    
+				    // 현재 클릭된 요소와 형제 요소의 클래스 조작
+				    parentLi.addClass("press selected");
+				    siblingLi.removeClass("press selected");
+				  });
+				
+				 // 스크롤 추가
+	            var liCount = $("#mDate li").length;
+	            if (liCount > 13) {
+	                $("#mDate").css("overflow-y", "scroll");
+	                $("#mDate").css("height", "500px"); 
+	            }//end if
+			},//success
+			error : function(xhr) {
+				alert("오류발생");
+			}//end error
+			
+		});//ajax
+		
+	}); //click
+	
+	
+	
+	
+});//ready
 </script>
+
+
 
 <div class="nav">
     <div class="contents">
@@ -1301,21 +1351,25 @@ Sys.WebForms.PageRequestManager._initialize('ctl00$PlaceHolderContent$ScriptMana
 							<div class="movie-list nano has-scrollbar has-scrollbar-y" id="movie_list">
 								<ul class="content scroll-y" onscroll="movieSectionScrollEvent();" tabindex="-1" style="right: -17px;">
 								<!-- 리스트 -->
-								<li class="" data-index="0" movie_cd_group="20032729" movie_idx="87045">
-								<a href="#" onclick="return false;" title="범죄도시3" alt="범죄도시3">
-								<i class="cgvIcon etc age15">15</i>
-								<span class="text">범죄도시3</span>
+								<c:forEach var="titles" items="${ titles }" varStatus="i">
+								<li class="" data-index="0" movie_cd_group="20032729" movie_idx="87045" id="liDate${ i.index }">
+								<input type="hidden" value="${ titles.m_num } "  id="mNum" />
+								<a href="#"  id="mTitle" title="${ titles.m_title }" alt="${ titles.m_title }" >
+								<i class="cgvIcon etc age${ titles.rank }">${ titles.rank }</i>
+								<span class="text">${titles.m_title }</span>
 								<span class="sreader"></span>
 								</a>
 								</li>
+								</c:forEach>
 								<!-- 리스트 -->
 								<li class="press selected" data-index="4" movie_cd_group="20032164" movie_idx="86883" selectedmovietype="ALL">
 								<a href="#" onclick="return false;" title="가디언즈오브갤럭시-Volume3" alt="가디언즈오브갤럭시-Volume3">
 								<i class="cgvIcon etc age12">12</i>
-								<span class="text">가디언즈오브갤럭시-Volume3</span>
+								<span class="text">a</span>
 								<span class="sreader"></span>
 								</a>
 								</li>
+								
 								
 								</ul>
 								<div class="pane pane-y" style="display: block; opacity: 1; visibility: visible;">
@@ -1347,8 +1401,8 @@ Sys.WebForms.PageRequestManager._initialize('ctl00$PlaceHolderContent$ScriptMana
 						<div class="col-body" style="height: 565px;">
 							<div class="date-list nano has-scrollbar has-scrollbar-y" id="date_list">
 								<ul class="content scroll-y" tabindex="-1" style="right: -17px;">
-									<div>
-										<li class="month dimmed">
+									<div id="mDate">
+										<!-- <li class="month dimmed">
 											<div>
 												<span class="year">2023</span>
 												<span class="month">6</span>
@@ -1356,12 +1410,12 @@ Sys.WebForms.PageRequestManager._initialize('ctl00$PlaceHolderContent$ScriptMana
 											</div>
 										</li>
 										<li data-index="0" date="20230515" class="day">
-										<a href="#" onclick="return false;">
+										<a href="#" >
 											<span class="dayweek">월</span>
 											<span class="day">15</span>
 										</a>
-										</li>
-										<li data-index="1" date="20230516" class="day selected">
+										</li> -->
+										<!-- <li data-index="1" date="20230516" class="day selected">
 										<a href="#" onclick="return false;">
 											<span class="dayweek">화</span>
 											<span class="day">16</span>
@@ -1398,7 +1452,7 @@ Sys.WebForms.PageRequestManager._initialize('ctl00$PlaceHolderContent$ScriptMana
 											<span class="dayweek">일</span>
 											<span class="day">22</span>
 										</a>
-										</li>
+										</li> -->
 									</div>
 								</ul>
 							 	<div class="pane pane-y" style="display: block; opacity: 1; visibility: visible;">

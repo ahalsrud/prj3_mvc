@@ -61,8 +61,6 @@ public class MyPageController {
 	public String confirm_pass_process(ModifyPassVO mpVO, Model model) throws NoSuchAlgorithmException {
 		String jsonObj="";
 		LoginResultDomain lrDomain=(LoginResultDomain)model.getAttribute("lrDomain");
-		System.out.println("--------------------------test-----"+lrDomain);
-		System.out.println("-----------------------------id"+lrDomain.getUser_id());
 		mpVO.setUser_id(lrDomain.getUser_id());
 		jsonObj = mps.checkPass(mpVO);
 		  
@@ -73,10 +71,8 @@ public class MyPageController {
 	public String modify_pass(ModifyPassVO mpVO, Model model) throws NoSuchAlgorithmException {
 		int result=0;
 		String page="";
-		System.out.println("--------------------------------------con"+mpVO.getNewPass());
 		LoginResultDomain lrDomain=(LoginResultDomain)model.getAttribute("lrDomain");
 		String user_id=lrDomain.getUser_id();
-		System.out.println("-------------------------------dasdf-"+user_id);
 		mpVO.setUser_id(user_id);
 		result = mps.modifyPass(mpVO);
 		if(result == 1) {
