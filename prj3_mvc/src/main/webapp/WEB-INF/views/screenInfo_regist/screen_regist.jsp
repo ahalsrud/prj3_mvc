@@ -247,22 +247,22 @@
 													<td><label>등급</label><br> 
 													<select name="rank" id="rank" class="text" disabled="disabled">
 															<option value="">--Please choose an option--</option>
-															<option value="12세"${movieInfo.rank eq "12세" ? 'selected' : ' ' }>12세</option>
-															<option value="15세"${movieInfo.rank eq "15세" ? 'selected' : ' ' }>15세</option>
+															<option value="12"${movieInfo.rank eq "12" ? 'selected' : ' ' }>12세</option>
+															<option value="15"${movieInfo.rank eq "15" ? 'selected' : ' ' }>15세</option>
 													</select> 
 													</td>
 												</tr>
 							<tr>
 								<td ><label>극장</label><br>
-								<input type="text" class="text" placeholder="극장" name="theater" id="theater" value="${modifyInfo.theater}"></td>
+								<input type="text" class="text" placeholder="역삼점" name="theater" id="theater" value="${movieInfo.theater}"></td>
 								<td ><label>상영시간</label><br>
-								<input type="text" class="text" placeholder="상영시간" name="release_hour" id="release_hour" value="${modifyInfo.release_hour}" maxlength="13" oninput="addHyphen(this)"></td>
+								<input type="text" class="text" placeholder="상영시간" name="release_hour" id="release_hour" value="${movieInfo.release_hour}" maxlength="13" oninput="addHyphen(this)"></td>
 							</tr>
 							<tr>
 								<td colspan="2"><label>상영날짜</label><br>
-								<input type="text" class="text" placeholder="시작날짜" name="open_date" id="open_date" value="${modifyInfo.open_date}" maxlength="13" oninput="addHyphen(this)">
+								<input type="date" class="text" placeholder="시작날짜" name="open_date" id="open_date" value="${movieInfo.open_date}" maxlength="13" oninput="addHyphen(this)">
 								&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;
-								<input type="text" class="text" placeholder="종료날짜" name="end_date" id="end_date" value="${modifyInfo.end_date}" maxlength="13" oninput="addHyphen(this)"></td>
+								<input type="date" class="text" placeholder="종료날짜" name="end_date" id="end_date" value="${movieInfo.end_date}" maxlength="13" oninput="addHyphen(this)"></td>
 							</tr>
 							</tbody>
 						</table>

@@ -23,7 +23,6 @@ public class ScreenRegService {
 		
 		
 		ScreenInfoDomain sid=srDAO.selectOneMovie(m_num);
-		
 		return sid;
 	}//screenInfoService
 	

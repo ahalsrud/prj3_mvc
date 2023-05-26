@@ -114,10 +114,17 @@ public class AdminMovieInfoController {
                 for(int i=0 ; i < count ; i++) {
                 	
                 	adVOTemp=new AdminDirectVO();
+                	d_img=mr.getFilesystemName("d_img"+(i+1));
+                	d_name=mr.getParameter("d_name"+(i+1));
+                	d_eng=mr.getParameter("d_eng"+(i+1));
+                	
+                	
+                	
+                	
                 	adVOTemp.setM_num(m_num); // 여기 반복분에 m_num 안넣었음.. 그래서 추가된거에대한 m_num 값이 없언던거임..
-                	adVOTemp.setD_name(d_name+(i+1));
-                	adVOTemp.setD_img(d_img+(i+1));
-                	adVOTemp.setD_eng(d_eng+(i+1));
+                	adVOTemp.setD_name(d_name);
+                	adVOTemp.setD_img(d_img);
+                	adVOTemp.setD_eng(d_eng);
       	            
       	            adVO[i+1]=adVOTemp;
       	            
@@ -154,11 +161,18 @@ public class AdminMovieInfoController {
 	            for(int i=0 ; i < countA ; i++) {
                 	
 	            	aaVOTemp=new AdminActorVO();
+	            	
+	            	a_img=mr.getFilesystemName("a_img"+(i+1));
+	            	a_name=mr.getParameter("a_name"+(i+1));
+	            	a_eng=mr.getParameter("a_eng"+(i+1));
+	            	role=mr.getParameter("role"+(i+1));
+	            	
+	            	
 	            	aaVOTemp.setM_num(m_num); // 여기 반복분에 m_num 안넣었음.. 그래서 추가된거에대한 m_num 값이 없언던거임..
-	            	aaVOTemp.setA_img(d_name+(i+1));
-	            	aaVOTemp.setA_name(d_img+(i+1));
-	            	aaVOTemp.setA_eng(d_eng+(i+1));
-	            	aaVOTemp.setRole(d_eng+(i+1));
+	            	aaVOTemp.setA_img(d_name);
+	            	aaVOTemp.setA_name(d_img);
+	            	aaVOTemp.setA_eng(d_eng);
+	            	aaVOTemp.setRole(d_eng);
       	            
 	            	aaVO[i+1]=aaVOTemp;
       	            

@@ -21,7 +21,6 @@ public class ScreenRegDAO {
 		SqlSession ss=MyBatisHandler.getInstance().getMyBatisHandler(false);
 		
 		sid=ss.selectOne("kr.co.sist.prj3.screenInfo.selectOneMovie", m_num);
-		
 		if(ss!=null) {ss.close();}//end if
 		
 		return sid;

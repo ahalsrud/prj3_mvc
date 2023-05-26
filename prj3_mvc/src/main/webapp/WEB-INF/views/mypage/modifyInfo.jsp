@@ -96,14 +96,11 @@
 
 <!-- 다음 우편번호 API시작 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
 
-var textValue = $("#email").val();
-var emailCheck = /\S+@\S+\.\S+/;
- if (!emailCheck.test(textValue)) {
-   alert("이메일을 확인 해 주세요.");
-   return;
- }//end if
+
+
+<script type="text/javascript">
+
 
 /* text 휴대폰번호 형식 유효성 검증 
 // ex)010-1234-5678
@@ -160,7 +157,12 @@ $(function(){
 	
 	$("#modifyBtn").click(function(){
 		
-		
+		var textValue = $("#email").val();
+		var emailCheck = /\S+@\S+\.\S+/;
+		 if (!emailCheck.test(textValue)) {
+		   alert("이메일을 확인 해 주세요.");
+		   return;
+		 }//end if
 		$("#frm").submit();
 		
 	});//click
@@ -189,7 +191,7 @@ $(function(){
 	
 	$("#kakao").click(function() {
 		findZip();
-	})//kakao
+	});//kakao
 	
 	$("#cancel").click(function() {
 		location.href="http://localhost/devplanet_project/project_user/1.main/main_page_loged.jsp";
@@ -323,7 +325,7 @@ function selectEmail() {
 									<div class="mbrHelpWrap">
 										<div class="mobile">
 											<label for="M_Hand_Phone1" class="blind">휴대폰</label>
-											<input type="text" name="tel" id="tel" maxlength="13" class="ipText ipTel ipNum devNoPh moveNext" oninput="telValidation(this)" onkeydown="handlerNum(this);" value="${ selectInfo.tel }" style="ime-mode:disabled; float:left;">
+											<input type="text" name="tel" id="tel" maxlength="13" class="ipText ipTel ipNum devNoPh moveNext" oninput="telValidation(this)"value="${ selectInfo.tel }" style="ime-mode:disabled; float:left;">
 											<div style="left:403px; top:0px;display:none;" class="mbrTplLayer mbrTplLayer_1 mbrLayerHelp" id="CautionResult1" name="CautionResult">
 												<div class="desc">
 													<p>휴대폰 번호를 입력해 주세요</p>

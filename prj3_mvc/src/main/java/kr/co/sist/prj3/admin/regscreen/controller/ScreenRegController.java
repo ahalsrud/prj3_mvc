@@ -26,7 +26,6 @@ public class ScreenRegController {
 		public String screenInfoFrm(int m_num,Model model) {
 			
 			model.addAttribute("movieInfo",srs.screenInfoService(m_num));//일단 8번넣기
-			
 			return "screenInfo_regist/screen_regist";
 		}//screenInfoFrm
 		

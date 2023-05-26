@@ -5,7 +5,7 @@
 <mapper namespace="kr.co.sist.prj3.screenInfo">
 
 <select id="selectOneMovie" resultType="kr.co.sist.prj3.admin.regscreen.domain.ScreenInfoDomain" parameterType="int">
-select	m_num,m_title,eng_title,release_date,rank
+select	m_num,m_title,eng_title,release_date,rank,theater,open_date,end_date,release_hour
 from	movie
 where	m_num=#{mNum}
 </select>

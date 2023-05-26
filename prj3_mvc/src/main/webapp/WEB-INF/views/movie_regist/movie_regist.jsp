@@ -460,7 +460,7 @@ function aimg() {
 								</div>
 								<div id="dateDiv">
 									<label>개봉일</label><br/>
-									<input style="width:200px;" type="text" name="release_date" id="release_date" value="" placeholder="개봉일"/>
+									<input style="width:200px;" type="date" name="release_date" id="release_date" value="" placeholder="개봉일"/>
 								</div>
 								<div id="rateDiv">
 									<label>등급</label><br/>
