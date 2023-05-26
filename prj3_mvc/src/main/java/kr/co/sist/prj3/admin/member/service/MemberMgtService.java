@@ -1,5 +1,8 @@
 package kr.co.sist.prj3.admin.member.service;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.json.simple.JSONObject;
@@ -9,6 +12,7 @@ import org.springframework.stereotype.Component;
 import kr.co.sist.prj3.admin.member.dao.MemberMgtDAO;
 import kr.co.sist.prj3.admin.member.domain.MemberBrdDomain;
 import kr.co.sist.prj3.admin.member.domain.MemberInfoDomain;
+import kr.co.sist.util.cipher.DataDecrypt;
 
 @Component
 public class MemberMgtService {
@@ -20,11 +24,23 @@ public class MemberMgtService {
 	 * 유저명으로 검색 
 	 * @param name
 	 * @return
+	 * @throws UnsupportedEncodingException 
+	 * @throws GeneralSecurityException 
+	 * @throws  
 	 */
-	public List<MemberBrdDomain> memberSearchService(String name) {
+	public List<MemberBrdDomain> memberSearchService(String name) throws UnsupportedEncodingException, GeneralSecurityException  {
 		
 		List<MemberBrdDomain> list = null;
 		list = mmDAO.selectMembers(name);
+		
+		DataDecrypt dd = new DataDecrypt("FsRt4SfY4US0IWtK4JPJsw==");
+		
+		for(MemberBrdDomain mbd : list) {
+			//이름, 주소, 전화번호 복호화해서 다시 셋해주자
+			mbd.setName(dd.decryption(mbd.getName()));
+			mbd.setAddr(dd.decryption(mbd.getAddr()));
+			mbd.setTel(dd.decryption(mbd.getTel()));
+		}//end for
 		
 		return list;
 	}//memberSearchService
@@ -33,11 +49,23 @@ public class MemberMgtService {
 	 * id로 검색
 	 * @param userId
 	 * @return
+	 * @throws UnsupportedEncodingException 
+	 * @throws GeneralSecurityException 
+	 * @throws NoSuchAlgorithmException 
 	 */
-	public MemberInfoDomain memberInfoService(String userId) {
+	public MemberInfoDomain memberInfoService(String userId) throws UnsupportedEncodingException, NoSuchAlgorithmException, GeneralSecurityException {
 		
 		MemberInfoDomain mid=null;
 		mid = mmDAO.selectMemberInfo(userId);
+		
+		
+		DataDecrypt dd = new DataDecrypt("FsRt4SfY4US0IWtK4JPJsw==");
+		
+		mid.setName(dd.decryption(mid.getName()));
+		mid.setAddr(dd.decryption(mid.getAddr()));
+		mid.setTel(dd.decryption(mid.getTel()));
+		mid.setEmail(dd.decryption(mid.getEmail()));
+		
 		
 		return mid;
 	}//memberInfoService
@@ -54,7 +82,6 @@ public class MemberMgtService {
 		Boolean success = false;
 		
 		int cnt = mmDAO.updateDeleteMember(user_id);
-		System.out.println("memService---="+cnt);
 		
 		//기본
 		jsonObj.put("success",false);
@@ -68,14 +95,6 @@ public class MemberMgtService {
 		
 		
 	}//meberRemoveService
-	
-	
-	
-	
-	public static void main (String[] args) {
-
-		System.out.println(new MemberMgtService().memberSearchService(""));
-	}//main
 	
 	
 }//class

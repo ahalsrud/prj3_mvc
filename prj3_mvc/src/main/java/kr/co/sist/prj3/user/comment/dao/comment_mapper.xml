@@ -19,6 +19,12 @@ values (seq_reply.nextval, to_char(sysdate, 'yyyy-mm-dd hh24:mi:ss'),
 </insert>
 
 
+<select id="selectComms" parameterType="Integer" resultType="kr.co.sist.prj3.user.comment.domain.CommentDomain">
+select 		rv_num, com_num, c.user_id, nick_name, profile, content, input_date
+from		comments c, user_table u
+where		c.user_id = u.user_id and rv_num= #{rv_num}
+</select>
+
 
 <!-- 
 

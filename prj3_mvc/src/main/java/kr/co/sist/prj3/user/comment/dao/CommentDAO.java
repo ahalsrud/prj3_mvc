@@ -118,9 +118,22 @@ public class CommentDAO {
 	 * @param rvNum
 	 * @return
 	 */
-	public List<CommentDomain> selectComments ( int rvNum ) {
+	public List<CommentDomain> selectComments ( int rv_num ) {
 		
 		List<CommentDomain> list = null;
+		
+		// 1.MyBatis 핸들러 얻기
+		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+
+		// 2. Handler를 사용하기
+		list = ss.selectList("selectComms", rv_num);
+
+	
+		// 4. 연결 끊기
+		if (ss != null) {
+			ss.close();
+		} // end if
+
 		return list;
 		
 	}//selectComments

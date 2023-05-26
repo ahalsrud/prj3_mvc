@@ -97,15 +97,29 @@ public class CommentService {
 	 * @param rvNum
 	 * @return
 	 */
-	public List<CommWithRepliesDomain> getCommentsService ( int rvNum ) {
+	public List<CommWithRepliesDomain> getCommentsService ( int rv_num ) {
 		
-		List<CommWithRepliesDomain> list = null;
-		return list;
+		List<CommWithRepliesDomain> cwrList = null;
+		List<CommentDomain> commList = null;
+		List<ReplyDomain> replyList = null;
+		
+		//¥Ò±€
+		commList = commDAO.selectComments(rv_num);
+		//¥Î¥Ò±€
+		replyList = null;
+		
+		
+		
+		//¥Î¥Ò±€¿Ã ¥„±‰ ¥Ò±€∑Œ ¿ﬂ √≥∏Æ«ÿ¡ÿ¥Ÿ
+		
+		
+		
+		
+		return cwrList;
 		
 	}//getCommentsService
-	
-	
 
+	
 
 	
 }//class

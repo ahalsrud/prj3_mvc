@@ -148,7 +148,7 @@ public class UserReviewService {
 		
 		if(cnt==1) {
 		
-			jsonObj.put("resultFlag", resultFlag);
+			jsonObj.put("resultFlag", true);
 			
 		}//end if
 		
@@ -173,7 +173,7 @@ public class UserReviewService {
 		
 		if(cnt==1) {
 		
-			jsonObj.put("resultFlag", resultFlag);
+			jsonObj.put("resultFlag", true);
 			
 		}//end if
 		

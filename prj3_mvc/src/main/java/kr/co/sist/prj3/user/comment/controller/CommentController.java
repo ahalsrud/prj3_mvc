@@ -37,17 +37,16 @@ public class CommentController {
 	 * ´ñ±Û µî·Ï - ajax
 	 * @return
 	 */
-	//@PostMapping("/add_comment.do")
 	@RequestMapping(value="/add_comment.do" , method= {RequestMethod.POST,RequestMethod.GET})
-	
 	public String addCommentProcess( CommVO cVO )  {
 		String resultPage="";
 		
 		if(commService.addCommentService(cVO)) {
-			resultPage="forward:/review_post.do";
+			System.out.println("´ñ±Û µî·Ï ¼º°ø");
+			resultPage="redirect:/review_post.do";
+		
 		}//end if
 		
-			
 		return resultPage;
 		
 	}//addCommentProcess
@@ -103,21 +102,25 @@ public class CommentController {
 	
 	
 	
-
-	/**
+/*
+	*//**
 	 * ´ñ±Û°ú ´ë´ñ±Û º¸¿©ÁÖ±â
 	 * @param rvNum
 	 * @param model
 	 * @return
-	 */
-	public String getCommentsProcess( int rvNum , Model model )  {
+	 *//*
+	@PostMapping("/getComments.do")
+	public String getCommentsProcess( int rv_num , Model model )  {
 
+		commService.getCommentsService(rv_num);
+		
+		
 		return "review";
 
 	}//getCommentsProcess
 
 
-
+*/
 
 	
 	

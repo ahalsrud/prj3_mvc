@@ -274,7 +274,7 @@ $(function() {
 
 					// db에서 할일
 
-					if (!jsonObj.resultFlag) { // db 작업에 성공하면
+					if (jsonObj.resultFlag) { // db 작업에 성공하면
 
 						if (liked) { // 눌린 상태였다면 해제하기
 
@@ -440,12 +440,8 @@ $(function() {
 											<div
 												style="max-height: 100px; overflow: auto; overflow-x: hidden; height: expression(this.scrollHeight &gt; 100 ? '100px' : 'auto')">
 												<p>
-												<c:choose>
-													<c:when test="${ 123 }">
-														
-													</c:when>
-												</c:choose>
-												<c:out value="${reviewInfo.profile_msg}"/>
+											
+ 										<c:out value="${reviewInfo.profile_msg}"/>
 												</p>
 											</div>
 										</div>

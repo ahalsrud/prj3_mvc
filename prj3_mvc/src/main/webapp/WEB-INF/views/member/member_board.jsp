@@ -102,7 +102,6 @@ $(function(){
 	//회원명으로 검색
 	$("#searchBtn").click(function(){
 		var name = $("#name").val();
-		alert(name);
 		
 		if(name!=""){
 			
@@ -166,7 +165,7 @@ $(function(){
                 <!-- Page content-->
                 <div class="container-fluid">
                    <div class="header">
-               <h2>회원 관리${lrDomain.user_id}</h2> 
+               <h2>회원 관리</h2> 
                </div>
            <form id="frm" name="frm" action="member_board.do" method="get">
                   <!-- 검색바 시작 -->
@@ -216,7 +215,7 @@ $(function(){
                <tbody style="text-align:center">
                
                <c:if test="${empty memList}">
-               		<tr><td colspan="7">조회 결과 없음</td></tr>
+               		<tr><td colspan="8">조회 결과 없음</td></tr>
                </c:if>
                <c:forEach items="${memList }" var="mem" varStatus="i">
                   <tr class="record" id="rec_${i.count}">
@@ -231,9 +230,6 @@ $(function(){
                      <input type="button" value="삭제" class="delBtn" id="del_${i.count}" onclick="confirmDelete('${mem.user_id}',${i.count})"></td>
                   </tr>
                 </c:forEach>
-                 
-                 
-                 
                  
                </tbody>
                

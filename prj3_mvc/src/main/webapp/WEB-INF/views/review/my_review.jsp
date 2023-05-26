@@ -67,17 +67,19 @@
 
 $(function(){
 	
-	//회원명으로 검색
+	//검색
 	$("#searchBtn").click(function(){
 		
 		var search_type = $("#search_type").val();
 		var search = $("#search").val();
 		
 		if(search_type=="0" && !search==""){
+			//전체 상태에서 검색어가 있을때
 			alert("검색 옵션 선택은 필수입니다.");
 			return;
 		}//end if
 		
+		//옵션은 선택했는데 값이 없을 때
 		if(search_type!="0" && search==""){
 			alert("검색어 입력은 필수입니다.");
 			return;
@@ -211,17 +213,14 @@ $(function(){
 									<div class="inner-contents-profile">
 										<div class="box-image">
 											<div class="thumb-image">
-												<img
-													src="http://localhost/prj3_mvc/images/default_profile.gif"
-													alt="${nick_name}님 프로필 사진"
-													onerror="errorImage(this, {type:'profile'})" /> <span
+												<img src="http://localhost/prj3_mvc/upload/${lrDomain.profile }" 
+													onerror="this.src='http://localhost/prj3_mvc/images/no.png'" /> <span
 													class="profile-mask"></span>
-
 											</div>
 											<!-- 등급종류 클래스 : vip, rvip, vvip -->
 										</div>
 										<div class="box-contents">
-											<strong>${nick_name}님</strong> 
+											<strong>${lrDomain.nick_name}님</strong> 
 											<!-- <a id="go_edit_page" href=""
 												class="edit" target="_blank" title="프로필 수정">나의 정보 변경</a><em></em> -->
 
@@ -259,10 +258,10 @@ $(function(){
 						<div class="col-detail">
 							<div class="movielog-detail-wrap">
 								<!-- Title & Button Combo -->
-								<form id="frm" method="get" action="my_review.do">
+								<form id="frm" method="post" action="my_review.do">
 									<div class="tit-mycgv">
 										<h3>내가 쓴 리뷰</h3>
-										<input type="hidden" id="user_id" name="user_id" value="${param.user_id}"/>
+										<input type="hidden" id="user_id" name="user_id" value="${lrDomain.user_id}"/>
 										<p>
 											<em><c:out value="${myReviewCnt }"/></em>
 										</p>
@@ -309,7 +308,7 @@ $(function(){
 												</div>
 												<div class="box-contents">
 													<div class="title">
-														<a href="review_post.do?rv_num=${myReview.rv_num}&user_id=${param.user_id}"> <strong id="strong_84643">
+														<a href="review_post.do?rv_num=${myReview.rv_num}"> <strong id="strong_84643">
 														<c:out value="${myReview.title }"/></strong>
 														</a>
 													</div>

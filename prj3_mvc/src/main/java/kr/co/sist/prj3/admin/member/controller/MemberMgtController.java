@@ -1,5 +1,8 @@
 package kr.co.sist.prj3.admin.member.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +29,7 @@ public class MemberMgtController {
 	
 	
 	@GetMapping("/member_board.do")
-	public String memberSearchProcess(@RequestParam(value = "name", defaultValue="") String name, Model model) {
+	public String memberSearchProcess(@RequestParam(value = "name", defaultValue="") String name, Model model) throws UnsupportedEncodingException, GeneralSecurityException {
 		
 		List<MemberBrdDomain> list=null;
 		
@@ -46,9 +49,12 @@ public class MemberMgtController {
 	 * @param userId
 	 * @param model
 	 * @return
+	 * @throws GeneralSecurityException 
+	 * @throws NoSuchAlgorithmException 
+	 * @throws UnsupportedEncodingException 
 	 */
 	@GetMapping("/member_info.do")
-	public String memberInfoProcess(String user_id, Model model) {
+	public String memberInfoProcess(String user_id, Model model) throws UnsupportedEncodingException, NoSuchAlgorithmException, GeneralSecurityException {
 		
 		MemberInfoDomain mid=null;
 		
