@@ -2,17 +2,18 @@ package kr.co.sist.prj3.admin.admin_movie.vo;
 
 public class EditMovieVO {
 
-	private String m_title, m_eng, poster, genre, run_time, rank, country, origin, script, produce, ration, imports, release_date;
+	private String m_title, eng_title, poster, genre, run_time, rank, country, origin, script, produce, summary, ration, imports, release_date;
 	private int m_num;
 
 	public EditMovieVO() {
 	}
 
-	public EditMovieVO(String m_title, String m_eng, String poster, String genre, String run_time, String rank,
-			String country, String origin, String script, String produce, String ration, String imports,
+	public EditMovieVO(String m_title, String eng_title, String poster, String genre, String run_time, String rank,
+			String country, String origin, String script, String produce, String summary, String ration, String imports,
 			String release_date, int m_num) {
+		super();
 		this.m_title = m_title;
-		this.m_eng = m_eng;
+		this.eng_title = eng_title;
 		this.poster = poster;
 		this.genre = genre;
 		this.run_time = run_time;
@@ -21,6 +22,7 @@ public class EditMovieVO {
 		this.origin = origin;
 		this.script = script;
 		this.produce = produce;
+		this.summary = summary;
 		this.ration = ration;
 		this.imports = imports;
 		this.release_date = release_date;
@@ -35,12 +37,12 @@ public class EditMovieVO {
 		this.m_title = m_title;
 	}
 
-	public String getM_eng() {
-		return m_eng;
+	public String getEng_title() {
+		return eng_title;
 	}
 
-	public void setM_eng(String m_eng) {
-		this.m_eng = m_eng;
+	public void setEng_title(String eng_title) {
+		this.eng_title = eng_title;
 	}
 
 	public String getPoster() {
@@ -107,6 +109,14 @@ public class EditMovieVO {
 		this.produce = produce;
 	}
 
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
 	public String getRation() {
 		return ration;
 	}
@@ -141,10 +151,12 @@ public class EditMovieVO {
 
 	@Override
 	public String toString() {
-		return "EditMovieVO [m_title=" + m_title + ", m_eng=" + m_eng + ", poster=" + poster + ", genre=" + genre
-				+ ", run_time=" + run_time + ", rank=" + rank + ", country=" + country + ", origin=" + origin
-				+ ", script=" + script + ", produce=" + produce + ", ration=" + ration + ", imports=" + imports
-				+ ", release_date=" + release_date + ", m_num=" + m_num + "]";
+		return "EditMovieVO [m_title=" + m_title + ", eng_title=" + eng_title + ", poster=" + poster + ", genre="
+				+ genre + ", run_time=" + run_time + ", rank=" + rank + ", country=" + country + ", origin=" + origin
+				+ ", script=" + script + ", produce=" + produce + ", summary=" + summary + ", ration=" + ration
+				+ ", imports=" + imports + ", release_date=" + release_date + ", m_num=" + m_num + "]";
 	}
+
+	
 
 }

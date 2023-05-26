@@ -3,25 +3,60 @@ package kr.co.sist.prj3.user.like_movie.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Component;
+
+import kr.co.sist.prj3.MyBatisHandler;
 import kr.co.sist.prj3.user.like_movie.domain.MyGradeDomain;
 import kr.co.sist.prj3.user.like_movie.domain.MyMovieDomain;
 import kr.co.sist.prj3.user.like_movie.vo.SelectTypeVO;
 
+@Component
 public class LikeMovieDAO {
 
 	// 기대되는 영화
 	public List<MyMovieDomain> selectMyMovie(SelectTypeVO stVO) {
 		List<MyMovieDomain> list = new ArrayList<MyMovieDomain>();
+		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+		
+		if(stVO.getSelect_type() == null) {
+			list = ss.selectList("selectMyMovie", stVO);
+		}else {
+			list = ss.selectList("selectType", stVO);
+		}// end else
+		
+		if(ss != null ) { ss.close(); }// end if
 		
 		return list;
 	}// selectMyMovie
 	
-	public int selectCntMovie() {
-		return 0;
+	public int selectCntMovie(SelectTypeVO stVO) {
+		int cnt = 0;
+		
+		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+		cnt = ss.selectOne("selectCntMovie", stVO);
+		if(ss != null) { ss.close(); }// end if
+		
+		return cnt;
 	}// selectCntMovie
 	
-	public int deleteMyMovie(int num) {
-		return 0;
+	public int deleteMyMovie(SelectTypeVO stVO) {
+		int cnt = 0;
+		
+		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+		cnt = ss.delete("deleteMyMovie", stVO);
+		
+		if(cnt == 1) {
+			System.out.println("삭제 성공 => commit");
+			ss.commit();
+		}else {
+			System.out.println("롤백");
+			ss.rollback();
+		}// end else
+		
+		if(ss != null) { ss.close(); }// end if
+		
+		return cnt;
 	}// deleteMyMovie
 	
 	

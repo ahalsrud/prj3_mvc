@@ -13,16 +13,16 @@ where       m_num=#{m_num}
 </select>
 
 <!-- 좋아요 상태 -->
-<select id="selectLikeMovie" parameterType="kr.co.sist.prj3.user.total_info.vo.LikeMovieVO" resultType="kr.co.sist.prj3.user.total_info.vo.LikeMovieVO">
-select *
+<select id="selectLikeMovie" resultType="String" parameterType="kr.co.sist.prj3.user.total_info.vo.LikeMovieVO">
+select user_id
 from movie_like
 where m_num = #{ m_num } and user_id = #{ user_id }
 </select>
 
 <!-- 좋아요 추가 -->
 <insert id="insertLikeMovie" parameterType="kr.co.sist.prj3.user.total_info.vo.LikeMovieVO">
-insert into movie_like (m_num, user_id, like_state)
-values (#{m_num}, #{user_id}, 1)
+insert into movie_like (m_num, user_id)
+values (#{m_num}, #{user_id}) 
 </insert>
 
 <!-- 좋아요 삭제 -->
@@ -30,27 +30,6 @@ values (#{m_num}, #{user_id}, 1)
 delete from movie_like
 where m_num = #{ m_num }
 </delete>
-
-<!-- 줄거리 -->
-<select id="selectSummary" resultType="String">
-select		summary
-from		movie
-where		m_num=#{m_num}
-</select>
-
-<!-- 감독 -->							
-<select id="selectDirectorMain" resultType="kr.co.sist.prj3.user.total_info.domain.DirectorDomain">
-select 		d_img, d_name
-from 		director
-where		m_num=#{m_num}
-</select>
-
-<!-- 배우 -->							
-<select id="selectActorMain" resultType="kr.co.sist.prj3.user.total_info.domain.ActorDomain">
-select 		a_img, a_name
-from 		actor
-where		m_num=#{m_num}
-</select>
 
 
 </mapper>

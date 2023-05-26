@@ -1,9 +1,9 @@
 package kr.co.sist.prj3.user.total_info.service;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,105 +23,86 @@ public class TotalInfoService {
 	@Autowired(required=false)
 	private TotalInfoDAO tiDAO;
 	
-	//공통 정보
-		public CommInfoDomain searchCommInfo(LikeMovieVO lmVO) {
-			CommInfoDomain cid = tiDAO.selectcommInfo(lmVO);
+	public CommInfoDomain searchCommInfo(LikeMovieVO lmVO) {
+		CommInfoDomain cid = tiDAO.selectcommInfo(lmVO);
 		
 		return cid;
-		}// searchCommInfo
-		
+	}// searchCommInfo
 	
-//	// 좋아요 상태
-//	public boolean movieLikeStatus(LikeMovieVO lmVO) {
-//	    int cnt = tiDAO.selectLikeMovie(lmVO);
-//
-//	    return cnt == 1;
-//	}
-//			
+	// 좋아요 상태
+	public boolean movieLikeStatus(LikeMovieVO lmVO) {
+		
+		String result="";
+		boolean likeStatus = false;
+		
+	    result = tiDAO.selectLikeMovie(lmVO);
+
+	    if(result != null && !result.isEmpty()) { //좋아요 레코드가 조회된다면
+			likeStatus = true;
+		}//end if
+	    
+	    return likeStatus;
+	}// movieLikeStatus
+			
 	// 좋아요 추가
-	public boolean addLikeMovie(LikeMovieVO lmVO) {
+	public String addLikeMovie(LikeMovieVO lmVO) {
+		boolean resultFlag=false;
+		JSONObject jsonObj = new JSONObject();
+		
 	    int cnt = tiDAO.insertLikeMovie(lmVO);
 	    
-	    return cnt == 1;
+	    if(cnt==1) {
+			jsonObj.put("resultFlag", resultFlag);
+		}//end if
+		
+		return jsonObj.toJSONString();
 	}
 			
 	// 좋아요 삭제
-	public boolean removeLikeMovie(LikeMovieVO lmVO) {
+	public String removeLikeMovie(LikeMovieVO lmVO) {
+		boolean resultFlag=false;
+		JSONObject jsonObj = new JSONObject();
+		
 		int cnt = tiDAO.deleteLikeMovie(lmVO);
 		
-		return cnt == 1;
+		if(cnt==1) {
+			jsonObj.put("resultFlag", resultFlag);
+		}//end if
+		
+		return jsonObj.toJSONString();
 	}// removeLikeMove
 	
-		//줄거리
+	//서머리 조회
 		public String summaryInfo(int m_num) {
+
 			String summary="";
-			try {
-				summary = tiDAO.selectSummary(m_num);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			summary = tiDAO.selectSummary(m_num);
+
 			return summary;
-		}// summaryInfoFirst
-		
-		//감독 
-		public List<DirectorDomain> directorInfo(int m_num) {
 			
-			List<DirectorDomain> list = tiDAO.selectDirector(m_num);
+		}// summaryInfo
+		
+		public List<DirectorDomain> directorInfo(int m_num) {
+			List<DirectorDomain> list = new ArrayList<DirectorDomain>();
 			
 			return list;
-		}// directorInfoFirst
+		}// directorInfo
 		
-		//배우
 		public List<ActorDomain> actorInfo(int m_num) {
-			List<ActorDomain> list = tiDAO.selectActor(m_num);
+			List<ActorDomain> list = new ArrayList<ActorDomain>();
 			
 			return list;
 		}// actorInfo
 		
-		
-//	//주요정보-줄거리 ajax구현
-//	public String summaryInfo(int m_num) {
-//		//조회 결과를 사용하여 JSONObject으로 생성
-//		JSONObject jsonObj = new JSONObject();
-//		
-//		// m_num에 해당하는 줄거리를 조회하는 메서드 호출
-//		String summary="";
-//		
-//		try {
-//			summary = tiDAO.selectSummary(m_num);
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return summary;
-		
-//		try {
-//			summary = tiDAO.selectSummary(m_num);
-//			jsonObj.put("summary", summary);
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} 
-//		System.out.println("-----------여기는 서비스---------"+jsonObj);
-//		return jsonObj.toJSONString();
-//	}//summaryInfo
-//	
-//	//주요정보-감독 ajax구현
-//	public List<DirectorDomain> directorInfo(int m_num)throws SQLException{
-//		List<DirectorDomain> list = tiDAO.selectDirector(m_num);
-//		return list;
-//	    
-//	}//directorInfo
-	
-		//////////////////// 출연/제작
+		// 출연/제작
 		public List<DirectorDomain> searchDirectorList(int m_num) {
 			List<DirectorDomain> list = new ArrayList<DirectorDomain>();
 			
 			return list;
 		}// searchDirectorList
 		
-		//배우
 		public List<ActorDomain> searchActorList(int m_num) {
 			List<ActorDomain> list = new ArrayList<ActorDomain>();
-			
 			
 			return list;
 		}// searchActorList
@@ -132,7 +113,7 @@ public class TotalInfoService {
 			return pd;
 		}// searchProduce
 		
-		//////////////////////// 평점
+		// 평점
 		public List<GradeDomain> searchGrade(int m_num) {
 			List<GradeDomain> list = new ArrayList<GradeDomain>();
 			

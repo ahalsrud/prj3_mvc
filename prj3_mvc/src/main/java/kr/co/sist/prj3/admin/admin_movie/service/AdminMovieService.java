@@ -43,24 +43,37 @@ public class AdminMovieService {
 		return emd;
 	}
 	
-	// 영화 수정
-	public int modifyMovie(EditMovieVO emVO) {
-		return 0;
+	public int sequenceNum() {
+		int m_num=0;
+		
+		m_num=amDAO.sequenceMnum();
+		
+		return m_num;
 	}
+	
+	// 영화 수정
+	public boolean modifyMovie(EditMovieVO emVO) {
+		int cnt = amDAO.updateMovie(emVO);
+		
+		return cnt == 1;
+	}// modifyMovie
 	
 	// 감독
 	public List<DirectorDomain> searchDirector(int mNum) {
 		List<DirectorDomain> list = amDAO.selectDirector(mNum);
 		
 		return list;
+	}// searchDirector
+	
+	public void addDirector(DirectorVO[] dVO) {
+		amDAO.insertDirector(dVO);
 	}
 	
-	public void addDirector(DirectorVO dVO) {
+	public boolean removeDirector(int d_num) {
+		int cnt = 0;
+		cnt = amDAO.deleteDirector(d_num);
 		
-	}
-	
-	public int removeDirector(int mNum) {
-		return 0;
+		return cnt==1;
 	}
 	
 	// 배우
@@ -70,11 +83,14 @@ public class AdminMovieService {
 		return list;
 	}
 	
-	public void addActor(ActorVO aVO) {
-		
+	public void addActor(ActorVO[] aVO) {
+		amDAO.insertActor(aVO);
 	}
 	
-	public int removeActor(int mNum) {
-		return 0;
+	public boolean removeActor(int a_num) {
+		int cnt = 0;
+		cnt = amDAO.deleteActor(a_num);
+		
+		return cnt==1;
 	}
 }

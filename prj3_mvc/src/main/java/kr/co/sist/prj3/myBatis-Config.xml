@@ -58,7 +58,6 @@
    	<!-- 상준 -->
     	<mapper resource="kr/co/sist/prj3/user/mainpage/dao/mainPage_mapper.xml"/>
 	<mapper resource="kr/co/sist/prj3/user/mypage/dao/myPage_mapper.xml"/>
-	<mapper resource="kr/co/sist/prj3/user/resmovie/dao/reservation_mapper.xml"/>
 	<!-- 경태 -->
 	 <mapper resource="kr/co/sist/prj3/admin/review/dao/review_manage_mapper.xml"/>
 	<mapper resource="kr/co/sist/prj3/user/review/dao/review_list_mapper.xml"/>
@@ -68,6 +67,7 @@
 	<!-- 민경 -->
 	<mapper resource="kr/co/sist/prj3/admin/admin_movie/dao/movie_mapper.xml"/>
 	<mapper resource="kr/co/sist/prj3/user/total_info/dao/total_info_mapper.xml"/>
+	<mapper resource="kr/co/sist/prj3/user/like_movie/dao/like_movie_mapper.xml"/>
 	<!-- 충연 -->
 	<mapper resource="kr/co/sist/prj3/admin/regmovie/dao/regmovie_mapper.xml"/>
     <mapper resource="kr/co/sist/prj3/admin/regscreen/dao/screenInfo_mapper.xml"/>

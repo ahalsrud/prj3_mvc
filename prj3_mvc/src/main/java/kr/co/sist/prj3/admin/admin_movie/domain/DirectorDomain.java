@@ -3,16 +3,18 @@ package kr.co.sist.prj3.admin.admin_movie.domain;
 public class DirectorDomain {
 
 	private String d_name, d_eng, d_img;
-	private int m_num;
+	private int m_num, d_num;
 
 	public DirectorDomain() {
 	}
 
-	public DirectorDomain(String d_name, String d_eng, String d_img, int m_num) {
+	public DirectorDomain(String d_name, String d_eng, String d_img, int m_num, int d_num) {
+		super();
 		this.d_name = d_name;
 		this.d_eng = d_eng;
 		this.d_img = d_img;
 		this.m_num = m_num;
+		this.d_num = d_num;
 	}
 
 	public String getD_name() {
@@ -47,9 +49,20 @@ public class DirectorDomain {
 		this.m_num = m_num;
 	}
 
+	public int getD_num() {
+		return d_num;
+	}
+
+	public void setD_num(int d_num) {
+		this.d_num = d_num;
+	}
+
 	@Override
 	public String toString() {
-		return "DirectorDomain [d_name=" + d_name + ", d_eng=" + d_eng + ", d_img=" + d_img + ", m_num=" + m_num + "]";
+		return "DirectorDomain [d_name=" + d_name + ", d_eng=" + d_eng + ", d_img=" + d_img + ", m_num=" + m_num
+				+ ", d_num=" + d_num + "]";
 	}
+
+	
 
 }

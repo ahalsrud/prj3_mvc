@@ -44,6 +44,18 @@ public class AdminMovieDAO {
 		return 0;
 	}
 	
+	public int sequenceMnum() {
+		int m_num=0;
+		
+		SqlSession ss=MyBatisHandler.getInstance().getMyBatisHandler(false);
+				
+		m_num = ss.selectOne("kr.co.sist.prj3.admin.admin_movie.dao.movieMapper.selectMovieKey");
+		
+		if(ss!=null) {ss.close();}//end if
+		
+		return m_num;
+	}//sequenceMnum
+	
 	// 영화 수정
 	public EditMovieDomain selectMovie(int mNum) throws PersistenceException {
 		EditMovieDomain emd = null;
@@ -57,8 +69,19 @@ public class AdminMovieDAO {
 	}// selectMovie
 	
 	public int updateMovie(EditMovieVO emVO) {
-		return 0;
-	}
+		int cnt = 0;
+		
+		// 1. MyBatis Handler 얻기
+		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+		// 2. 조작 method 호출
+		cnt = ss.update("updateMovie", emVO);
+		// 3. transaction 처리
+		if(cnt == 1) { ss.commit(); }// end if
+		// 4. MyBatis Handler 닫기
+		if(ss != null) { ss.close(); }// end if
+				
+		return cnt;
+	}// updateMovie
 	
 	// 감독
 	public List<DirectorDomain> selectDirector(int mNum) {
@@ -70,12 +93,36 @@ public class AdminMovieDAO {
 		return list;
 	}
 	
-	public void insertDirector(DirectorVO dVO) {
+	public void insertDirector(DirectorVO[] dVO) {
+		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+		for(int i=0; i<dVO.length; i++) {
+			int cnt = ss.insert("updateDirector", dVO[i]);
+			System.out.println(dVO[i]);
+			if(cnt == 1) {
+				ss.commit();
+			}// end if
+		}// end for
 		
-	}
+		if(ss!=null) { ss.close(); }
+	}// insertDirector
 	
-	public int deleteDirector(int mNum) {
-		return 0;
+	public int deleteDirector(int d_num) {
+		int cnt = 0;
+		
+		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+		cnt = ss.delete("deleteDirector", d_num);
+		
+		if(cnt == 1) {
+			System.out.println("삭제 성공 => commit");
+			ss.commit();
+		}else {
+			System.out.println("롤백");
+			ss.rollback();
+		}// end else
+		
+		if(ss != null) { ss.close(); }// end if
+		
+		return cnt;
 	}
 	
 	// 배우
@@ -88,11 +135,36 @@ public class AdminMovieDAO {
 		return list;
 	}
 	
-	public void insertActor(ActorVO aVO) {
+	public void insertActor(ActorVO[] aVO) {
+		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+		for(int i=0; i<aVO.length; i++) {
+			int cnt = ss.insert("updateActor", aVO[i]);
+			System.out.println(aVO[i]);
+			
+			if(cnt == 1) {
+				ss.commit();
+			}// end if
+		}// end for
 		
+		if(ss!=null) { ss.close(); }
 	}
 	
-	public int deleteActor(int mNum) {
-		return 0;
+	public int deleteActor(int a_num) {
+		int cnt = 0;
+		
+		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+		cnt = ss.delete("deleteDirector", a_num);
+		
+		if(cnt == 1) {
+			System.out.println("삭제 성공 => commit");
+			ss.commit();
+		}else {
+			System.out.println("롤백");
+			ss.rollback();
+		}// end else
+		
+		if(ss != null) { ss.close(); }// end if
+		
+		return cnt;
 	}
 }

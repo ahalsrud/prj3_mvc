@@ -164,17 +164,19 @@ a:hover {
                 	<div class="header">
                     	<h2>영화 관리</h2>
                     </div>
+                    <form action="movie_list.do" method="get" >
                     <!-- 검색바 시작 -->
-                    <div class="search">
-                    <div class="form-group pull-right" style="width:300px; float: left;  padding-bottom: 20px;"><!-- 검색바 너비 -->
-				    <input type="text" class="search form-control" placeholder="영화 검색">
-                    </div>
-                   	<div style="float: left; width: 33%; padding-left:30px;">
-				    <input type="button" value="검색" class="btn btn-outline-danger"/>
-                   	</div>
-                    </div>
-					<span class="counter pull-right"></span>
+                    	<div class="search">
+                    		<div class="form-group pull-right" style="width:300px; float: left;  padding-bottom: 20px;"><!-- 검색바 너비 -->
+				    			<input type="text" name="m_title" class="search form-control" placeholder="영화 검색">
+                    		</div>
+                   			<div style="float: left; width: 33%; padding-left:30px;">
+				    			<input type="submit" value="검색" class="btn btn-outline-danger"/>
+                   			</div>
+                   		</div>
+						<span class="counter pull-right"></span>
                     <!-- 검색바 끝 -->
+                    </form>
 					
 					<!-- 테이블을 담은 div 시작 -->
 				<div>
@@ -221,10 +223,10 @@ a:hover {
 										<td hidden="hidden"><input type="hidden" name="mNum" value="${ movie.m_num }" /></td>
 										<td><c:out value="${ movie.m_title }" /></td>
 										<td><c:out value="${ movie.d_name }" /></td>
-										<td><c:out value="${ movie.rank }" /></td>
 										<td><c:out value="${ movie.genre }" /></td>
+										<td><c:out value="${ movie.rank }" /></td>
 										<td><c:out value="${ movie.release_date }" /></td>
-										<td><c:out value="${ movie.m_reg_date }" /></td>
+										<td><%-- <c:out value="${ movie.m_reg_date }" /> --%></td>
 										<td><input type="submit" class="editBtn" id="editBtn" value="수정" /></td>
 										<td><c:out
 												value="${ movie.screen_state == 'y'?'상영중':'미상영'}" /></td>

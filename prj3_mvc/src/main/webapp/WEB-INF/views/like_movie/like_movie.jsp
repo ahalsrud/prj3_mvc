@@ -1,8 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="alternate" href="http://m.cgv.co.kr" />
     <link rel="shortcut icon" href="https://img.cgv.co.kr/theater_img/favicon.ico" type="image/x-icon" />
     <title id="ctl00_headerTitle">기대되는 영화 &lt; 무비로그 | 영화 그 이상의 감동. CGV</title>
@@ -13,7 +14,7 @@
     <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/module.css?20211209" />
     <link rel="stylesheet" media="all" type="text/css" href="http://localhost/prj3_mvc/css/content.css" />
     <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/common.css" />
-    
+ 
     <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/eggupdate.css" />
     <link rel="stylesheet" media="print" type="text/css" href="https://img.cgv.co.kr/R2014/css/print.css" />    
     <link rel="stylesheet" type="text/css" href="https://img.cgv.co.kr/R2014/js/jquery.ui/smoothness/jquery-ui-1.10.4.custom.min.css" />
@@ -30,7 +31,34 @@
     <!-- 홈페이지 CSS 일원화로 인한 반영 20220721 -->
     <link rel="stylesheet" type="text/css" href="https://img.cgv.co.kr/resource_pc/css/cgv.min.css" />
     <script type="text/javascript" src="https://img.cgv.co.kr/resource_pc/js/cgvUi.js"></script>
+<style>
+.box-image {
+  position: relative;
+}
 
+form {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+</style>
+<!-- jQuery CDN 시작 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<!-- jQuery CDN 끝 -->
+
+<script type="text/javascript">
+
+$(function(){
+
+	$("#selectBtn").click(function(){
+		$("#frm").submit();
+	});//click	
+	
+});//ready
+
+
+</script>
 </head>
 <body class="">
 <div class="skipnaiv">
@@ -176,61 +204,73 @@
 	<div class="col-detail">
 	    <div class="movielog-detail-wrap">
 	        <!-- Title & Button Combo -->
-	        <div class="tit-mycgv">
+	        <%-- <div class="tit-mycgv">
 		        <h3>기대되는 영화</h3>
-		        <p><em>1건</em></p>
+		        <p><em> ${ cntMovie }건</em></p>
 		        <div class="sect-sorting">
 		            <label for="order_type" class="hidden" for="sort_field">정렬</label>
-		            <select id="order_type" name="sort_field">
+		            <select id="select_type" name="select_type">
 		                <option value="1" title="현재 선택됨" selected>등록일 순</option>
 		                <option value="2">개봉일 순</option>
 		            </select>
-		            <button class="round gray" type="button"><span>GO</span></button>
+		            <button class="round gray" type="button" id="selectBtn"><span>GO</span></button>
 		        </div>
-		    </div>
+		    </div> --%>
 		    <!-- //Title & Button Combo -->
-            
-		    <div class="sect-wishlist-lst">
-		        <ul id="wishlist_container">
-                    
-		                    <li>
-		                        <div class="box-image">
-		                            <a href="/movies/detail-view/?midx=86883">
-		                                <span class="thumb-image"> 
-				                            <img alt="가디언즈 오브 갤럭시-Volume 3 포스터" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86883/86883_185.jpg" onerror="errorImage(this)"/>
-                                            
-		                                </span>
-		                            </a>
-                                    <span class="screentype">
-                                        
-                                            <a class="imax" href="#" title="IMAX 상세정보 바로가기" data-regioncode="07">IMAX</a>
-                                        
-                                            <a class="forDX" href="#" title="4DX 상세정보 바로가기" data-regioncode="4D14">4DX</a>
-                                        
-                                    </span>
-		                        </div>
-		                        <div class="box-contents">
-		                            <a href="/movies/detail-view/?midx=86883">
-		                                <strong class="title">가디언즈 오브 갤럭시-Volume 3</strong>
-		                            </a>
-		                            <span class="txt-info">
-		                                <i>2023.05.03</i>
-		                                <strong>개봉</strong>
-		                                
-		                            </span>
-		                            <span class="like"> 
-                                        <a class="link-reservation" href="/ticket/?MOVIE_CD=20032467&MOVIE_CD_GROUP=20032164">예매</a>
-                                        
 
-		                            </span>
-		                        </div>
-		                        <button type="button" class="btn-del" value="86883"><img src="https://img.cgv.co.kr/R2014/images/common/btn/btn_del02.png" alt="가디언즈 오브 갤럭시-Volume 3 삭제" /></button>
-		                    </li>
-                            
-		        </ul>
-		    </div>
-            
-	    </div>
+							<div class="sect-wishlist-lst">
+								<ul id="wishlist_container">
+								
+								<c:forEach var="movieLike" items="${ like }">
+									<li>
+										<div class="box-image">
+											<a href="/movies/detail-view/?midx=86883"> <span
+												class="thumb-image"> <img
+													alt="가디언즈 오브 갤럭시-Volume 3 포스터"
+													src="images/${ movieLike.poster }" onerror="errorImage(this)" />
+
+											</span>
+											</a> <span class="screentype"> <a class="imax" href="#"
+												title="IMAX 상세정보 바로가기" data-regioncode="07">IMAX</a> <a
+												class="forDX" href="#" title="4DX 상세정보 바로가기"
+												data-regioncode="4D14">4DX</a>
+
+											</span>
+										</div>
+										<div class="box-contents">
+												<form action="like_movie2.do" method="get"
+													style="display: inline-block;">
+													<input type="hidden" name="m_num"
+														value="${ movieLike.m_num }" />
+													<button type="submit" class="btn-del" value="86883">
+														<img
+															src="https://img.cgv.co.kr/R2014/images/common/btn/btn_del02.png"
+															alt="${ movieLike.m_title } 삭제" />
+													</button>
+												</form>
+												<a href="/movies/detail-view/?midx=86883"> 
+												<strong class="title">${ movieLike.m_title }</strong>
+											</a> <span class="txt-info"> <i>${ movieLike.release_date }</i>
+												<strong>개봉</strong>
+
+											</span> <span class="like"> <a class="link-reservation"
+												href="/ticket/?MOVIE_CD=20032467&MOVIE_CD_GROUP=20032164">예매</a>
+											</span>
+										</div>
+										<%-- <form action="like_movie2.do" method="get" style="display: inline-block;">
+										<input type="hidden" name="m_num" value="${ movieLike.m_num }"/>
+										<button type="submit" class="btn-del" value="86883">
+											<img
+												src="https://img.cgv.co.kr/R2014/images/common/btn/btn_del02.png"
+												alt="${ movieLike.m_title } 삭제" />
+										</button>
+										</form> --%>
+									</li>
+								</c:forEach>
+								</ul>
+							</div>
+
+						</div>
 	</div>
 </div>
             <!--/ Contents End -->

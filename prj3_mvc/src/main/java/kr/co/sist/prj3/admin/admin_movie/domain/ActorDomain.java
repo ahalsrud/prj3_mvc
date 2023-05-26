@@ -3,17 +3,19 @@ package kr.co.sist.prj3.admin.admin_movie.domain;
 public class ActorDomain {
 
 	private String a_name, a_eng, a_img, role;
-	private int m_num;
+	private int m_num, a_num;
 
 	public ActorDomain() {
 	}
 
-	public ActorDomain(String a_name, String a_eng, String a_img, String role, int m_num) {
+	public ActorDomain(String a_name, String a_eng, String a_img, String role, int m_num, int a_num) {
+		super();
 		this.a_name = a_name;
 		this.a_eng = a_eng;
 		this.a_img = a_img;
 		this.role = role;
 		this.m_num = m_num;
+		this.a_num = a_num;
 	}
 
 	public String getA_name() {
@@ -56,10 +58,22 @@ public class ActorDomain {
 		this.m_num = m_num;
 	}
 
+	public int getA_num() {
+		return a_num;
+	}
+
+	public void setA_num(int a_num) {
+		this.a_num = a_num;
+	}
+
 	@Override
 	public String toString() {
 		return "ActorDomain [a_name=" + a_name + ", a_eng=" + a_eng + ", a_img=" + a_img + ", role=" + role + ", m_num="
-				+ m_num + "]";
+				+ m_num + ", a_num=" + a_num + "]";
 	}
+
+	
+
+	
 
 }
