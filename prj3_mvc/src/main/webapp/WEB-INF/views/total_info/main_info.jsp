@@ -1,20 +1,64 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html lang="ko">
 <head>
     <meta charset="utf-8">
 <title>${ movie.m_title } | MOVIEPLANET</title>
-
 <link href="//m2.daumcdn.net/img-media/2010ci/Daum_favicon.ico" rel="shortcut icon">
-<link rel="stylesheet" type="text/css" href="http://localhost/prj3_mvc/css/PcCommonCssBundle.merged.css" />
+<link rel="stylesheet" type="text/css" href="http://localhost/prj3_mvc/css/PcCommonCssBundle_merged.css" />
+
 
 <script src="//t1.daumcdn.net/media/kraken/movie/386a1cd/common.merged.js"></script>
 <script src="//t1.daumcdn.net/media/kraken/movie/386a1cd/PcCommonScriptBundle.merged.js"></script>
 <script src="//t1.daumcdn.net/cssjs/movie/v2/amchart/amcharts.js"></script>
 <script src="//t1.daumcdn.net/cssjs/movie/v2/amchart/serial.js"></script>
+		<!-- 경태추가 -->
+		<!-- bootstrap 시작-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+        <!-- bootstrap 끝-->
+      	<!-- 경태추가 -->
+      	
+      <!-- jQuery CDN 시작 -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+      <!-- jQuery CDN 끝 -->
 
 <style type="text/css">
+/* 경태추가 */
+.header { width: 100%; height: 100px; background-color: #e74c3c; margin-bottom: 25px;}
+.results tr[visible='false'],
+.no-result{
+  display:none;
+}
+
+.results tr[visible='true']{
+  display:table-row;
+}
+
+h2 { color: white; text-align: left; padding-top: 30px; padding-left: 50px; font-weight: bold; }
+.counter{
+  padding:8px; 
+  color:#ccc;
+}
+tbody a:link {
+  color : #E74C3C;
+  text-decoration: none;
+}
+tbody a:visited {
+  color : #E74C3C;
+  text-decoration: none;
+}
+tbody a:hover {
+  color : red;
+  text-decoration: underline;
+}
+tbody a:active {
+  color : green;
+  text-decoration: none;
+}
+/* 경태추가 */
+
 .tooltip_info .link_tooltip {
     display: none;
     font-size: 16px;
@@ -53,6 +97,24 @@ a{
     animation: animateHeart .3s linear forwards;
 }
 
+
+/* 주요정보에 대한 스타일 */
+.thumbnail{
+	width: 115px;
+	height: 167px;
+	border-radius: 8px;
+}
+
+.test td{
+	padding-right: 48px;
+}
+
+.test span{
+	color : #666;
+}
+
+/* 주요정보에 대한 스타일 */
+
 @keyframes animateHeart{
     0%{transform:scale(.2);}
     40%{transform:scale(1.2);}
@@ -63,262 +125,334 @@ a{
 </style>
 
 <script type="text/javascript">
-$(function() {	
+$(function(){	
 	
-	// 주요정보 클릭 시
-	 $("#mainInfo").click(function() {
-		$.ajax({
-			url : "main_info.do",
-			method: "GET",
-			dataType: "html",
-			error : function(xhr) {
-				alert("문제발생");
-				console.log(xhr.status);
-			},
-			success: function(data) {
-				var output = "<div> 뭐짖이이이이이이ㅣ세계를 열광시킬 올 타임 슈퍼 어드벤처의 등장!"
-				+ "뉴욕의 평범한 배관공 형제 '마리오'와 ‘루이지’는 배수관 고장으로 위기에 빠진 도시를 구하려다 미스터리한 초록색 파이프 안으로 빨려 들어가게 된다."
-				+ "파이프를 통해 새로운 세상으로 차원 이동하게 된 형제." 
-				+ "형 '마리오'는 뛰어난 리더십을 지닌 '피치'가 통치하는 버섯왕국에 도착하지만 동생 '루이지'는 빌런 '쿠파'가 있는 다크랜드로 떨어지며 납치를 당하고 ‘마리오’는 동생을 구하기 위해 ‘피치’와 ‘키노피오’의 도움을 받아 '쿠파'에 맞서기로 결심한다.</div>"
-				
-				+ "<br/><br/><br>"
-				+ "<div class='detail_crewinfo' data-tiara-layer='crew'>"
-				+ "<h5 class='tit_section'>감독 / 출연진</h5>"
-				+ "<br/>"
-				+ "<ul class='list_crewall'>"
-				+ "<li>"
-				+ "<div class='item_crewall'>"
-				+ "<a href='/person/main?personId=37689' class='thumb_item' data-tiara-layer='thumb' data-tiara-copy='주요정보_출연진_썸네일' data-tiara-ordnum='1'>"
-				+ "<img src='https://img1.daumcdn.net/thumb/C116x168/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fcfile%2F1340D410AE0CB5B755' class='img_thumb' alt='제임스 건'>"
-				+ "</a>"
-				+ "<div class='thumb_cont'>"
-				+ "<strong class='tit_item'>"
-				+ "<a href='/person/main?personId=37689' class='link_tit' data-tiara-layer='name' data-tiara-copy='주요정보_출연진_이름' data-tiara-ordnum='1'>제임스 건</a>"
-				+ "</strong>"
-				+ "<span class='txt_info'>감독</span>"
-				+ "</div> </div> </li> <li>"
-				+ "<div class='item_crewall'>"
-				+ "<a href='/person/main?personId=110974' class='thumb_item' data-tiara-layer='thumb' data-tiara-copy='주요정보_출연진_썸네일' data-tiara-ordnum='2'>"
-				+ "<img src='https://img1.daumcdn.net/thumb/C116x168/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmovie%2F4a10874f56791f822331095f0306a539869297de' class='img_thumb' alt='크리스 프랫'>"
-				+ "</a>"
-				+ "<div class='thumb_cont'>"
-				+ "<strong class='tit_item'>"
-				+ "<a href='/person/main?personId=110974' class='link_tit' data-tiara-layer='name' data-tiara-copy='주요정보_출연진_이름' data-tiara-ordnum='2'>크리스 프랫</a>"
-				+ "</strong>"
-				+ "<span class='txt_info'>주연</span>"
-				+ "</div> </div> </li> <li>"
-				+ "<div class='item_crewall'>"
-				+ "<a href='/person/main?personId=17260' class='thumb_item' data-tiara-layer='thumb' data-tiara-copy='주요정보_출연진_썸네일' data-tiara-ordnum='3'>"
-				+ "<img src='https://img1.daumcdn.net/thumb/C116x168/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fmovie%2F73bff634a371f32a0ff11458622b2bd2c7024e62' class='img_thumb' alt='조 샐다나'>"
-				+ "</a>"
-				+ "<div class='thumb_cont'>"
-				+ "<strong class='tit_item'>"
-				+ "<a href='/person/main?personId=17260' class='link_tit' data-tiara-layer='name' data-tiara-copy='주요정보_출연진_이름' data-tiara-ordnum='3'>조 샐다나</a>"
-				+ "</strong>"
-				+ "<span class='txt_info'>주연</span>"
-				+ "</div> </div> </li> <li>"
-				+ "<div class='item_crewall'>"
-				+ "<a href=''/person/main?personId=224680' class='thumb_item' data-tiara-layer='thumb' data-tiara-copy='주요정보_출연진_썸네일' data-tiara-ordnum='4'>"
-				+ "<img src='https://img1.daumcdn.net/thumb/C116x168/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fcfile%2F183B893D4EC3368A16' class='img_thumb' alt='데이브 바티스타'>"
-				+ "</a>"
-				+ "<div class='thumb_cont'>"
-				+ "<strong class='tit_item'>"
-				+ "<a href='/person/main?personId=224680' class='link_tit' data-tiara-layer='name' data-tiara-copy='주요정보_출연진_이름' data-tiara-ordnum='4'>데이브 바티스타</a>"
-				+ "</strong>"
-				+ "<span class='txt_info'>주연</span>"
-				+ "</div> </div> </li>"
-				
-				
-				$("#output").html(output); 
-			}
-				
-		});// ajax
+	var queryString = window.location.search;
+    var urlParams = new URLSearchParams(queryString);
+	var m_num = urlParams.get('m_num');
+	
+	///////// 처음에 페이지가 로드 되면 조건 없이 실행
+	$.ajax({
+				url:"detail_info.do",
+				method: "GET",
+	            data: { m_num: m_num },
+	            dataType: "json",
+				error:function(xhr) {
+					alert("문제발생");
+					console.log(xhr.status);
+				},
+				success: function(jsonObj){
+					
+					 var output = "<div style='margin-bottom: 60px;'>" + jsonObj.summary + "</div>" +
+			            "<h5 class='tit_section'>감독 / 출연진</h5>" +
+			            "<hr style='background:#ECEDF1; height:1px; border:0;'>" +
+			            "<table class='test'>";
+					
+			        //감독 + 배우 수
+			        var count = 0;
+
+			        // 감독부터 반복 및 카운트 시작!!!!!!!!!!
+			        $.each(jsonObj.director, function(idx, ele) {
+			        	
+			        	// count값이 0부터 시작하므로 맨 처음과 count가 7의 배수가 될 때 마다, 7의 배수+1 번째 감독<td> '앞'에 <tr>을 붙여서 새로운 줄 시작
+			            if (count % 7 === 0) {
+			                output += "<tr>";
+			            }//end if
+						
+			      	   // 감독<td> 하나씩 화면에 출력 
+			            output += "<td>" +
+			                "<img class='thumbnail' src='http://localhost/prj3_mvc/images/" + ele.d_img + "'><br>" +
+			                "<strong>" + ele.d_name + "</strong><br>" +
+			                "<span>감독</span><br/>&nbsp;" +
+			                "</td>";
+						
+			            count++;
+		
+			            // count값이 1부터 시작, count가 7의 배수가 될 때 마다, 7의 배수 번째 감독<td> '뒤'에 </tr>을 붙여서 한 줄 끝
+			            if (count % 7 == 0) {
+			                output += "</tr>";
+			            }//end if
+			        });//end each
+
+			        // 배우 반복 시작 (감독 다음 순서)!!!!!!!!!!!!
+			        $.each(jsonObj.actor, function(idx, ele) {
+			        	
+			        	// 여기 count에는 위에서 반복시킨 감독td 횟수가 이미 포함 
+			        	// count가 7의 배수가 될 때 마다, 7의 배수+1 번째 감독,+배우<td> '앞'에 <tr>을 붙여서 새로운 줄 시작
+			            if (count % 7 == 0) {
+			                output += "<tr>";
+			            }//end if
+
+			        	//배우<td> 하나씩 화면에 출력
+			            output += "<td>" +
+			                "<img class='thumbnail' src='http://localhost/prj3_mvc/images/" + ele.a_img + "'><br>" +
+			                "<strong>" + ele.a_name + "</strong><br>" +
+			                "<span>배우</span><br/>&nbsp;" +
+			                "</td>";
+
+			            count++;
+
+			       		// count가 7의 배수가 될 때 마다, 7의 배수 번째 감독,배우<td> '뒤'에 </tr>을 붙여서 한 줄 끝
+			            if (count % 7 == 0) {
+			                output += "</tr>";
+			            }//end if
+			        });//end each
+			        
+			        output += "</table>";
+			        
+			        ////// 영화 사진
+ 					output += 
+			            "<h5 class='tit_section'><br/><br/>갤러리</h5>" +
+			            "<hr style='background:#ECEDF1; height:1px; border:0;'>" +
+			            "<table class='test'>";
+			        //영화 사진 수
+			        var cntM = 0;
+
+			        // 영화사진 수 반복 및 카운트 시작!!!!!!!!!!
+			        $.each(jsonObj.movieImg, function(idx, ele) {
+			        	
+			        	// cntM값이 0부터 시작하므로 맨 처음과 cntM가 2의 배수가 될 때 마다, 2의 배수+1 번째 영화사진<td> '앞'에 <tr>을 붙여서 새로운 줄 시작
+			            if (cntM % 2 == 0) {
+			                output += "<tr>";
+			            }//end if
+						
+			      	   // 영화사진<td> 하나씩 화면에 출력 
+			            output += "<td>" +
+			                "<img class='thumbnail' src='http://localhost/prj3_mvc/images/" + ele.m_img + "'><br>" +
+			                "</td>";
+						
+			            cntM++;
+		
+			            // cntM값이 1부터 시작, cntM가 2의 배수가 될 때 마다, 2의 배수 번째 영화사진<td> '뒤'에 </tr>을 붙여서 한 줄 끝
+			            if (cntM % 2 == 0) {
+			                output += "</tr>";
+			            }//end if
+			        });//end each
+			        
+			        output += "</table>";
+
+			        $("#output").html(output);
+
+				}
+					
+			});// ajax  
+	
+	
+	///////////////////////////////////////////////// 주요정보 클릭 시//////////////////////////////
+	 $("#mainInfo").click(function(){
+			
+			$.ajax({
+				url:"detail_info.do",
+				method: "GET",
+	            data: { m_num: m_num },
+	            dataType: "json",
+				error:function(xhr) {
+					alert("문제발생");
+					console.log(xhr.status);
+				},
+				success: function(jsonObj){
+					
+					 var output = "<div style='margin-bottom: 60px;'>" + jsonObj.summary + "</div>" +
+			            "<h5 class='tit_section'>감독 / 출연진</h5>" +
+			            "<hr style='background:#ECEDF1; height:1px; border:0;'>" +
+			            "<table class='test'>";
+					
+			        //감독 + 배우 수
+			        var count = 0;
+
+			        // 감독부터 반복 및 카운트 시작!!!!!!!!!!
+			        $.each(jsonObj.director, function(idx, ele) {
+			        	
+			        	// count값이 0부터 시작하므로 맨 처음과 count가 7의 배수가 될 때 마다, 7의 배수+1 번째 감독<td> '앞'에 <tr>을 붙여서 새로운 줄 시작
+			            if (count % 7 === 0) {
+			                output += "<tr>";
+			            }//end if
+						
+			      	   // 감독<td> 하나씩 화면에 출력 
+			            output += "<td>" +
+			                "<img class='thumbnail' src='http://localhost/prj3_mvc/images/" + ele.d_img + "'><br>" +
+			                "<strong>" + ele.d_name + "</strong><br>" +
+			                "<span>감독</span><br/>&nbsp;" +
+			                "</td>";
+						
+			            count++;
+		
+			            // count값이 1부터 시작, count가 7의 배수가 될 때 마다, 7의 배수 번째 감독<td> '뒤'에 </tr>을 붙여서 한 줄 끝
+			            if (count % 7 == 0) {
+			                output += "</tr>";
+			            }//end if
+			        });//end each
+
+					
+			        // 배우 반복 시작 (감독 다음 순서)!!!!!!!!!!!!
+			        $.each(jsonObj.actor, function(idx, ele) {
+			        	
+			        	// 여기 count에는 위에서 반복시킨 감독td 횟수가 이미 포함 
+			        	// count가 7의 배수가 될 때 마다, 7의 배수+1 번째 감독,+배우<td> '앞'에 <tr>을 붙여서 새로운 줄 시작
+			            if (count % 7 == 0) {
+			                output += "<tr>";
+			            }//end if
+
+			        	//배우<td> 하나씩 화면에 출력
+			            output += "<td>" +
+			                "<img class='thumbnail' src='http://localhost/prj3_mvc/images/" + ele.a_img + "'><br>" +
+			                "<strong>" + ele.a_name + "</strong><br>" +
+			                "<span>배우</span><br/>&nbsp;" +
+			                "</td>";
+
+			            count++;
+
+			       		// count가 7의 배수가 될 때 마다, 7의 배수 번째 감독,배우<td> '뒤'에 </tr>을 붙여서 한 줄 끝
+			            if (count % 7 == 0) {
+			                output += "</tr>";
+			            }//end if
+			        });//end each
+
+			        output += "</table>";
+			        $("#output").html(output);
+
+				}
+					
+			});// ajax  
 	});// click 
 	
-	/////////////////////////////////////////////////////////////////////////////////
-	// 출연/제작 클릭 시
+////////////////////////////////////////  출연/제작   ////////////////////////////////////////////
      $("#produce").click(function() {
-        $.ajax({
-            url: "main_info.do",
-            method: "GET",
-            dataType: "html",
-            error: function(xhr) {
-                alert("이동 실패: " + xhr.statusText);
-            },
-            success: function(data) {
-            	
-            	var output = 
-            		"<div class='contents'><h4 class='screen_out'>출연/제작</h4>"
-            	    +"<div class='detail_crewinfo'>"
-            	    +"<h5 class='tit_section'>감독</h5>"
-            	    +"<br/>"
-            	    +"<ul class='list_crew'>"
-            	    +"<li>"
-            	    +"<div class='item_crew'>"
-            	    +"<a href='/person/main?personId=37689' class='thumb_item' data-tiara-layer='detail_crew' data-tiara-copy='출연제작_감독/주연/출연'>"
-            	    +"<img src='https://img1.daumcdn.net/thumb/C116x168/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fcfile%2F1340D410AE0CB5B755' class='img_thumb' alt='제임스 건'>"
-            	    +"</a>"
-            	    +"<div class='thumb_cont'>"
-            	    +"<strong class='tit_item'>"
-            	    +"<a href='/person/main?personId=37689' class='link_txt' data-tiara-layer='detail_crew' data-tiara-copy='출연제작_감독/주연/출연'>제임스 건</a>"
-            	    +"</strong>"
-            	    +"<span class='subtit_item'>James Gunn</span>"
-            	    +"</div>"
-            	    +"</div>"
-            	    +"</li>"
-            	    +"</ul>"
-            	    +"</div>"
-            	    +"<div class='detail_crewinfo'>"
-            	    +"<br/><br/>"
-            	    +"<h5 class='tit_section'>주연</h5>"
-            	    +"<br/>"
-            	    +"<ul class='list_crew'>"
-            	    +"<li>"
-            	    +"<div class='item_crew'>"
-            	    +"<a href='/person/main?personId=110974' class='thumb_item' data-tiara-layer='detail_crew' data-tiara-copy='출연제작_감독/주연/출연'>"
-            	    +"<img src='https://img1.daumcdn.net/thumb/C116x168/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmovie%2F4a10874f56791f822331095f0306a539869297de' class='img_thumb' alt='크리스 프랫'>"
-            	    +"</a>"
-            	    +"<div class='thumb_cont'>"
-            	    +"<strong class='tit_item'>"
-            	    +"<a href='/person/main?personId=110974' class='link_txt' data-tiara-layer='detail_crew' data-tiara-copy='출연제작_감독/주연/출연'>크리스 프랫</a>"
-            	    +"</strong>"
-            	    +"<span class='subtit_item'>Chris Pratt</span>"
-            	    +"<span class='txt_info'>스타로드 역</span>"
-            	    +"</div>"
-            	    +"</div>"
-            	    +"</li>"
-            	    +"<li>"
-            	    +"<div class='item_crew'>"
-            	    +"<a href='/person/main?personId=17260' class='thumb_item' data-tiara-layer='detail_crew' data-tiara-copy='출연제작_감독/주연/출연'>"
-            	    +"<img src='https://img1.daumcdn.net/thumb/C116x168/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fmovie%2F73bff634a371f32a0ff11458622b2bd2c7024e62' class='img_thumb' alt='조 샐다나'>"
-            	    +"</a>"
-            	    +"<div class='thumb_cont'>"
-            	    +"<strong class='tit_item'>"
-            	    +"<a href='/person/main?personId=17260' class='link_txt' data-tiara-layer='detail_crew' data-tiara-copy='출연제작_감독/주연/출연'>조 샐다나</a>"
-            	    +"</strong>"
-            	    +"<span class='subtit_item'>Zoe Saldana</span>"
-            	    +"<span class='txt_info'>가모라 역</span>"
-            	    +"</div>"
-            	    +"</div>"
-            	    +"</li>"
-            	    +"<li>"
-            	    +"<div class='item_crew'>"
-            	    +"<a href='/person/main?personId=224680' class='thumb_item' data-tiara-layer='detail_crew' data-tiara-copy='출연제작_감독/주연/출연'>"
-            	    +"<img src='https://img1.daumcdn.net/thumb/C116x168/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fcfile%2F183B893D4EC3368A16' class='img_thumb' alt='데이브 바티스타'>"
-            	    +"</a>"
-            	    +"<div class='thumb_cont'>"
-            	    +"<strong class='tit_item'>"
-            	    +"<a href='/person/main?personId=224680' class='link_txt' data-tiara-layer='detail_crew' data-tiara-copy='출연제작_감독/주연/출연'>데이브 바티스타</a>"
-            	    +"</strong>"
-            	    +"<span class='subtit_item'>Dave Bautista</span>"
-            	    +"<span class='txt_info'>드랙스 역</span>"
-            	    +"</div>"
-            	    +"</div>"
-            	    +"</li>"
-            	    +"<li>"
-            	    +"<div class='item_crew'>"
-            	    +"<a href='/person/main?personId=1548' class='thumb_item' data-tiara-layer='detail_crew' data-tiara-copy='출연제작_감독/주연/출연'>"
-            	    +"<img src='https://img1.daumcdn.net/thumb/C116x168/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fmovie%2F0e848f51add0f653be967d5c4dc8edb0cb654e0f' class='img_thumb' alt='빈 디젤'>"
-            	    +"</a>"
-            	    +"<div class='thumb_cont'>"
-            	    +"<strong class='tit_item'>"
-            	    +"<a href='/person/main?personId=1548' class='link_txt' data-tiara-layer='detail_crew' data-tiara-copy='출연제작_감독/주연/출연'>빈 디젤</a>"
-            	    +"</strong>"
-            	    +"<span class='subtit_item'>Vin Diesel</span>"
-            	    +"<span class='txt_info'>그루트 (목소리) 역</span>"
-            	    +"</div></div></li><li>"
-            	    +"<div class='item_crew'>"
-            	    +"<a href='/person/main?personId=95705' class='thumb_item' data-tiara-layer='detail_crew' data-tiara-copy='출연제작_감독/주연/출연'>"
-            	    +"<img src='https://img1.daumcdn.net/thumb/C116x168/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fcfile%2F204E600B4BD006A656' class='img_thumb' alt='브래들리 쿠퍼'>"
-            	    +"</a>"
-            	    +"<div class='thumb_cont'>"
-            	    +"<strong class='tit_item'>"
-            	    +"<a href='/person/main?personId=95705' class='link_txt' data-tiara-layer='detail_crew' data-tiara-copy='출연제작_감독/주연/출연'>브래들리 쿠퍼</a>"
-            	    +"</strong>"
-            	    +"<span class='subtit_item'>Bradley Cooper</span>"
-            	    +"<span class='txt_info'>로켓 (목소리) 역</span>"
-            	    +"</div>"
-            	    +"</div>"
-            	    +"</li>"
-            	    +"<li>"
-            	    +"<div class='item_crew'>"
-            	    +"<a href='/person/main?personId=193531' class='thumb_item' data-tiara-layer='detail_crew' data-tiara-copy='출연제작_감독/주연/출연'>"
-            	    +"<img src='https://img1.daumcdn.net/thumb/C116x168/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fcfile%2F163464264AF2131E2C' class='img_thumb' alt='카렌 길런'>"
-            	    +"</a>"
-            	    +"<div class='thumb_cont'>"
-            	    +"<strong class='tit_item'>"
-            	    +"<a href='/person/main?personId=193531' class='link_txt' data-tiara-layer='detail_crew' data-tiara-copy='출연제작_감독/주연/출연'>카렌 길런</a>"
-            	    +"</strong>"
-            	    +"<span class='subtit_item'>Karen Gillan</span>"
-            	    +"<span class='txt_info'>네뷸라 역</span>"
-            	    +"</div></div></li>"
-            	    +"<li><div class='item_crew'>"
-            	    +"<a href='/person/main?personId=198429' class='thumb_item' data-tiara-layer='detail_crew' data-tiara-copy='출연제작_감독/주연/출연'>"
-            	    +"<img src='https://img1.daumcdn.net/thumb/C116x168/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fcfile%2F166522164B1A427F19' class='img_thumb' alt='폼 클레멘티프'>"
-            	    +"</a>"
-            	    +"<div class='thumb_cont'>"
-            	    +"<strong class='tit_item'>"
-            	    +"<a href='/person/main?personId=198429' class='link_txt' data-tiara-layer='detail_crew' data-tiara-copy='출연제작_감독/주연/출연'>폼 클레멘티프</a>"
-            	    +"</strong>"
-            	    +"<span class='subtit_item'>Pom Klementieff</span>"
-            	    +"<span class='txt_info'>맨티스 역</span>"
-            	    +"</div></div></li></ul></div>"
-            	    +"<div class='detail_produceinfo'>"
-            	    +"<br/><br/><br/>"
-            	    +"<h5 class='tit_section'>제작진</h5>"
-            	    +"<dl class='list_produce'>"
-            	    +"<dt>원작</dt>"
-            	    +"<dd>"
-            	    +"<a href='/person/main?personId=333452' class='link_txt' data-tiara-layer='produce' data-tiara-copy='출연/제작_제작진'>댄 애브넷</a> Dan Abnett," 
-            	    +"<a href='/person/main?personId=333486' class='link_txt' data-tiara-layer='produce' data-tiara-copy='출연/제작_제작진'>앤디 래닝</a> Andy Lanning"
-            	    +"</dd>"
-            	    +"</dl>"
-            	    +"<dl class='list_produce'>"
-            	    +"<dt>각본</dt>"
-            	    +"<dd>"
-            	    +"<a href='/person/main?personId=37689' class='link_txt' data-tiara-layer='produce' data-tiara-copy='출연/제작_제작진'>제임스 건</a> James Gunn"
-            	    +"</dd>"
-            	    +"</dl></div>"
-            	    +"<div class='detail_produceinfo'>"
-            	    +"<br/><br/>"
-            	    +"<h5 class='tit_section'>영화사</h5>"
-            	    +"<dl class='list_produce'>"
-            	    +"<dt>제작</dt>"
-            	    +"<dd>"
-            	    +"<a href='/production?productionId=1520' class='link_txt' data-tiara-layer='production' data-tiara-copy='출연제작_관련영화사'>마블스튜디오</a>"
-            	    +"</dd>"
-            	    +"</dl>"
-            	    +"<dl class='list_produce'>"
-            	    +"<dt>배급</dt>"
-            	    +"<dd>"
-            	    +"<a href='/production?productionId=1455' class='link_txt' data-tiara-layer='production' data-tiara-copy='출연제작_관련영화사'>월트 디즈니 컴퍼니 코리아</a>"
-            	    +"</dd></dl>"
-            	    +"<dl class='list_produce'>"
-            	    +"<dt>수입</dt>"
-            	    +"<dd>"
-            	    +"<a href='/production?productionId=1455' class='link_txt' data-tiara-layer='production' data-tiara-copy='출연제작_관련영화사'>월트 디즈니 컴퍼니 코리아</a>"
-            	    +"</dd></dl>"
-            	    +"</div></div>" 
-            	
-                $("#output").html(output); 
-            }//
-           
-        });//ajax
-    }); //click
+ 			
+ 			$.ajax({
+ 				url:"produce_info.do",
+ 				method: "GET",
+ 	            data: { m_num: m_num },
+ 	            dataType: "json",
+ 				error:function(xhr) {
+ 					alert("문제발생");
+ 					console.log(xhr.status);
+ 				},
+ 				success: function(jsonObj){
+ 					
+					 var output = 
+			            "<br/><h5 class='tit_section'>감독</h5>" +
+			            "<hr style='background:#ECEDF1; height:1px; border:0;'>" +
+			            "<table class='test'>";
+ 					
+			        //감독 수
+			        var count = 0;
+
+			        // 감독 반복 및 카운트 시작!!!!!!!!!!
+			        $.each(jsonObj.director, function(idx, ele) {
+			        	
+			        	// count값이 0부터 시작하므로 맨 처음과 count가 7의 배수가 될 때 마다, 7의 배수+1 번째 감독<td> '앞'에 <tr>을 붙여서 새로운 줄 시작
+			            if (count % 7 == 0) {
+			                output += "<tr>";
+			            }//end if
+						
+			      	   // 감독<td> 하나씩 화면에 출력 
+			            output += "<td>" +
+			                "<img class='thumbnail' src='http://localhost/prj3_mvc/images/" + ele.d_img + "'><br>" +
+			                "<strong>" + ele.d_name + "</strong><br>" + ele.d_eng +
+			                "</td>";
+						
+			            count++;
+		
+			            // count값이 1부터 시작, count가 7의 배수가 될 때 마다, 7의 배수 번째 감독<td> '뒤'에 </tr>을 붙여서 한 줄 끝
+			            if (count % 7 == 0) {
+			                output += "</tr>";
+			            }//end if
+			        });//end each
+			        
+			        //감독파트 배우파트 구분
+			        output += "</table><br/><br/>"+
+		          		  "<h5 class='tit_section'>출연진</h5>" +
+		          		  "<hr style='background:#ECEDF1; height:1px; border:0;'>" +
+		          		  "<table class='test'>";
+			        
+			        
+			  	    //배우 수
+			        var cnt = 0;
+			        // 배우 반복 시작!!!!!!!!!!!!
+			        $.each(jsonObj.actor, function(idx, ele) {
+			        	
+			        	// cnt값이 0부터 시작하므로 맨 처음과 count가 7의 배수가 될 때 마다, 7의 배수+1 번째 배우<td> '앞'에 <tr>을 붙여서 새로운 줄 시작
+			            if (cnt % 7 == 0) {
+			                output += "<tr>";
+			            }//end if
+
+			        	//배우<td> 하나씩 화면에 출력
+			            output += "<td>" +
+			                "<img class='thumbnail' src='http://localhost/prj3_mvc/images/" + ele.a_img + "'><br>" +
+			                "<strong>" + ele.a_name + "</strong><br>" +
+			                ele.a_eng + "<br/>" +
+			                ele.role + "<br/>&nbsp;"+ 
+			                "</td>";
+
+			            cnt++;
+
+			       		// count가 7의 배수가 될 때 마다, 7의 배수 번째 배우<td> '뒤'에 </tr>을 붙여서 한 줄 끝
+			            if (cnt % 7 == 0) {
+			                output += "</tr>";
+			            }//end if
+			        });//end each
+
+			        output += "</table>";
+			        
+			        //제작진 
+			        output += "<br/><br/><br/><h5 class='tit_section'>제작진</h5>" +
+		            "<hr style='background:#ECEDF1; height:1px; border:0;'>" +
+		            "<table class='test'>"+
+		            
+		            "<div class='detail_produceinfo'>"+
+         			   "<dl class='list_produce'>"+
+              			"<dt>원작</dt>"+
+             		  	"<dd>"+ jsonObj.origin +"</dd>"+
+        		      "</dl>"+
+        			    "<dl class='list_produce'>"+
+               				"<dt>각본</dt>"+
+              			    "<dd>"+ jsonObj.script +"</dd>"+
+         		 	   "</dl>"+
+  				  "</div>"+
+			        
+  				  //영화사
+  				  "<br/><br/><br/><h5 class='tit_section'>영화사</h5>" +
+		            "<hr style='background:#ECEDF1; height:1px; border:0;'>" +
+		            "<table class='test'>"+
+		            
+		            "<div class='detail_produceinfo'>"+
+         			   "<dl class='list_produce'>"+
+              			"<dt>제작</dt>"+
+             		  	"<dd>"+ jsonObj.produce +"</dd>"+
+        		      "</dl>"+
+        			    "<dl class='list_produce'>"+
+               				"<dt>배급</dt>"+
+              		  	    "<dd>"+ jsonObj.ration +"</dd>"+
+         		  	   "</dl>"+
+         		  	"<dl class='list_produce'>"+
+       					"<dt>수입</dt>"+
+      		  	    "<dd>"+ jsonObj.imports +"</dd>"+
+ 		  	   "</dl>"+
+  				  "</div>";
+  				  
+			        $("#output").html(output); 
+ 				}
+ 					
+ 			});// ajax  
+ 	});// click 
     
- /////////////////////////////////////////////////////////////////////////////////
-	// 평점 클릭 시
+    
+ //////////////////////////////// 평점 /////////////////////////////////////
      $("#grade").click(function() {
         $.ajax({
-            url: "main_info.do",
+            url: "produce_info.do",
             method: "GET",
-            dataType: "html",
-            error: function(xhr) {
-                alert("이동 실패: " + xhr.statusText);
+	        data: { m_num: m_num },
+	        dataType: "json",
+			error:function(xhr) {
+				alert("문제발생");
+					console.log(xhr.status);
             },
-            success: function(data) {
+            success: function(jsonObj) {
             	var output = 
-            		 "<div><div class='contents'>"
+            		"<div>ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ</div>";
+      /*       		 "<div><div class='contents'>"
             		 +"<div class='detail_cmtinfo' style='min-height: 450px;'>"
             		 +"<strong class='tit_netizen'>네티즌 평점  <em class='num_rating'>8.8점</em><span class='txt_netizen'>(258명)"
             		 +"<a href='#void' style='margin-left: 500px'>MY</a></span></strong>"
@@ -350,16 +484,17 @@ $(function() {
             		 +"</div>"
             		 +"</form>"
             		 +"</div>"
-            		 +"</div>"
+            		 +"</div>" */
 
             		 $("#output").html(output); 
             }//function
         });//ajax
-    }); //click 
+    }); //click          
+    
 });//ready
 
 //heart 좋아요 클릭시! 하트 뿅
-$(function() {
+/* $(function() {
     var $likeBtn = $('.icon.heart');
     var m_num = ${movie.m_num};
 	var id = $("#hiddenId").val();
@@ -411,31 +546,138 @@ $(function() {
                 console.log(xhr.responseText);
             }
         });// ajax
-        }
-    });
-});
+     }
+});//ready 좋아요 */
+
+/* 경태 시작 */
+function searchReview(){
+			m_num = ${param.m_num};
+			search = $("#search").val();
+			search_type = $("#search_type").val();
+			m_title = $("#m_title").val();
+	
+			$.ajax({
+				url: "review_info.do",
+				method: "get",
+				data : { m_num: m_num,
+				search: search,
+				search_type: search_type},
+				dataType: "json",
+				
+				error: function(xhr) {
+				alert("이동 실패: " + xhr.statusText);
+				},
+				success: function(jsonObj) {
+					
+					var output = '<form action="review_info.do" id="searchFrm" name="searchFrm" method="get">' 
+					+'<div class="contents" style="padding-top: 30px; ">'
+					+'<div style="float: left; padding-right: 20px;">'
+					+'<select class="form-select w-80" aria-label="Default select example" name="search_type" id="search_type">'
+					+'<option selected value="0">전체</option>'
+					+'<option value="1">제목</option>'
+					+'<option value="2">글쓴이</option>'
+					+'<option value="3">제목+글쓴이</option>'
+					+'</select></div>'
+					+'<div class="form-group pull-right" style="width:300px; float: left;  padding-bottom: 20px;">'
+					+'<input type="text" class="search form-control" placeholder="리뷰 검색" id="search" name="search" >'
+					+'<input type="hidden" name="m_num" value="2" />'
+					+'</div>'
+					+'<div style="float: left; width: 33%; padding-left:30px;">'
+					+'<input type="button" value="검색" class="btn btn-outline-danger" id="subBtn" name="subBtn" onclick="searchReview()"/>'
+					+'</div>'
+					+'<div>'
+					+'<a href="review_write.do?m_num='+m_num+'">'
+					+'<input type="button" value="리뷰 작성하기" class="btn btn-outline-primary" id="" style="float: right;"/>'
+					+'</a>'
+					+'</div>'
+					+'</div>'
+					+'<span class="counter pull-right"></span>'
+					+'</form>'
+					+'<div style="width:1100px">'
+					+'<table class="table table-hover table-bordered results"  style="text-align:center">'
+					+'<colgroup>'
+					+'<col style="width:3%">' 
+					+'<col style="width:20%">'
+					+'<col style="width:6%">' 
+					+'<col style="width:9%">' 
+					+'<col style="width:6%">' 
+					+'<col style="width:6%">' 
+					+'</colgroup>'
+					+'<thead style="text-align:center">'
+					+'<tr>'
+					+'<th scope="col" >No.</th>'
+					+'<th scope="col" >제목</th>'
+					+'<th scope="col" >작성자</th>'
+					+'<th scope="col" >작성일</th>'
+					+'<th scope="col" >조회</th>'
+					+'<th scope="col" >좋아요</th>'
+					+'</tr>'
+					+'</thead>'
+					+'<tbody>'
+					+'<form action="review_post.do" name="reviewFrm" id="reviewFrm" method="post">';
+					if(jsonObj.reviewSize==0){
+					output+='<tr><td colspan="6">해당영화에 대한 리뷰가 존재하지 않습니다.</td></tr>';
+					}//end if
+					$.each(jsonObj.review, function(idx, ele){
+					var reviewCnt = idx + 1;
+					output+='<tr>'
+					+'<td scope="row">'+reviewCnt+'</td>'
+					+'<td><a href="review_post.do?rv_num='+ele.rv_num+'&m_title='+m_title+'&m_num='+m_num+'">'+ele.title+'</a></td>'
+					+'<td>'+ele.nick_name+'</td>'
+					+'<td>'+ele.input_date+'</td>'
+					+'<td>'+ele.hits+'</td>'
+					+'<td>'+ele.like_total+'</td>'
+					+'</tr>';
+					});
+					output+='</form>'
+					+'</tbody>'				
+					+'</table>'
+					+'</div>';
+					$("#output").html(output); 
+		
+			}//success
+		});//ajax
+}//searchReview
+	
+$(function(){	
+        	
+	/*  $(window).on('load', function() {
+	    searchReview();
+	}); */
+	// 리뷰 클릭 시
+	 $("#review").click(function() {
+		
+		searchReview();
+		
+    });//click
+    
+});//ready
+
+/* 경태 끝 */
 
 </script>
 
+<!-- =================================JSTL로 공통부분 출력============================== -->
 </head>
 
 <body class=""> 
-	<input type="hidden" id="hiddenId" value="${ lrDomain.user_id }"/>
+	<!-- 경태 -->
+	 <input type="hidden" value="${ movie.m_title }" id="m_title"/>
+	 <!-- 경태 -->
     <div class="kakao_wrap detail_type"> 
 		<header class="kakao_head search_on" data-tiara-layer="gnb"> 
     <div class="kakaohead_top">
         <div class="inner_head" data-tiara-layer="service">
-                <a class="link_daum" data-tiara-layer="logo"><img src="http://localhost/prj3_mvc/images/movie_small.png" width="70" height="35" class="logo_daum" alt="Daum"></a>
-			<c:choose>
-				<c:when test="${ empty lrDomain.user_id }">
-                	<a style="margin-left: 970px;" href="login.do"><span style="font-weight: bold;">Login</span></a>
-				</c:when>			
-				                
-				<c:when test="${ lrDomain.user_id != null}">
-	                <a style="margin-left: 970px;" href="frm/logout.do"><span style="font-weight: bold;">Logout</span></a>
-				</c:when>			
-			</c:choose>
-                
+                <a class="link_daum" data-tiara-layer="logo">
+                <img src="http://localhost/prj3_mvc/images/movie_small.png" width="70" height="35" class="logo_daum" alt="Daum"></a>
+		                <c:choose>
+		                	<c:when test="${ empty lrDomain.user_id }">
+				                <a style="margin-left: 960px;" href="login.do"><span style="font-weight: bold; ">Login</span></a>
+		                	</c:when>
+		                	<c:when test="${ !empty lrDomain.user_id }">
+				                <a style="margin-left: 960px;" href="logout.do"><span style="font-weight: bold; ">Logout</span></a>
+		                	</c:when>
+		                </c:choose>
         </div>
     </div>
     <div class="kakaohead_menu">
@@ -444,7 +686,7 @@ $(function() {
                 <h2 class="screen_out">영화 메인메뉴</h2>
                 <ul data-tiara-layer="tab">
                     <li class="home ">
-                        <a href="mainPage.do" class="link_gnb" data-tiara-layer="home">영화</a>
+                        <a href="main_frm.do" class="link_gnb" data-tiara-layer="home">영화</a>
                     </li>
                     <li class="ranking ">
                         <a href="/ranking/reservation" class="link_gnb" data-tiara-layer="ranking">예매</a>
@@ -463,7 +705,7 @@ $(function() {
                         <legend class="screen_out">검색어 입력폼</legend>
                         <div class="box_search" data-tiara-layer="service search">
                             <input type="input" class="tf_keyword" name="q" title="검색어 입력" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="영화 검색"  value="">
-                            <button type="button" class="btn_search"><span class="ico_movie ico_search">검색</span></button>
+                            <button type="button" class="btn_search" ><span class="ico_movie ico_search">검색</span></button>
                         </div>
                     </fieldset>
                 </form>
@@ -528,7 +770,7 @@ $(function() {
                     <dl class="list_cont">
                     <dt>러닝타임</dt>
                     <dd>
-                        ${ movie.run_time }분
+                        ${ movie.run_time }
                     </dd>
                     </dl>
                     <dl class="list_cont">
@@ -543,177 +785,48 @@ $(function() {
         </div>
             	<!------------------------------- 좋아요, 예메하기 버튼 추가 박진호 0507 -->
             		<!-- <input type="button" class="like" id="likeBtn" value="♥좋아요" style="width:80px; height:35px; cursor: pointer; border-radius: 10px" /> -->
-            		
             		<div id="likeBtn" class="right_area">
-            		
-            		<c:choose>
-	            		<c:when test="${ likeStatus }">
-	  						<a href="#" class="icon heart">
-	    						<img src="https://cdn-icons-png.flaticon.com/512/803/803087.png" alt="찜하기"> 
-	  						</a>
-	  					</c:when>
-	  					
-	  					<c:otherwise>
-	  						<a href="#" class="icon heart">
-	    						<img src="https://cdn-icons-png.flaticon.com/512/812/812327.png" alt="찜하기"> 
-	  						</a>
-	  					</c:otherwise>
-  					</c:choose>
-  					
-  					
+  						<a href="javascript:;" class="icon heart">
+    						<img src="https://cdn-icons-png.flaticon.com/512/812/812327.png" alt="찜하기"> 
+  						</a>
 					</div>
 					<div id="ticketing">
             			<input type="button" class="ticketing" id="tiecketingBtn" value="예매하기" style="width:80px; height:35px; cursor: pointer; margin-left: 10px; border-radius: 10px; background-color: #E74C3C; border-color: #E74C3C; color: white; font-size:11pt;font-family:굴림;font-weight:bolder"  />
     				</div>
     </div>
 </div>
-        <!-- 상세하단 -->
+		<!-- 상세하단 -->
         <div class="box_detailinfo">
             <!-- 탭메뉴 -->
 <div class="tabmenu_wrap">
     <strong class="screen_out">영화제 탭메뉴</strong>
     <ul class="list_tabmenu" role="tablist" data-tiara-layer="tab">
-        <li  ><!-- 선택시 on 클래스 추가 -->
-            <a href="#void" id="mainInfo">
-                <span class="txt_tabmenu">주요정보</span>
-            </a>
-        </li>
-        <li  >
-            <a href="#void" id="produce">
-                <span class="txt_tabmenu">출연/제작</span>
-            </a>
+        <li>
+            <span class="txt_tabmenu" id="mainInfo" style="cursor: pointer">주요정보</span>
         </li>
         <li>
-            <a href="#void" id="grade">
-                <span class="txt_tabmenu">평점</span>
-            </a>
+             <span class="txt_tabmenu" id="produce" style="cursor: pointer">출연/제작</span>
         </li>
         <li>
-            <a href="#void">
-                <span class="txt_tabmenu">리뷰</span>
-            </a>
+            <span class="txt_tabmenu" id="grade" style="cursor: pointer">평점</span>
+        </li>
+        <li>
+            <span class="txt_tabmenu" id="review" style="cursor: pointer">리뷰</span>
         </li>
     </ul>
 </div>            <div class="contents"></div>
         </div>
         <br/>
-        <!-- -------------------- 상세내용 추가 -->
-        <div id="output">
-        <div>
-        	따단-딴-따단-딴 ♫ 
-전 세계를 열광시킬 올 타임 슈퍼 어드벤처의 등장! 
-
-뉴욕의 평범한 배관공 형제 '마리오'와 ‘루이지’는
-배수관 고장으로 위기에 빠진 도시를 구하려다
-미스터리한 초록색 파이프 안으로 빨려 들어가게 된다. 
-
-파이프를 통해 새로운 세상으로 차원 이동하게 된 형제.
-형 '마리오'는 뛰어난 리더십을 지닌 '피치'가 통치하는 버섯왕국에 도착하지만
-동생 '루이지'는 빌런 '쿠파'가 있는 다크랜드로 떨어지며 납치를 당하고
-‘마리오’는 동생을 구하기 위해 ‘피치’와 ‘키노피오’의 도움을 받아 '쿠파'에 맞서기로 결심한다. 
-        </div>
         
-       <br/><br/><br/>
-        <div class="detail_crewinfo" data-tiara-layer="crew">
-            <h5 class="tit_section">감독 / 출연진</h5>
-            <br/>
-            <ul class="list_crewall">
-                        <li>
-                            <div class="item_crewall">
-                                <a href="/person/main?personId=37689" class="thumb_item" data-tiara-layer="thumb" data-tiara-copy="주요정보_출연진_썸네일" data-tiara-ordnum="1">
-                                        <img src="https://img1.daumcdn.net/thumb/C116x168/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fcfile%2F1340D410AE0CB5B755" class="img_thumb" alt="제임스 건">
-                                </a>
-                                <div class="thumb_cont">
-                                    <strong class="tit_item">
-                                        <a href="/person/main?personId=37689" class="link_tit" data-tiara-layer="name" data-tiara-copy="주요정보_출연진_이름" data-tiara-ordnum="1">제임스 건</a>
-                                    </strong>
-                                        <span class="txt_info">감독</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="item_crewall">
-                                <a href="/person/main?personId=110974" class="thumb_item" data-tiara-layer="thumb" data-tiara-copy="주요정보_출연진_썸네일" data-tiara-ordnum="2">
-                                        <img src="https://img1.daumcdn.net/thumb/C116x168/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fmovie%2F4a10874f56791f822331095f0306a539869297de" class="img_thumb" alt="크리스 프랫">
-                                </a>
-                                <div class="thumb_cont">
-                                    <strong class="tit_item">
-                                        <a href="/person/main?personId=110974" class="link_tit" data-tiara-layer="name" data-tiara-copy="주요정보_출연진_이름" data-tiara-ordnum="2">크리스 프랫</a>
-                                    </strong>
-                                        <span class="txt_info">주연</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="item_crewall">
-                                <a href="/person/main?personId=17260" class="thumb_item" data-tiara-layer="thumb" data-tiara-copy="주요정보_출연진_썸네일" data-tiara-ordnum="3">
-                                        <img src="https://img1.daumcdn.net/thumb/C116x168/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fmovie%2F73bff634a371f32a0ff11458622b2bd2c7024e62" class="img_thumb" alt="조 샐다나">
-                                </a>
-                                <div class="thumb_cont">
-                                    <strong class="tit_item">
-                                        <a href="/person/main?personId=17260" class="link_tit" data-tiara-layer="name" data-tiara-copy="주요정보_출연진_이름" data-tiara-ordnum="3">조 샐다나</a>
-                                    </strong>
-                                        <span class="txt_info">주연</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="item_crewall">
-                                <a href="/person/main?personId=224680" class="thumb_item" data-tiara-layer="thumb" data-tiara-copy="주요정보_출연진_썸네일" data-tiara-ordnum="4">
-                                        <img src="https://img1.daumcdn.net/thumb/C116x168/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fcfile%2F183B893D4EC3368A16" class="img_thumb" alt="데이브 바티스타">
-                                </a>
-                                <div class="thumb_cont">
-                                    <strong class="tit_item">
-                                        <a href="/person/main?personId=224680" class="link_tit" data-tiara-layer="name" data-tiara-copy="주요정보_출연진_이름" data-tiara-ordnum="4">데이브 바티스타</a>
-                                    </strong>
-                                        <span class="txt_info">주연</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="item_crewall">
-                                <a href="/person/main?personId=1548" class="thumb_item" data-tiara-layer="thumb" data-tiara-copy="주요정보_출연진_썸네일" data-tiara-ordnum="5">
-                                        <img src="https://img1.daumcdn.net/thumb/C116x168/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fmovie%2F0e848f51add0f653be967d5c4dc8edb0cb654e0f" class="img_thumb" alt="빈 디젤">
-                                </a>
-                                <div class="thumb_cont">
-                                    <strong class="tit_item">
-                                        <a href="/person/main?personId=1548" class="link_tit" data-tiara-layer="name" data-tiara-copy="주요정보_출연진_이름" data-tiara-ordnum="5">빈 디젤</a>
-                                    </strong>
-                                        <span class="txt_info">주연</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="item_crewall">
-                                <a href="/person/main?personId=95705" class="thumb_item" data-tiara-layer="thumb" data-tiara-copy="주요정보_출연진_썸네일" data-tiara-ordnum="6">
-                                        <img src="https://img1.daumcdn.net/thumb/C116x168/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fcfile%2F204E600B4BD006A656" class="img_thumb" alt="브래들리 쿠퍼">
-                                </a>
-                                <div class="thumb_cont">
-                                    <strong class="tit_item">
-                                        <a href="/person/main?personId=95705" class="link_tit" data-tiara-layer="name" data-tiara-copy="주요정보_출연진_이름" data-tiara-ordnum="6">브래들리 쿠퍼</a>
-                                    </strong>
-                                        <span class="txt_info">주연</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="item_crewall">
-                                <a href="/person/main?personId=193531" class="thumb_item" data-tiara-layer="thumb" data-tiara-copy="주요정보_출연진_썸네일" data-tiara-ordnum="7">
-                                        <img src="https://img1.daumcdn.net/thumb/C116x168/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fcfile%2F163464264AF2131E2C" class="img_thumb" alt="카렌 길런">
-                                </a>
-                                <div class="thumb_cont">
-                                    <strong class="tit_item">
-                                        <a href="/person/main?personId=193531" class="link_tit" data-tiara-layer="name" data-tiara-copy="주요정보_출연진_이름" data-tiara-ordnum="7">카렌 길런</a>
-                                    </strong>
-                                        <span class="txt_info">주연</span>
-                                </div>
-                            </div>
-                        </li>
-            </ul>
-        </div>
+         <div id="output"><!-- --------------------  탭 클릭시 ajax로 화면 부분 전환시작 - 데이터 덮어쓰기 --------------------------------------------------------------->
         
-    </div>
-</article>        </main>
+   		 </div><!-- ------------------------------   탭 클릭시 ajax로 화면 부분 전환 끝  ---------------------------------------------------------------->
+    
+       <!-- ================================= 공통부분 출력 끝============================== -->
+       
+        </div>
+</article>        
+</main>
         <hr class="hide">
         </div>
 

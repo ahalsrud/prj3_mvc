@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.co.sist.total_info">
+<mapper namespace="kr.co.prj3_mvc.total_info">
 
 
 <!-- 영화 주요 정보 -->
@@ -11,6 +11,7 @@ select     	m_num, m_title, eng_title, release_date, genre, run_time, country, r
 from        movie
 where       m_num=#{m_num}
 </select>
+
 
 <!-- 좋아요 상태 -->
 <select id="selectLikeMovie" resultType="String" parameterType="kr.co.sist.prj3.user.total_info.vo.LikeMovieVO">
@@ -30,6 +31,41 @@ values (#{m_num}, #{user_id})
 delete from movie_like
 where m_num = #{ m_num }
 </delete>
+
+<!-- 줄거리 -->
+<select id="selectSummary" resultType="String">
+select		summary
+from		movie
+where		m_num=#{m_num}
+</select>
+
+<!--감독 (주요정보, 출연/제작) -->							
+<select id="selectDirectorMain" resultType="kr.co.sist.prj3.user.total_info.domain.DirectorDomain">
+select 		d_img, d_name, d_eng
+from 		director
+where		m_num=#{m_num}
+</select>
+
+<!-- 배우 (주요정보, 출연/제작)-->							
+<select id="selectActorMain" resultType="kr.co.sist.prj3.user.total_info.domain.ActorDomain">
+select 		a_img, a_name, a_eng, role
+from 		actor
+where		m_num=#{m_num}
+</select>
+
+<!-- 영화 사진 -->							
+<select id="selectMovieImg" resultType="kr.co.sist.prj3.user.total_info.domain.MovieImgDomain">
+select 		m_img
+from 		movie
+where		m_num=#{m_num}
+</select>
+
+<!-- 출연/제작사 -->
+<select id="selectProduce" resultType="kr.co.sist.prj3.user.total_info.domain.ProduceDomain">
+select		origin, script, produce, ration, imports
+from		movie
+where		m_num=#{m_num}
+</select>
 
 
 </mapper>
