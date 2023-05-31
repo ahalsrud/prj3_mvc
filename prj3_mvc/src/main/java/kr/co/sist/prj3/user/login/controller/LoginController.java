@@ -1,6 +1,7 @@
 package kr.co.sist.prj3.user.login.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
 
 import org.json.simple.JSONObject;
@@ -36,7 +37,7 @@ public class LoginController {
 	// Model을 이용하여 세션저장 및 이름 화면에 띄우기
 	@ResponseBody
 	@RequestMapping(value="/login_process.do", method= {RequestMethod.POST, RequestMethod.GET})
-	public String loginFrmProcess(LoginVO lVO, Model model) throws UnsupportedEncodingException, NoSuchAlgorithmException{
+	public String loginFrmProcess(LoginVO lVO, Model model) throws UnsupportedEncodingException, GeneralSecurityException{
 
 		LoginResultDomain lrDomain=null;
 		lrDomain = lService.loginService(lVO);

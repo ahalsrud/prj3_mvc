@@ -31,6 +31,14 @@ public class MainPageService {
 		return list;
 	}//mainPageFrmService
 	
+	public List<SearchMovieDomain> mainPageNone() {
+		List<SearchMovieDomain> list= new ArrayList<SearchMovieDomain>();
+		
+		list=mpDAO.selectAllNone();
+		
+		return list;
+	}//mainPageNone
+	
 	public List<SearchMovieDomain> searchMovieService(String title) {
 		List<SearchMovieDomain> list= new ArrayList<SearchMovieDomain>();
 		

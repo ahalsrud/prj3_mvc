@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import kr.co.sist.prj3.user.login.dao.LoginDAO;
 import kr.co.sist.prj3.user.login.domain.LoginResultDomain;
 import kr.co.sist.prj3.user.login.vo.LoginVO;
+import kr.co.sist.util.cipher.DataDecrypt;
 import kr.co.sist.util.cipher.DataEncrypt;
 
 
@@ -22,7 +23,7 @@ public class LoginService {
 	
 	
 	// ·Î±×ÀÎ
-		public LoginResultDomain loginService(LoginVO lVO) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+		public LoginResultDomain loginService(LoginVO lVO) throws UnsupportedEncodingException, GeneralSecurityException {
 			
 			LoginResultDomain lrDomain = null;
 			JSONObject jsonObj = new JSONObject();
@@ -37,7 +38,8 @@ public class LoginService {
 			lVO.setPass(DataEncrypt.messageDigest("MD5", lVO.getPass()));
 			lrDomain = lDAO.selectUser(lVO);
 
-			
+			DataDecrypt dd=new DataDecrypt("FsRt4SfY4US0IWtK4JPJsw==");
+			lrDomain.setName(dd.decryption(lrDomain.getName()));
 			
 			return lrDomain;
 			

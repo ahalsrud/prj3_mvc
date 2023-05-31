@@ -15,12 +15,18 @@ where		r_rate=(select MAX(r_rate) from movie)
 <select id="movieList" resultType="kr.co.sist.prj3.user.mainpage.domain.SearchMovieDomain">
 select		movie.m_num, m_title, poster, r_rate, rank
 from		movie
+where     open_date is not null
 order by r_rate desc
 </select>
 
+<select id="noneList" resultType="kr.co.sist.prj3.user.mainpage.domain.SearchMovieDomain">
+SELECT movie.m_num, m_title, poster, rank
+FROM movie
+WHERE open_date IS NULL
+</select>
 <!-- 영화검색 -->
 <select id="searchMovie" resultType="kr.co.sist.prj3.user.mainpage.domain.SearchMovieDomain" parameterType="String">
-select		m_num, m_title, poster, release_date, rank, r_rate
+select		m_num, m_title, poster, release_date, rank, r_rate, open_date
 from		movie
 <where>
 <if test="title != null and title !='' ">

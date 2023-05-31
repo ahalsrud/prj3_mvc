@@ -5,6 +5,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
 <head>
+<%@include file="../checkLogin.jsp" %>
     <link rel="alternate" href="http://m.cgv.co.kr" />
     <link rel="shortcut icon" href="https://img.cgv.co.kr/theater_img/favicon.ico" type="image/x-icon" />
     <title id="ctl00_ctl00_headerTitle">MY PAGE &lt; My MOVIEPLANET | 영화 그 이상의 감동. </title>
@@ -54,13 +55,22 @@
 </style>
 <script>
 $(function() {
-	$("#reBtn").click(function() {
-		var rNum=$("#r_num").val();
+	$("[name^='reBtn']").click(function() { 
+		var index = $(this).attr('name').replace('reBtn', '');
+		var rNum = $('input[name="r_num' + index + '"]').val();
+	     alert(rNum);
 		if(confirm("예매를 취소하시겠습니까?")) {
 			location.href="cancelRes.do?r_num="+rNum;
 		}
 		
 	});//click
+	
+	$("#searchBtn").click(function(){
+		
+		$("#movieSearchFrm").submit();		
+		
+	});//click
+	
 });//ready
 </script>
 </head>
@@ -75,12 +85,12 @@ $(function() {
 <div class="header_content">
     <div class="contents">
         <h1 onclick="">
-        <a href="mainPage.do">
+        <a href="main_loged_frm.do">
         	<img src="http://localhost/prj3_mvc/images/movie.png" alt="movieplanet" />
         </a>
         <span>MOVIEPLANET</span></h1>
         <ul class="memberInfo_wrap">
-            <li><a href="/user/login/logout.aspx" class="logout" title="로그아웃" ><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginPassword.png" alt="로그아웃" /><span>로그아웃</span></a></li>
+            <li><a href="mainPage.do" class="logout" title="로그아웃" ><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginPassword.png" alt="로그아웃" /><span>로그아웃</span></a></li>
             
             
             <li><a href="mypage.do"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginMember.png" alt="MY PAGE" /><span>MY PAGE</span></a></li>
@@ -93,21 +103,23 @@ $(function() {
         <h1><a href="/" tabindex="-1"><img src="https://img.cgv.co.kr/R2014/images/common/logo/logoWhite.png" alt="CGV" /></a></h1>
         <ul class="nav_menu">
             <li>
-                <h2><a href="mainPage.do">영화</a></h2>
+                <h2><a href="search_movie.do">영화</a></h2>
             </li>
             <li>
-                <h2><a href="/ticket/"><strong>예매</strong></a></h2>
+                <h2><a href="movie_reserve.do"><strong>예매</strong></a></h2>
             </li>
             <li>
             </li>
         </ul>
         <div class="totalSearch_wrap">
+            <form id="movieSearchFrm" name="movieSearch" action="search_movie.do">
             <label for="totalSearch">
                 <input type="text" id="header_keyword" placeholder="영화 검색" />
                 <input type="hidden" id="header_ad_keyword" name="header_ad_keyword" />
             </label>
-            <button type="button" class="btn_totalSearch" id="btn_header_search">검색</button>
+            <button type="button" class="btn_totalSearch" id="searchBtn">검색</button>
             <iframe src="//ad.cgv.co.kr/NetInsight/html/CGV/CGV_201401/main@Search_txt" width="0" height="0" title="" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"></iframe>
+            </form>
         </div>
     </div>
 </div>
@@ -136,15 +148,15 @@ $(function() {
         	<h2 class="hidden">개인화 영역</h2> 
         	<div class="box-image">
 				<span class="thumb-image">
-					<img src="http://localhost/prj3_mvc/images/default_profile.gif" alt="모민경님 프로필 사진" onerror="errorImage(this, {'type':'profile'})" />
+					<img src="http://localhost/prj3_mvc/images/${lrDomain.profile eq null ? 'default_profile.gif' : lrDomain.profile }" alt="${ lrDomain.name }님 프로필 사진" onerror="errorImage(this, {'type':'profile'})" />
 					<span class="profile-mask"></span>
 				</span>
         	</div>
         	<div class="box-contents newtype">
         		<div class="person-info">
-        			<strong>홍길동님</strong>
-        			<em>nisis0322</em>
-        			<span>닉네임 : <i>닉네임을 설정해주세요.</i> </span>
+        			<strong>${ lrDomain.name }님</strong>
+        			<em>${lrDomain.user_id }</em>
+        			<span>닉네임 : <i>${ lrDomain.nick_name eq null ? "닉네임을 설정해주세요": lrDomain.nick_name }</i> </span>
         			<button id="go_edit_page" type="button" title="새창열림">나의 정보 변경</button>
         		</div>
         	</div>
@@ -175,7 +187,7 @@ $(function() {
 
 	                </ul>
 	            </li>
-                 <li >
+                 <li>
                     <a href="my_profile.do" >프로필 관리<i></i></a>
                 </li>
                 <li class="my-event"><a href="/user/movielog/watched.aspx">내가 본 영화</a></li>
@@ -236,15 +248,15 @@ $(function() {
                 	<td colspan="5" class="nodata">고객님의 최근 예매내역이 존재하지 않습니다.</td>
                 </tr>
 			</c:if>
-                <c:forEach var="resInfo" items="${ resInfo }">
+                <c:forEach var="resInfo" items="${ resInfo }" varStatus="i">
                 <tr>
                 	<td>${ resInfo.m_title }</td>
                 	<td>2023.06.${ resInfo.watch_date }</td>
                 	<td>${resInfo.price}</td>
                 	<td>${ resInfo.r_state eq 'Y' ? '예매완료' : '예매중' }</td>
                 	<td>
-		                <input type="hidden" id="r_num" name="r_num" value="${ resInfo.r_num }"/>
-                		<input type="button" id="reBtn" value="예매취소"/>
+		                <input type="hidden" id="r_num" name="r_num${ i.index }" value="${ resInfo.r_num }"/>
+                		<input type="button" id="reBtn" name="reBtn${ i.index }" value="예매취소"/>
                 	</td>
                 </tr>
                 </c:forEach>

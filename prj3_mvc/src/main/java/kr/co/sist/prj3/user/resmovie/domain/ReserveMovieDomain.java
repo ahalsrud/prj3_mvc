@@ -2,9 +2,8 @@ package kr.co.sist.prj3.user.resmovie.domain;
 
 public class ReserveMovieDomain {
 	
-	private String m_title, theater, release_hour, release_date, open_date, end_date, rank;
+	private String m_title, theater, release_hour, release_date, open_date, end_date, rank, poster;
 	private int m_num;
-	
 	public String getM_title() {
 		return m_title;
 	}
@@ -47,28 +46,26 @@ public class ReserveMovieDomain {
 	public void setRank(String rank) {
 		this.rank = rank;
 	}
+	public String getPoster() {
+		return poster;
+	}
+	public void setPoster(String poster) {
+		this.poster = poster;
+	}
 	public int getM_num() {
 		return m_num;
 	}
 	public void setM_num(int m_num) {
 		this.m_num = m_num;
 	}
+	
 	@Override
 	public String toString() {
 		return "ReserveMovieDomain [m_title=" + m_title + ", theater=" + theater + ", release_hour=" + release_hour
 				+ ", release_date=" + release_date + ", open_date=" + open_date + ", end_date=" + end_date + ", rank="
-				+ rank + ", m_num=" + m_num + "]";
+				+ rank + ", poster=" + poster + ", m_num=" + m_num + "]";
 	}
 	
-	
-	
-	
-	
-
-	
-	
-	
-
 	
 
 }//class

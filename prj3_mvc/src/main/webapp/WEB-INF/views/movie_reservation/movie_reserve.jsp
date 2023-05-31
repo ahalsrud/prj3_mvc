@@ -10,6 +10,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
 <head>
+<%@include file="../checkLogin.jsp" %>
     
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -1122,6 +1123,17 @@ i {
 }
 /* 영화시간 선택*/
 
+.tnb.step1 .btn-right.on {
+    background-position: -150px -220px;
+}
+
+.tnb .btn-left, .tnb .btn-right {
+    background: url(http://img.cgv.co.kr/CGV_RIA/Ticket/image/reservation/tnb/tnb_buttons.png) no-repeat;
+    background-position: 0 0;
+    overflow: hidden;
+    text-indent: -1000px;
+}
+
 
 </style>   
 
@@ -1140,7 +1152,7 @@ i {
             
 <div class="header_content">
     <div class="contents">
-        <h1 onclick=""><a href="/"><img src="http://localhost/test_prj/admin/images/movie.png" alt="CGV" /></a><span>MOVIEPLANET</span></h1>
+        <h1 onclick=""><a href="main_loged_frm.do"><img src="http://localhost/test_prj/admin/images/movie.png" alt="CGV" /></a><span>MOVIEPLANET</span></h1>
         <ul class="memberInfo_wrap">
 
             
@@ -1182,11 +1194,11 @@ $(function() {
 	    var siblingLi = parentLi.siblings();
 	    
 	    // 현재 클릭된 요소와 형제 요소의 클래스 조작
-	    parentLi.addClass("press selected");
-	    siblingLi.removeClass("press selected");
+	    parentLi.addClass("selected");
+	    siblingLi.removeClass("selected");
 	  });
 	
-	$("[id^='liDate']").click(function() {
+	$("[id^='liMovie']").click(function() {
 		
 		var liId = $(this).attr("id");
 	    var m_num = $("#" + liId).find("#mNum").val();
@@ -1198,19 +1210,68 @@ $(function() {
 			dataType:"json",
 			success: function(jsonObj) {
 				
+				var className="day";
 				var cnt=0;
+				var year = jsonObj.year;
+	            var month = jsonObj.month;
+				var startDate = new Date(year, month - 1, jsonObj.open_date);
+				var endDate = new Date(year, month - 1, jsonObj.end_date);
+				
 				var output="<li class='month dimmed'>"
 				+"<div> <span class='year'>"+jsonObj.year+"</span>"
 				+"<span class='month'>"+jsonObj.month+"</span>"
 				+"<div></div></div></li>";
-				for(var date=jsonObj.open_date; date<=jsonObj.end_date; date++) {
-					output += "<li data-index='"+cnt+"' class='day'>"
-					+"<a href='#' ><span class='dayweek'>"+jsonObj.day+"</span>"
-					+"<span class='day'>"+date+"</span></a></li>";
-					cnt++;
-				}//end for
+				
+				 while (startDate <= endDate) {
+		             var dayOfWeek = startDate.getDay(); // 0 (일요일)부터 6 (토요일)까지의 값을 반환
+		             var dayOfWeekText = "";
+
+		             switch (dayOfWeek) {
+		               case 0:
+		                 dayOfWeekText = "일";
+		                 break;
+		               case 1:
+		                 dayOfWeekText = "월";
+		                 break;
+		               case 2:
+		                 dayOfWeekText = "화";
+		                 break;
+		               case 3:
+		                 dayOfWeekText = "수";
+		                 break;
+		               case 4:
+		                 dayOfWeekText = "목";
+		                 break;
+		               case 5:
+		                 dayOfWeekText = "금";
+		                 break;
+		               case 6:
+		                 dayOfWeekText = "토";
+		                 break;
+		             }//end switch
+		             
+		             if(dayOfWeek==6) {
+		            	 className="day day-sat";
+		             }else if(dayOfWeek==0) {
+		            	 className="day day-sun";
+		             }else {
+		            	 className="day";
+		             }//end else
+
+		             var dayOfMonth = startDate.getDate();
+		             output +="<li data-index='"+cnt+"' class='"+className+"' id='dList"+cnt+"' onclick='releaseDate("+m_num+")'>" 
+		                     +"<a href='#'><span class='dayweek'>" + dayOfWeekText +"</span>" 
+		                       +"<span class='day'>" +dayOfMonth +"</span></a></li>";
+
+		             startDate.setDate(startDate.getDate() + 1);
+		             cnt++;
+		             
+		           }//end while
+				
+				
 				
 				$("#mDate").html(output);
+		           
 				
 				//li 클릭시 배경 설정
 				
@@ -1219,8 +1280,8 @@ $(function() {
 				    var siblingLi = parentLi.siblings();
 				    
 				    // 현재 클릭된 요소와 형제 요소의 클래스 조작
-				    parentLi.addClass("press selected");
-				    siblingLi.removeClass("press selected");
+				    parentLi.addClass("selected");
+				    siblingLi.removeClass("selected");
 				  });
 				
 				 // 스크롤 추가
@@ -1240,8 +1301,90 @@ $(function() {
 	
 	
 	
-	
 });//ready
+
+        
+
+       
+
+
+
+
+function releaseDate(m_num) {
+	
+	$.ajax({
+		
+		url:"movie_hour.do",
+		type:"GET",
+		data: {m_num : m_num},
+		dataType:"json",
+		success: function(jsonObj) {
+			var output="<span class='title'><span class='floor'>VVIP관</span></span>";
+			
+			if(jsonObj.arrayFlag==false) {
+				output+="<li id='start' class>"
+					+"<a class='button' href='#' title=''>"
+					+"<span class='time'><span>"+jsonObj.hours+"</span></span>"
+					+"<span class='sreader mod'></span></a></li>";
+			}else {
+			
+			$.each(jsonObj.hours, function(idx,ele) {
+				output+="<li id='start"+idx+"' class>"
+					+"<a class='button' href='#' title=''>"
+					+"<span class='time'><span>"+ele.hour+"</span></span>"
+					+"<span class='sreader mod'></span></a></li>";
+        	});//each
+			}//end else
+			
+			
+			$("#mTime").html(output);
+			
+			//li 클릭시 배경 설정
+			$("li").click(function() {
+			    var parentLi = $(this).closest("li");
+			    var siblingLi = parentLi.siblings();
+			    
+			    // 현재 클릭된 요소와 형제 요소의 클래스 조작
+			    parentLi.addClass("selected");
+			    siblingLi.removeClass("selected");
+			    
+			    //selected된 li의 개수에 따라 다음단계 버튼 활성화
+			    if($('.selected').length===3) {
+			    	$("#okBtn").addClass("on");
+			    }else if($('.selected').length !== 3) {
+			    	$("#okBtn").removeClass("on");
+			    }//else if
+			    
+			  });
+			
+		},//success
+		error : function(xhr) {
+			alert("오류발생");
+		}//end error
+		
+	});//ajax
+}//releaseDate
+
+function deliverInfo() {
+	
+	    var startValue = $("li[id^='start'].selected .time").text();
+	    var dListValue = $("li[id^='dList'].selected .day").text();
+	    var dayWeek = $("li[id^='dList'].selected .dayweek").text();
+	    var movieValue = $("li[id^='liMovie'].selected input[type='hidden']").val();
+	    
+	    var currentDate = new Date();
+	    var currentYear = currentDate.getFullYear();
+	    var currentMonth = currentDate.getMonth() + 1;
+	    
+	    var url = "seat_reserve.do?m_num="+movieValue+"&watch_date="+dListValue+"&start_time="+startValue+"&day_week="+dayWeek
+	    		+"&current_year="+currentYear+"&current_month="+currentMonth;
+	    
+	    location.href=url;
+	    
+	
+}//deleverInfo
+
+
 </script>
 
 
@@ -1251,10 +1394,10 @@ $(function() {
         <h1><a href="/" tabindex="-1"></a></h1>
         <ul class="nav_menu">
             <li>
-                <h2><a href="/movies/?lt=1&ft=0">영화</a></h2>
+                <h2><a href="search_movie.do">영화</a></h2>
             </li>
             <li>
-                <h2><a href="/ticket/"><strong>예매</strong></a></h2>
+                <h2><a href=""><strong>예매</strong></a></h2>
             </li>
             <li>
             </li>
@@ -1263,13 +1406,6 @@ $(function() {
             <li>
             </li>
         </ul>
-        <div class="totalSearch_wrap">
-            <label for="totalSearch">
-                <input type="text" id="" value="" placeholder="영화명 검색"/>
-                <input type="hidden" id="header_ad_keyword" name="header_ad_keyword" />
-            </label>
-            <button type="button" class="btn_totalSearch" id="btn_header_search">검색</button>
-        </div>
     </div>
 </div>
             <!-- 서브 메뉴 -->			
@@ -1352,7 +1488,7 @@ Sys.WebForms.PageRequestManager._initialize('ctl00$PlaceHolderContent$ScriptMana
 								<ul class="content scroll-y" onscroll="movieSectionScrollEvent();" tabindex="-1" style="right: -17px;">
 								<!-- 리스트 -->
 								<c:forEach var="titles" items="${ titles }" varStatus="i">
-								<li class="" data-index="0" movie_cd_group="20032729" movie_idx="87045" id="liDate${ i.index }">
+								<li class="" data-index="0" movie_cd_group="20032729" movie_idx="87045" id="liMovie${ i.index }">
 								<input type="hidden" value="${ titles.m_num } "  id="mNum" />
 								<a href="#"  id="mTitle" title="${ titles.m_title }" alt="${ titles.m_title }" >
 								<i class="cgvIcon etc age${ titles.rank }">${ titles.rank }</i>
@@ -1362,15 +1498,6 @@ Sys.WebForms.PageRequestManager._initialize('ctl00$PlaceHolderContent$ScriptMana
 								</li>
 								</c:forEach>
 								<!-- 리스트 -->
-								<li class="press selected" data-index="4" movie_cd_group="20032164" movie_idx="86883" selectedmovietype="ALL">
-								<a href="#" onclick="return false;" title="가디언즈오브갤럭시-Volume3" alt="가디언즈오브갤럭시-Volume3">
-								<i class="cgvIcon etc age12">12</i>
-								<span class="text">a</span>
-								<span class="sreader"></span>
-								</a>
-								</li>
-								
-								
 								</ul>
 								<div class="pane pane-y" style="display: block; opacity: 1; visibility: visible;">
 									<div class="slider slider-y" style="height: 50px; top: 256.114px;"></div>
@@ -1402,57 +1529,6 @@ Sys.WebForms.PageRequestManager._initialize('ctl00$PlaceHolderContent$ScriptMana
 							<div class="date-list nano has-scrollbar has-scrollbar-y" id="date_list">
 								<ul class="content scroll-y" tabindex="-1" style="right: -17px;">
 									<div id="mDate">
-										<!-- <li class="month dimmed">
-											<div>
-												<span class="year">2023</span>
-												<span class="month">6</span>
-												<div></div>
-											</div>
-										</li>
-										<li data-index="0" date="20230515" class="day">
-										<a href="#" >
-											<span class="dayweek">월</span>
-											<span class="day">15</span>
-										</a>
-										</li> -->
-										<!-- <li data-index="1" date="20230516" class="day selected">
-										<a href="#" onclick="return false;">
-											<span class="dayweek">화</span>
-											<span class="day">16</span>
-											<span class="sreader">선택됨</span>
-										</a>
-										</li>
-										
-										<li data-index="0" date="20230517" class="day">
-										<a href="#" onclick="return false;">
-											<span class="dayweek">수</span>
-											<span class="day">18</span>
-										</a>
-										</li>
-										<li data-index="0" date="20230517" class="day">
-										<a href="#" onclick="return false;">
-											<span class="dayweek">목</span>
-											<span class="day">19</span>
-										</a>
-										</li>
-										<li data-index="0" date="20230517" class="day">
-										<a href="#" onclick="return false;">
-											<span class="dayweek">금</span>
-											<span class="day">20</span>
-										</a>
-										</li>
-										<li data-index="0" date="20230517" class="day day-sat">
-										<a href="#" onclick="return false;">
-											<span class="dayweek">토</span>
-											<span class="day">21</span>
-										</a>
-										</li>
-										<li data-index="0" date="20230517" class="day day-sun">
-										<a href="#" onclick="return false;">
-											<span class="dayweek">일</span>
-											<span class="day">22</span>
-										</a>
-										</li> -->
 									</div>
 								</ul>
 							 	<div class="pane pane-y" style="display: block; opacity: 1; visibility: visible;">
@@ -1474,16 +1550,25 @@ Sys.WebForms.PageRequestManager._initialize('ctl00$PlaceHolderContent$ScriptMana
 							<div class="time-list nano has-scrollbar">
 								<div class="content scroll-y" tabindex="-1" style="right: -17px;">
 									<div class="theater" screen_cd="014" movie_num="20032592">
-										<span class="title">
-											<span class="floor">유일한 1관</span>
-										</span>
 										<ul>
-											<li data-index="0" data-remain_seat="124" play_start_tm="1600" screen_cd="014" movie_cd="20032592" play_num="3" class="disabled">
+											<div id="mTime">
+										<!-- <span class="title">
+											<span class="floor">VVIP관</span>
+										</span> -->
+											</div>
+											<!-- <li data-index="0" data-remain_seat="124" play_start_tm="1600" screen_cd="014" movie_cd="20032592" play_num="3" class="disabled">
 											<a class="button" href="#" onclick="screenTimeClickListener(event);return false;" title="">
-											<span class="time"><span>16:00</span></span><span class="count">예매종료</span><div class="sreader">종료시간 18:40</div>
+											<span class="time"><span>16:00</span></span><span class="count">예매종료</span>
+											<div class="sreader">종료시간 18:40</div>
 											<span class="sreader mod"> 선택불가</span></a>
 											</li>
-											<li data-index="0" data-remain_seat="30" play_start_tm="1905" screen_cd="010" movie_cd="20032164" play_num="4" class="selected"><a class="button" href="#" onclick="screenTimeClickListener(event);return false;" title=""><span class="time"><span>19:05</span></span><span class="count">28석</span><div class="sreader">종료시간 21:45</div><span class="sreader mod"></span></a></li>
+											<li data-index="0" data-remain_seat="30" play_start_tm="1905" screen_cd="010" movie_cd="20032164" play_num="4" class="selected">
+											<a class="button" href="#" onclick="screenTimeClickListener(event);return false;" title="">
+											<span class="time"><span>19:05</span></span><span class="count">28석</span>
+											<div class="sreader">종료시간 21:45</div>
+											<span class="sreader mod"></span>
+											</a>
+											</li> -->
 										</ul>
 									</div>
 								</div>
@@ -1504,7 +1589,7 @@ Sys.WebForms.PageRequestManager._initialize('ctl00$PlaceHolderContent$ScriptMana
     <div id="ticket_tnb" class="tnb_container ">
      	<div class="tnb step1">
      		<div class="tnb_step_btn_right_before" id="tnb_step_btn_right_before"></div>
-     		<a class="btn-right" id="tnb_step_btn_right" href="#" onclick="OnTnbRightClick(); return false;" title="좌석선택">다음단계로 이동 - 레이어로 서비스 되기 때문에 가상커서를 해지(Ctrl+Shift+F12)한 후 사용합니다.</a>
+     		<a class="btn-right" id="okBtn" href="#" onclick="deliverInfo()" title="좌석선택">다음단계로 이동</a>
      	</div>
      </div> 
     </div>

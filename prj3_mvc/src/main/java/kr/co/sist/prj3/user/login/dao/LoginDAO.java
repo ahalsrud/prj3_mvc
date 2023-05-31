@@ -1,5 +1,9 @@
 package kr.co.sist.prj3.user.login.dao;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +26,7 @@ public class LoginDAO {
 
 		// 2.핸들러 사용하기 - 쿼리문 수행하기
 		lrDomain = ss.selectOne("userLogin", lVO);
+		
 
 		// 3.조회결과 처리
 		// 4.MyBatis Handler 닫기

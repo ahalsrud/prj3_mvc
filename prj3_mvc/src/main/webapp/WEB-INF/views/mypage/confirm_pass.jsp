@@ -6,6 +6,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
 <head>
+<%@include file="../checkLogin.jsp" %>
     
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -178,6 +179,12 @@
 			$("#frm").submit();
 		});//click
 		
+		$("#searchBtn").click(function(){
+			
+			$("#movieSearchFrm").submit();		
+			
+		});//click
+		
 		
 	});//ready
 	</script>
@@ -195,13 +202,13 @@
 		<div class="header_content">
     		<div class="contents">
         		<h1 onclick="">
-       			<a href="/">
+       			<a href="main_loged_frm.do">
         			<img src="http://localhost/prj3_mvc/images/movie.png" alt="movieplanet" />
         		</a>
         		<span>MOVIEPLANET</span></h1>
         		<ul class="memberInfo_wrap">
-            		<li><a href="/user/login/logout.aspx" class="logout" title="로그아웃" ><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginPassword.png" alt="로그아웃" /><span>로그아웃</span></a></li>
-            		<li><a href="/user/mycgv/"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginMember.png" alt="MY PAGE" /><span>MY PAGE</span></a></li>
+            		<li><a href="mainPage.do" class="logout" title="로그아웃" ><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginPassword.png" alt="로그아웃" /><span>로그아웃</span></a></li>
+            		<li><a href="mypage.do"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginMember.png" alt="MY PAGE" /><span>MY PAGE</span></a></li>
         		</ul>
     		</div>
 		</div>
@@ -212,22 +219,24 @@
         		<h1><a href="/" tabindex="-1"><img src="https://img.cgv.co.kr/R2014/images/common/logo/logoWhite.png" alt="CGV" /></a></h1>
         		<ul class="nav_menu">
             	<li>
-                	<h2><a href="/movies/?lt=1&ft=0">영화</a></h2>
+                	<h2><a href="search_movie.do">영화</a></h2>
             	</li>
             	<li>
-                	<h2><a href="/ticket/"><strong>예매</strong></a></h2>
+                	<h2><a href="movie_reserve.do"><strong>예매</strong></a></h2>
             	</li>
             	<li>
             	</li>
         	</ul>
         	<div class="totalSearch_wrap">
-            	<label for="totalSearch">
-                	<input type="text" id="header_keyword" placeholder="영화 검색" />
-                	<input type="hidden" id="header_ad_keyword" name="header_ad_keyword" />
-            	</label>
-            	<button type="button" class="btn_totalSearch" id="btn_header_search">검색</button>
-            	<iframe src="//ad.cgv.co.kr/NetInsight/html/CGV/CGV_201401/main@Search_txt" width="0" height="0" title="" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"></iframe>
-        	</div>
+            <form id="movieSearchFrm" name="movieSearch" action="search_movie.do">
+            <label for="totalSearch">
+                <input type="text" id="header_keyword" placeholder="영화 검색" />
+                <input type="hidden" id="header_ad_keyword" name="header_ad_keyword" />
+            </label>
+            <button type="button" class="btn_totalSearch" id="searchBtn">검색</button>
+            <iframe src="//ad.cgv.co.kr/NetInsight/html/CGV/CGV_201401/main@Search_txt" width="0" height="0" title="" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"></iframe>
+            </form>
+        </div>
     	</div>
 	</div>
             <!-- 서브 메뉴 -->			
@@ -279,15 +288,15 @@
         	<h2 class="hidden">개인화 영역</h2> 
         	<div class="box-image">
 				<span class="thumb-image">
-					<img src="http://localhost/prj3_mvc/images/default_profile.gif" alt="모민경님 프로필 사진" onerror="errorImage(this, {'type':'profile'})" />
+					<img src="http://localhost/prj3_mvc/images/${lrDomain.profile eq null ? 'default_profile.gif' : lrDomain.profile }" alt="${ lrDomain.name }님 프로필 사진" onerror="errorImage(this, {'type':'profile'})" />
 					<span class="profile-mask"></span>
 				</span>
         	</div>
         	<div class="box-contents newtype">
         		<div class="person-info">
-        			<strong>홍길동님</strong>
-        			<em>nisis0322</em>
-        			<span>닉네임 : <i>닉네임을 설정해주세요.</i> </span>
+        			<strong>${ lrDomain.name }님</strong>
+        			<em>${lrDomain.user_id }</em>
+        			<span>닉네임 : <i>${ lrDomain.nick_name eq null ? "닉네임을 설정해주세요": lrDomain.nick_name }</i> </span>
         			<button id="go_edit_page" type="button" title="새창열림">나의 정보 변경</button>
         		</div>
         	</div>
@@ -304,7 +313,7 @@
 	    <div class="snb">
 	        <ul>
 	            <li class="on">
-                    <a href="/user/mycgv/?g=1" title="현재 선택">MY HOME <i></i></a>
+                    <a href="mypage.do" title="현재 선택">MY HOME <i></i></a>
                 </li>
 	            <li >
                     <a href="/user/mycgv/reserve/?g=1" >나의 예매내역 <i></i></a>
@@ -313,15 +322,15 @@
                     <a href="/user/mycgv/myinfo/?g=1" >회원정보<i></i></a>
 	                <ul>
                         <li>
-                            <a href="/user/mycgv/myinfo/edit-myinfo-cjone.aspx?g=1" >개인정보 변경</a>
+                            <a href="check_pass.do" >개인정보 변경</a>
                         </li>
                         <li>
-                            <a href="/user/mycgv/myinfo/edit-myinfo-cjone.aspx?g=1" >비밀번호 변경</a>
+                            <a href="confirm_pass.do" >비밀번호 변경</a>
                         </li>
 	                </ul>
 	            </li>
                  <li >
-                    <a href="/user/mycgv/myinfo/edit-myinfo-myprofile.aspx?g=1" >프로필 관리<i></i></a>
+                    <a href="my_profile.do" >프로필 관리<i></i></a>
                 </li>
                 <li class="my-event"><a href="/user/movielog/watched.aspx">내가 본 영화</a></li>
 	        </ul>

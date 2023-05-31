@@ -20,6 +20,7 @@ public class MainPageController {
 		
 		model.addAttribute("best",mps.mainPageBestMovie());
 		model.addAttribute("all",mps.mainPageFrmService());
+		model.addAttribute("none",mps.mainPageNone());
 		
 		return "main/main_frm";
 	}//mainPage
@@ -30,6 +31,7 @@ public class MainPageController {
 		
 		model.addAttribute("best",mps.mainPageBestMovie());
 		model.addAttribute("all",mps.mainPageFrmService());
+		model.addAttribute("none",mps.mainPageNone());
 		
 		return "main/main_loged_frm";
 	}//mainPage

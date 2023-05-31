@@ -2,7 +2,7 @@ package kr.co.sist.prj3.user.login.domain;
 
 public class LoginResultDomain {
 
-	private String user_id, nick_name, birth_date, profile ;
+	private String user_id, nick_name, birth_date, profile, name ;
 
 	public String getUser_id() {
 		return user_id;
@@ -36,11 +36,20 @@ public class LoginResultDomain {
 		this.profile = profile;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	@Override
 	public String toString() {
 		return "LoginResultDomain [user_id=" + user_id + ", nick_name=" + nick_name + ", birth_date=" + birth_date
-				+ ", profile=" + profile + "]";
-	} 
+				+ ", profile=" + profile + ", name=" + name + "]";
+	}
+
 	
 	
 	

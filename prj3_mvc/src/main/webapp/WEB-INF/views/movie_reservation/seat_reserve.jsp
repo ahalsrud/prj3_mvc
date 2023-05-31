@@ -10,6 +10,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
 <head>
+<%@include file="../checkLogin.jsp" %>
     
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -813,6 +814,21 @@ a:-webkit-any-link {
     height: 108px;
 }
 
+.tnb.step2 .btn-right.on {
+    background-position: -150px -330px;
+}
+
+.tnb.step2 .btn-right {
+    background-position: 0 -330px;
+}
+
+.tnb .btn-left, .tnb .btn-right {
+    background: url(http://img.cgv.co.kr/CGV_RIA/Ticket/image/reservation/tnb/tnb_buttons.png) no-repeat;
+    background-position: 0 0;
+    overflow: hidden;
+    text-indent: -1000px;
+}
+
 a {
     text-decoration: none;
     text-overflow: ellipsis;
@@ -1403,7 +1419,7 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
             
 <div class="header_content">
     <div class="contents">
-        <h1 onclick=""><a href="/"><img src="http://localhost/test_prj/admin/images/movie.png" alt="CGV" /></a><span>MOVIEPLANET</span></h1>
+        <h1 onclick=""><a href="main_loged_frm.do"><img src="http://localhost/test_prj/admin/images/movie.png" alt="CGV" /></a><span>MOVIEPLANET</span></h1>
         <ul class="memberInfo_wrap">
 
             
@@ -1439,195 +1455,15 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
            
 			<!-- 서브 메뉴 -->
 			
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('.nav_menu > li > h2 > a').on({
-            mouseenter: function (e) {
-                var target = e.target;
-                $(target).parents('.nav_menu').find('.nav_overMenu').slideDown(function () {
-                    $('.nav').addClass('active');
-                });
-            },
-            click: function (e) {
-                var target = e.target;
-                if (!$('.nav').hasClass('active')) {
-                    $(this).trigger('mouseenter');
-                } else {
-                    $('.nav').trigger('mouseleave');
-                }
-            }
-        });
-
-        /********************************************************
-        //서브메뉴 구글 GA Analytics 로그 처리 - 2022.01.12 myilsan
-        ********************************************************/
-        //cgv화이트 메뉴클릭
-        $('.nav > .contents > h1 > a').on({
-             click: function (e) {
-                 gaEventLog('PC_GNB', '홈', '');
-            }
-        });
-
-        //주메뉴 클릭
-        $('.nav_menu > li > h2 > a').on({
-            click: function (e) {
-                gaEventLog('PC_GNB', '주메뉴_' + this.text, '');
-            }
-        });
-
-        //주메뉴 하위메뉴 클릭
-        $('.nav_overMenu > dd > h3 > a').on({
-            click: function (e) {
-                var target = e.target;
-                var parText = $(target).parents('.nav_overMenu').find('dt')[0].innerText;
-                gaEventLog('PC_GNB', parText + '_' + this.text, '');
-            }
-        });
-
-        //하위메뉴 최상위 클릭
-        $(".nav_overMenu > dt > h2 > a").on({
-            click: function (e) {
-                gaEventLog('PC_GNB',this.text + '_' + this.text, '');
-            }
-        });
-
-        //------------------end----------------------- [@,.o]>
-
-        $('.nav').on({
-            mouseleave: function (e) {
-                $(this).find('.nav_overMenu').slideUp(200, function () {
-                    $('.nav').removeClass('active');
-                });
-            }
-        });
-
-        $('.totalSearch_wrap input[type=text]').on({
-            focusin: function () {
-                $('.totalSearch_wrap').addClass("active");
-            }
-        });
-
-        $('.btn_totalSearchAutocomplete_close').on({
-            click: function () {
-                $('.totalSearch_wrap').removeClass("active");
-            },
-            focusout: function (e) {
-                //     $('.totalSearch_wrap').removeClass("active");
-
-            }
-        });
-
-        $(this).on({
-            scroll: function (e) {
-                /* S GNB fixed */
-                var headerOffsetT = $('.header').offset().top;
-                var headerOuterH = $('.header').outerHeight(true);
-                var fixedHeaderPosY = headerOffsetT + headerOuterH;
-                var scrollT = $(this).scrollTop();
-                var scrollL = $(this).scrollLeft();
-
-                if (scrollT >= fixedHeaderPosY) {
-                    $('.nav').addClass('fixed');
-                    $('.fixedBtn_wrap').addClass('topBtn');
-                } else {
-                    $('.nav').removeClass('fixed');
-                    $('.fixedBtn_wrap').removeClass('topBtn');
-                }
-
-                /* S > GNB fixed 좌우 스크롤
-                Description
-                - GNB가 fixed 되었을때 좌우 스크롤 되게 처리
-                */
-                if ($('.nav').hasClass('fixed')) {
-                    $('.nav').css({ 'left': -1 * scrollL })
-                } else {
-                    $('.nav').css({ 'left': 0 })
-                }
-                /* E > GNB fixed 좌우 스크롤 */
-                /* S GNB fixed */
-            }
-        });
-
-        $('.btn_gotoTop').on({
-            click: function () {
-                $('html, body').stop().animate({
-                    scrollTop: '0'
-                }, 400);
-            }
-        });
-
-        //통합검색 상단 검색 버튼
-        $('#btn_header_search').on('click', function () {
-
-           
-            if ($('#header_ad_keyword').val() != "")
-                goSearch($('#header_ad_keyword'));      //광고
-            else
-                goSearch($('#header_keyword'));
-
-            
-            return false;
-        });
-
-        //통합검색 검색어 입력창
-        $('#header_keyword').keyup(function (e) {
-            if (e.keyCode == 13) goSearch($('#header_keyword'));
-        });
-
-         //검색 입력창 클릭 시 광고값 reset
-        $('#header_keyword').on('click', function () {
-            $(this).attr('placeholder', '');
-            $('#header_ad_keyword').val('');
-        });
-
-    });
-
-    //통합검색
-    function goSearch($objKeyword) {
-
-        if ($objKeyword.val() == "") {
-            alert("검색어를 입력해 주세요");
-            $objKeyword.focus();
-            return false;
-        }
-
-        //GA 검색로그
-        gaEventLog('PC_GNB', '검색', $objKeyword.val());
-        location = "/search/?query=" + escape($objKeyword.val());
-    }
-
-   
-
-    //상단 키워드 광고 (S)
-    function AdSearchExt(txt, SearchText) {
-        $('#header_keyword').attr('placeholder', txt);
-        $('#header_ad_keyword').val(SearchText);
-    }
-
-    function hdIcoSet(left, sh) { }
-    //상단 키워드 광고 (E)
-
-    //상단광고닫기
-    function hideCgvTopAd() {
-        $(".cgv-ad-wrap").hide();
-        $('#wrap_main_notice').parent('div').css('top', 280);
-    }
-
-    //비즈스프링 클릭로그
-    function setClickLog(title) {
-        // eval("try{trk_clickTrace('EVT', '" + title + "')}catch(_e){}");
-    }
-
-</script>
 <div class="nav">
     <div class="contents">
         <h1><a href="/" tabindex="-1"></a></h1>
         <ul class="nav_menu">
             <li>
-                <h2><a href="/movies/?lt=1&ft=0">영화</a></h2>
+                <h2><a href="search_movie.do">영화</a></h2>
             </li>
             <li>
-                <h2><a href="/ticket/"><strong>예매</strong></a></h2>
+                <h2><a href=""><strong>예매</strong></a></h2>
             </li>
             <li>
             </li>
@@ -1636,28 +1472,6 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
             <li>
             </li>
         </ul>
-        <div class="totalSearch_wrap">
-            <label for="totalSearch">
-                <input type="text" id="" value="" placeholder="영화명 검색"/>
-                <input type="hidden" id="header_ad_keyword" name="header_ad_keyword" />
-            </label>
-            <button type="button" class="btn_totalSearch" id="btn_header_search">검색</button>
-            <!--<div class="totalSearchAutocomplete_wrap">
-                <dl class="totalSearchAutocomplete_list">
-                    <dt>영화</dt>
-                    <dd><a href="#none"><strong>전지</strong>적 작가시점</a></dd>
-                    <dd><a href="#none">내언니 <strong>전지</strong>현과 나</a></dd>
-                    <dd><a href="#none">수호<strong>전지</strong> 영웅본색</a></dd>
-                </dl>
-                <dl class="totalSearchAutocomplete_list">
-                    <dt>인물</dt>
-                    <dd><a href="#none"><strong>전지</strong>현</a></dd>
-                    <dd><a href="#none"><strong>전지</strong>희</a></dd>
-                    <dd><a href="#none">이<strong>전지</strong></a></dd>
-                </dl>
-                <a href="#none" class="btn_totalSearchAutocomplete_close">닫기</a>
-            </div>//-->
-        </div>
     </div>
 </div>
             <!-- 서브 메뉴 -->			
@@ -1700,6 +1514,101 @@ function __doPostBack(eventTarget, eventArgument) {
 //]]>
 </script>
 
+<script>
+
+$(function() {
+	
+	//좌석 클릭 시 이벤트
+	$(".seat").click(function() {
+		
+		if(!$(this).hasClass("reserved")) {
+			
+	    $(this).toggleClass("selected");
+		}//end if
+	
+	//결제단계 버튼 활성화
+	if ($('.seat.selected').length > 0) {
+		
+	      $('#tnb_step_btn_right').addClass('on');
+	    }else if($('.seat.selected').length === 0) {
+	    	$('#tnb_step_btn_right').removeClass('on');
+	    }//end elseif
+	});
+	
+	
+	
+});//ready
+
+
+
+</script>
+
+<script>
+$(function() {
+	// hidden의 값을 받을 배열생성
+	var res = [];
+	//히든의 갯수만큼 each를 돌려서 res에 각각의 값을 넣는다.
+	$('input[type="hidden"]').each(function() {
+	  res.push($(this).val());
+	});
+	  
+	//class가 seat인 div를 each를 돌린다.
+	$('.seat').each(function() {
+	  //한번 돌릴때 마다 seatId를 생성해서 class가 seat인 div의 id를 seatId에 저장한다.
+	  var seatId = $(this).attr('id');
+	  
+	  //seatId가 res배열에 포함되어 있다면 해당 class에 reserved를 추가한다.
+	  if ($.inArray(seatId, res) !== -1) {
+	    $(this).addClass('reserved');
+	  }
+	});
+	  
+});//ready
+
+
+function ticketPay(m_num, watch_date,user_id, start_time) {
+	
+	if(!$('#tnb_step_btn_right').hasClass("on")) {
+		alert("좌석을 선택해 주세요");
+		return;
+	}//end if
+	
+	if(confirm("해당 좌석을 예매하시겠습니까?")) {
+		
+	var m_num=m_num;
+	var watch_date=watch_date;
+	var start_time=start_time;
+	var user_id=user_id;
+	
+	
+	//선택한 자리를 받기위한 배열생성
+	var seatData = [];
+	
+	$(".seat.selected").each(function() {
+	  var seatId = $(this).attr("id");
+	  
+	  seatData.push(seatId);
+	});
+	
+	
+	
+	var people=seatData.length;
+	var price= 100 * people;
+	
+	
+	var url="reserve_success.do?m_num="+m_num+"&watch_date="+watch_date+"&start_time="+start_time+"&user_id="+user_id+"&seatData="+seatData+"&people="+
+			people+"&price="+price;
+	
+	location.href=url;
+	
+	}//end if
+	
+	
+	
+}//ticketpay
+
+</script>
+
 
 <script src="/WebResource.axd?d=O5F0dg69w2r38nWidHYzn3F_LoSxgzI-r_CxvaKM90QJYNm7EusOdLlLVPQdIrk6Xrhi_bPxR7gTuM63_-5osEN5N101&amp;t=636765788300000000" type="text/javascript"></script>
 
@@ -1711,12 +1620,12 @@ function __doPostBack(eventTarget, eventArgument) {
 
 	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="59A49A67" />
 </div>
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 //<![CDATA[
 Sys.WebForms.PageRequestManager._initialize('ctl00$PlaceHolderContent$ScriptManager1', 'aspnetForm', [], [], [], 90, 'ctl00');
 //]]>
 </script>
- 
+ --> 
 </form>
  <!-- 실컨텐츠 시작 -->
     <div class="search_wrap">
@@ -1735,7 +1644,7 @@ Sys.WebForms.PageRequestManager._initialize('ctl00$PlaceHolderContent$ScriptMana
 						<div class="person_screen">
 							<div class="section section-screen-select">
 								<div id="user-select-info">
-									<p class="playYMD-info"><b>2023.05.18</b><b class="exe">(목)</b><b>15:20 ~ 17:34</b></p>
+									<p class="playYMD-info"><b>${ riVO.current_year }.${ riVO.current_month }.${ riVO.watch_date }.</b><b class="exe">(${ riVO.day_week })</b><b>${ riVO.start_time }/ ${ lrDomain.user_id }</b></p>
 								</div>
 							</div>
 						</div>
@@ -1745,119 +1654,29 @@ Sys.WebForms.PageRequestManager._initialize('ctl00$PlaceHolderContent$ScriptMana
 										<div class="screen" title="SCREEN" style="width: 652px;"><span class="text"></span></div>
 										<div class="seats" id="seats_list" style="width: 192px; height: 192px;">
 											<div>
-												<div class="row" style="top:0px;"><div class="label">A</div><a href="#" onclick="skipToNextRow(event);return false;" class="skip_row">A열 건너뛰기</a>
-													<div class="seat_group left">
-														<div class="group">
-															<div class="seat rating_economy" style="left:16px" data-left="16" data-left_zoom="24"><a href="#" "="" onclick="return false;"><span class="no">1</span><span class="sreader"> Light</span><span class="sreader mod"></span></a></div>
-															<div class="seat rating_economy" style="left:32px" data-left="32" data-left_zoom="48"><a href="#" "="" onclick="return false;"><span class="no">2</span><span class="sreader"> Light</span><span class="sreader mod"></span></a></div>
-															<div class="seat rating_economy" style="left:48px" data-left="48" data-left_zoom="72"><a href="#" "="" onclick="return false;"><span class="no">3</span><span class="sreader"> Light</span><span class="sreader mod"></span></a></div>
-															<div class="seat rating_economy" style="left:64px" data-left="64" data-left_zoom="96"><a href="#" "="" onclick="return false;"><span class="no">4</span><span class="sreader"> Light</span><span class="sreader mod"></span></a></div>
-														</div>
-													</div>
-													<div class="seat_group">
-														<div class="group">
-															<div class="seat handicap" style="left:96px" data-left="96" data-left_zoom="144"><a href="#" "="" onclick="return false;"><span class="no">6</span><span class="sreader"> 장애인석 Light</span><span class="sreader mod"></span></a></div>
-															<div class="seat handicap" style="left:112px" data-left="112" data-left_zoom="168"><a href="#" "="" onclick="return false;"><span class="no">7</span><span class="sreader"> 장애인석 Light</span><span class="sreader mod"></span></a></div>
-														</div>
-													</div>
-													<div class="seat_group">
-														<div class="group">
-															<div class="seat rating_economy" style="left:144px" data-left="144" data-left_zoom="216"><a href="#" "="" onclick="return false;"><span class="no">9</span><span class="sreader"> Light</span><span class="sreader mod"></span></a></div>
-															<div class="seat rating_economy" style="left:160px" data-left="160" data-left_zoom="240"><a href="#" "="" onclick="return false;"><span class="no">10</span><span class="sreader"> Light</span><span class="sreader mod"></span></a></div>
-															<div class="seat rating_economy" style="left:176px" data-left="176" data-left_zoom="264"><a href="#" "="" onclick="return false;"><span class="no">11</span><span class="sreader"> Light</span><span class="sreader mod"></span></a></div>
-														</div>
-													</div>
-											</div>
-											<div class="row" style="top:16px;"><div class="label">B</div><a href="#" onclick="skipToNextRow(event);return false;" class="skip_row">B열 건너뛰기</a>
-												<div class="seat_group">
-													<div class="group">
-														<div class="seat rating_economy" style="left:16px" data-left="16" data-left_zoom="24"><a href="#" "="" onclick="return false;"><span class="no">1</span><span class="sreader"> Light</span><span class="sreader mod"></span></a></div>
-														<div class="seat rating_economy" style="left:32px" data-left="32" data-left_zoom="48"><a href="#" "="" onclick="return false;"><span class="no">2</span><span class="sreader"> Light</span><span class="sreader mod"></span></a></div>
-														<div class="seat rating_economy" style="left:48px" data-left="48" data-left_zoom="72"><a href="#" "="" onclick="return false;"><span class="no">3</span><span class="sreader"> Light</span><span class="sreader mod"></span></a></div>
-														<div class="seat rating_economy" style="left:64px" data-left="64" data-left_zoom="96"><a href="#" "="" onclick="return false;"><span class="no">4</span><span class="sreader"> Light</span><span class="sreader mod"></span></a></div>
-														<div class="seat rating_economy" style="left:80px" data-left="80" data-left_zoom="120"><a href="#" "="" onclick="return false;"><span class="no">5</span><span class="sreader"> Light</span><span class="sreader mod"></span></a></div>
-														<div class="seat rating_economy" style="left:96px" data-left="96" data-left_zoom="144"><a href="#" "="" onclick="return false;"><span class="no">6</span><span class="sreader"> Light</span><span class="sreader mod"></span></a></div>
-														<div class="seat rating_economy" style="left:112px" data-left="112" data-left_zoom="168"><a href="#" "="" onclick="return false;"><span class="no">7</span><span class="sreader"> Light</span><span class="sreader mod"></span></a></div>
-														<div class="seat rating_economy" style="left:128px" data-left="128" data-left_zoom="192"><a href="#" "="" onclick="return false;"><span class="no">8</span><span class="sreader"> Light</span><span class="sreader mod"></span></a></div>
-														<div class="seat rating_economy" style="left:144px" data-left="144" data-left_zoom="216"><a href="#" "="" onclick="return false;"><span class="no">9</span><span class="sreader"> Light</span><span class="sreader mod"></span></a></div>
-														<div class="seat rating_economy" style="left:160px" data-left="160" data-left_zoom="240"><a href="#" "="" onclick="return false;"><span class="no">10</span><span class="sreader"> Light</span><span class="sreader mod"></span></a></div>
-														<div class="seat rating_economy" style="left:176px" data-left="176" data-left_zoom="264"><a href="#" "="" onclick="return false;"><span class="no">11</span><span class="sreader"> Light</span><span class="sreader mod"></span></a></div>
-													</div>
-												</div>
-											</div>
-											<div class="row" style="top:32px;">
-												<div class="label">C</div>
-												<a href="#" onclick="skipToNextRow(event);return false;" class="skip_row">C열 건너뛰기</a>
-												<div class="seat_group">
-													<div class="group">
-														<div class="seat" style="left:16px" data-left="16" data-left_zoom="24"><a href="#" "="" onclick="return false;"><span class="no">1</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:32px" data-left="32" data-left_zoom="48"><a href="#" "="" onclick="return false;"><span class="no">2</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:48px" data-left="48" data-left_zoom="72"><a href="#" "="" onclick="return false;"><span class="no">3</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:64px" data-left="64" data-left_zoom="96"><a href="#" "="" onclick="return false;"><span class="no">4</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:80px" data-left="80" data-left_zoom="120"><a href="#" "="" onclick="return false;"><span class="no">5</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:96px" data-left="96" data-left_zoom="144"><a href="#" "="" onclick="return false;"><span class="no">6</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:112px" data-left="112" data-left_zoom="168"><a href="#" "="" onclick="return false;"><span class="no">7</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:128px" data-left="128" data-left_zoom="192"><a href="#" "="" onclick="return false;"><span class="no">8</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:144px" data-left="144" data-left_zoom="216"><a href="#" "="" onclick="return false;"><span class="no">9</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:160px" data-left="160" data-left_zoom="240"><a href="#" "="" onclick="return false;"><span class="no">10</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:176px" data-left="176" data-left_zoom="264"><a href="#" "="" onclick="return false;"><span class="no">11</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-													</div>
-												</div>
-											</div>
-											<div class="row" style="top:48px;"><div class="label">D</div>
-											<a href="#" onclick="skipToNextRow(event);return false;" class="skip_row">D열 건너뛰기</a>
-													<div class="seat_group">
-													<div class="group">
-														<div class="seat" style="left:16px" data-left="16" data-left_zoom="24"><a href="#" "="" onclick="return false;"><span class="no">1</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:32px" data-left="32" data-left_zoom="48"><a href="#" "="" onclick="return false;"><span class="no">2</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:48px" data-left="48" data-left_zoom="72"><a href="#" "="" onclick="return false;"><span class="no">3</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:64px" data-left="64" data-left_zoom="96"><a href="#" "="" onclick="return false;"><span class="no">4</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:80px" data-left="80" data-left_zoom="120"><a href="#" "="" onclick="return false;"><span class="no">5</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:96px" data-left="96" data-left_zoom="144"><a href="#" "="" onclick="return false;"><span class="no">6</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:112px" data-left="112" data-left_zoom="168"><a href="#" "="" onclick="return false;"><span class="no">7</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:128px" data-left="128" data-left_zoom="192"><a href="#" "="" onclick="return false;"><span class="no">8</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:144px" data-left="144" data-left_zoom="216"><a href="#" "="" onclick="return false;"><span class="no">9</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:160px" data-left="160" data-left_zoom="240"><a href="#" "="" onclick="return false;"><span class="no">10</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:176px" data-left="176" data-left_zoom="264"><a href="#" "="" onclick="return false;"><span class="no">11</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-													</div>
-													</div>
-											</div>
-											<div class="row" style="top:64px;"><div class="label">E</div>
-											<a href="#" onclick="skipToNextRow(event);return false;" class="skip_row">E열 건너뛰기</a>
-													<div class="seat_group">
-													<div class="group">
-														<div class="seat" style="left:16px" data-left="16" data-left_zoom="24"><a href="#" "="" onclick="return false;"><span class="no">1</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:32px" data-left="32" data-left_zoom="48"><a href="#" "="" onclick="return false;"><span class="no">2</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:48px" data-left="48" data-left_zoom="72"><a href="#" "="" onclick="return false;"><span class="no">3</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:64px" data-left="64" data-left_zoom="96"><a href="#" "="" onclick="return false;"><span class="no">4</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:80px" data-left="80" data-left_zoom="120"><a href="#" "="" onclick="return false;"><span class="no">5</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:96px" data-left="96" data-left_zoom="144"><a href="#" "="" onclick="return false;"><span class="no">6</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:112px" data-left="112" data-left_zoom="168"><a href="#" "="" onclick="return false;"><span class="no">7</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:128px" data-left="128" data-left_zoom="192"><a href="#" "="" onclick="return false;"><span class="no">8</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:144px" data-left="144" data-left_zoom="216"><a href="#" "="" onclick="return false;"><span class="no">9</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:160px" data-left="160" data-left_zoom="240"><a href="#" "="" onclick="return false;"><span class="no">10</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:176px" data-left="176" data-left_zoom="264"><a href="#" "="" onclick="return false;"><span class="no">11</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-													</div>
-													</div>
-											</div>
-											<div class="row" style="top:80px;"><div class="label">F</div>
-											<a href="#" onclick="skipToNextRow(event);return false;" class="skip_row">F열 건너뛰기</a>
-													<div class="seat_group">
-													<div class="group">
-														<div class="seat" style="left:16px" data-left="16" data-left_zoom="24"><a href="#" "="" onclick="return false;"><span class="no">1</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:32px" data-left="32" data-left_zoom="48"><a href="#" "="" onclick="return false;"><span class="no">2</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:48px" data-left="48" data-left_zoom="72"><a href="#" "="" onclick="return false;"><span class="no">3</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:64px" data-left="64" data-left_zoom="96"><a href="#" "="" onclick="return false;"><span class="no">4</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:80px" data-left="80" data-left_zoom="120"><a href="#" "="" onclick="return false;"><span class="no">5</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:96px" data-left="96" data-left_zoom="144"><a href="#" "="" onclick="return false;"><span class="no">6</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:112px" data-left="112" data-left_zoom="168"><a href="#" "="" onclick="return false;"><span class="no">7</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:128px" data-left="128" data-left_zoom="192"><a href="#" "="" onclick="return false;"><span class="no">8</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:144px" data-left="144" data-left_zoom="216"><a href="#" "="" onclick="return false;"><span class="no">9</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:160px" data-left="160" data-left_zoom="240"><a href="#" "="" onclick="return false;"><span class="no">10</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-														<div class="seat" style="left:176px" data-left="176" data-left_zoom="264"><a href="#" "="" onclick="return false;"><span class="no">11</span><span class="sreader"></span><span class="sreader mod"></span></a></div>
-													</div>
-													</div>
-											</div>
+											
+											<!-- 예약된 좌석 꺼내오기 -->
+											<c:forEach begin="1" end="${ seats.size() }" varStatus="hv">
+											<input type="hidden" id="reserved${ hv.index }" value="s${seats[hv.index-1].h_seat}${seats[hv.index-1].v_seat}"/>
+											</c:forEach>
+											<!-- 예약된 좌석 꺼내오기 -->
+											
+											<!-- 좌석 보여주기 -->
+											<c:forEach begin="1" end="6" varStatus="row" >
+    										<div class="row" style="top:${ row.index * 16 }px;">
+        										<div class="label">${ row.index }</div>
+        												<c:forEach begin="1" end="10" varStatus="col" >
+            												<div class="seat" style="left:${ col.index * 16 }px" id="s${ row.index }${ col.index }" data-left_zoom="24">
+               													 <a href="#" onclick="return false;">
+                   												 <span class="no">${ col.index }</span>
+                    											<span class="sreader"></span>
+                    											<span class="sreader mod"></span>
+                												</a>
+            												</div>
+        												</c:forEach>
+    										</div>
+											</c:forEach>
+											<!-- 좌석 보여주기 -->
 											
 											</div>
 										<div class="exit top" style="top: -30px; left: 162px;"></div>
@@ -1892,11 +1711,11 @@ Sys.WebForms.PageRequestManager._initialize('ctl00$PlaceHolderContent$ScriptMana
         <div id="ticket_tnb" class="tnb_container">
 		<div class="tnb step2">
 			<!-- btn-left -->
-			<a class="btn-left" href="#" onclick="OnTnbLeftClick(); return false;" title="영화선택">이전단계로 이동</a>
+			<a class="btn-left" href="javascript:history.back()" onclick="OnTnbLeftClick(); return false;" title="영화선택">이전단계로 이동</a>
 			<div class="info movie">
-				<span class="movie_poster"><img src="http://img.cgv.co.kr/Movie/Thumbnail/Poster/000087/87045/87045_185.JPG" alt="영화 포스터" style="display: inline;"></span>
+				<span class="movie_poster"><img src="images/${ mInfo.poster }" alt="영화 포스터" /></span>
 				<div class="row movie_title colspan2" style="display: block;">
-					<span class="data letter-spacing-min ellipsis-line2">범죄도시3</span>
+					<span class="data letter-spacing-min ellipsis-line2">${ mInfo.m_title }</span>
 				</div>
 				<div class="placeholder" title="영화선택" style="display: none;"></div>
 			</div>
@@ -1911,7 +1730,7 @@ Sys.WebForms.PageRequestManager._initialize('ctl00$PlaceHolderContent$ScriptMana
 			</div>
 			<!-- btn-right -->
 			<div class="tnb_step_btn_right_before" id="tnb_step_btn_right_before"></div>
-			<a class="btn-right" id="tnb_step_btn_right" href="#" onclick="OnTnbRightClick(); return false;" title="예매완료"></a>
+			<a class="btn-right" id="tnb_step_btn_right" href="#" onclick="ticketPay('${riVO.m_num}','${riVO.watch_date}','${lrDomain.user_id}','${riVO.start_time}')" title="예매완료"></a>
 		</div>
 	</div>
 

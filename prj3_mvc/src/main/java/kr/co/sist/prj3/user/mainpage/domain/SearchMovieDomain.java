@@ -2,7 +2,7 @@ package kr.co.sist.prj3.user.mainpage.domain;
 
 public class SearchMovieDomain {
 	
-	private String poster, m_title, avg_grade, release_date, rank;
+	private String poster, m_title, avg_grade, release_date, rank, open_date;
 	private int m_num, r_rate;
 
 	public SearchMovieDomain() {
@@ -77,6 +77,15 @@ public class SearchMovieDomain {
 
 	public void setRank(String rank) {
 		this.rank = rank;
+	}
+	
+
+	public String getOpen_date() {
+		return open_date;
+	}
+
+	public void setOpen_date(String open_date) {
+		this.open_date = open_date;
 	}
 
 	@Override

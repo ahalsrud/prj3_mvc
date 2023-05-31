@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 
 import kr.co.sist.prj3.user.resmovie.dao.ReserveMovieDAO;
 import kr.co.sist.prj3.user.resmovie.domain.ReserveMovieDomain;
+import kr.co.sist.prj3.user.resmovie.domain.SeatsDomain;
+import kr.co.sist.prj3.user.resmovie.vo.ReservationInfoVO;
 import kr.co.sist.prj3.user.resmovie.vo.ReservationVO;
 
 @Component
@@ -66,37 +68,108 @@ public class ReserveMovieService {
 	}//showMovieDate
 	
 	
-	 public String showMovieTime(int m_num) { ReserveMovieDomain rmDomain=null;
+	 public String showMovieTime(int m_num) { 
+	 ReserveMovieDomain rmDomain=null;
 	 String[] hours=null;
-	 
 	 JSONObject jsonObj=new JSONObject();
 	 JSONArray jsonArray=new JSONArray();
+	 
 	 rmDomain=rmDAO.selectHour(m_num);
+	 
+	 jsonObj.put("arrayFlag", false);
 	 
 	 //상영 시간이 복수일때
 	 if(rmDomain.getRelease_hour().contains(",")) {
-	 JSONObject jsonTemp=new JSONObject();
-	 hours=rmDomain.getRelease_hour().split(",");
+		 
+		 jsonObj.put("arrayFlag", true);
+		 hours=rmDomain.getRelease_hour().split(",");
 	 
 	 for(int i=0; i<hours.length; i++) {
 		 
-		 jsonTemp.put("hours", hours[i]);
+		 JSONObject jsonTemp=new JSONObject();
+		 jsonTemp.put("hour", hours[i]);
 		 jsonArray.add(jsonTemp);
 		 
+		 
 	 }//end for
+	 jsonObj.put("hours", jsonArray);
 	 
-	 jsonObj.put("jsonHours", jsonArray);	 
-	 }//end if
+	 }else {
+		 
+	 jsonObj.put("hours", rmDomain.getRelease_hour());
 	 
-	 jsonObj.put("hours", rmDomain.getRelease_date());
+	 }//end else
 	 
 	 
 	 return jsonObj.toJSONString();
 	 }//showMovieTime
 	 	
-	public void reservationService(ReservationVO rVO) {
+	public List<SeatsDomain> reservationService(ReservationInfoVO riVO) {
+		List<SeatsDomain> list=null;
 		
+		list=rmDAO.selectSeats(riVO);
+		
+		return list;
 	}//reservationService
+	
+	public int getKey() {
+		
+		int key=rmDAO.selectResKey();
+		
+		return key;
+	}//getKey
+	
+	public ReserveMovieDomain showMovieInfo(int m_num) {
+		ReserveMovieDomain rmDomain=null;
+		
+		rmDomain=rmDAO.selectMovie(m_num);
+		
+		return rmDomain;
+	}//showMovieInfo
+	
+	public void addReservation(ReservationVO rVO) {
+		
+		rmDAO.insertReservation(rVO);
+		
+	}//addReservation
+	
+	public void addSeats(ReservationVO rVO) {
+		
+		rmDAO.insertSeats(rVO);
+		
+	}//addSeats
+	
+	public int showSeat(ReservationVO rVO) {
+		int resSeat=0;
+		
+		resSeat = rmDAO.selectResSeat(rVO);
+		
+		return resSeat;
+	}//showSeat
+	
+	public int showPeriod(ReservationVO rVO) {
+		int resPeriod=0;
+		
+		resPeriod=rmDAO.selectPeriod(rVO);
+		
+		return resPeriod;
+	}//showSeat
+	
+	public int showTime(ReservationVO rVO) {
+		int resTime=0;
+		
+		resTime=rmDAO.selectTime(rVO);
+		
+		return resTime;
+	}//showSeat
+	
+	public void addRate(ReservationVO rVO) {
+		
+		rmDAO.insertRate(rVO);
+		
+	}//addRate
+	
+
 	
 
 }//class

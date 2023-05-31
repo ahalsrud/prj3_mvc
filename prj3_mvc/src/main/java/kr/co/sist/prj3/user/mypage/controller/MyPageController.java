@@ -24,8 +24,10 @@ public class MyPageController {
 	private MyPageService mps;
 	
 	@RequestMapping(value="/mypage.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String myPage(String id,Model model) { // 나중에 session으로 받고 String id 지우기
+	public String myPage(Model model) { // 나중에 session으로 받고 String id 지우기
+		LoginResultDomain lrDomain =(LoginResultDomain)model.getAttribute("lrDomain");
 		
+		String id=lrDomain.getUser_id();
 		model.addAttribute("resInfo", mps.showResDetail(id));
 		model.addAttribute("canInfo",mps.showCanDetail(id));
 		

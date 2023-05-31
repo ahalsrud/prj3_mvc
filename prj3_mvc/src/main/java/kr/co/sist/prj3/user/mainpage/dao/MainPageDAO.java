@@ -36,6 +36,18 @@ public class MainPageDAO {
 		return list;
 	}//selectAllMovie
 	
+	public List<SearchMovieDomain> selectAllNone() {
+		List<SearchMovieDomain> list=null;
+		
+		SqlSession ss=MyBatisHandler.getInstance().getMyBatisHandler(false);
+		
+		list=ss.selectList("noneList");
+		
+		if(ss != null) {ss.close();}
+		
+		return list;
+	}//selectAllNone
+	
 	public List<SearchMovieDomain> selectSearchMovie(String title) {
 		List<SearchMovieDomain> list=null;
 		SqlSession ss=MyBatisHandler.getInstance().getMyBatisHandler(false);

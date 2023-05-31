@@ -47,8 +47,8 @@
   <mappers>
   
   	<!-- 규미 -->
-  	 <mapper resource="kr/co/sist/prj3/user/login/dao/login_mapper.xml"/>
-  	 <mapper resource="kr/co/sist/prj3/user/join/dao/join_mapper.xml"/>
+  	<mapper resource="kr/co/sist/prj3/user/login/dao/login_mapper.xml"/>
+  	<mapper resource="kr/co/sist/prj3/user/join/dao/join_mapper.xml"/>
   	<mapper resource="kr/co/sist/prj3/user/review/dao/review_like_mapper.xml"/>
   	<mapper resource="kr/co/sist/prj3/user/review/dao/review_my_mapper.xml"/>
   	<mapper resource="kr/co/sist/prj3/user/comment/dao/comment_mapper.xml"/>
@@ -56,14 +56,17 @@
 	<mapper resource="kr/co/sist/prj3/admin/member/dao/admin_member_mgt.xml"/> 
 	
    	<!-- 상준 -->
-    	<mapper resource="kr/co/sist/prj3/user/mainpage/dao/mainPage_mapper.xml"/>
+    <mapper resource="kr/co/sist/prj3/user/mainpage/dao/mainPage_mapper.xml"/>
 	<mapper resource="kr/co/sist/prj3/user/mypage/dao/myPage_mapper.xml"/>
+	<mapper resource="kr/co/sist/prj3/user/resmovie/dao/reservation_mapper.xml"/>
 	<!-- 경태 -->
-	 <mapper resource="kr/co/sist/prj3/admin/review/dao/review_manage_mapper.xml"/>
+	<mapper resource="kr/co/sist/prj3/admin/review/dao/review_manage_mapper.xml"/>
 	<mapper resource="kr/co/sist/prj3/user/review/dao/review_list_mapper.xml"/>
 	<mapper resource="kr/co/sist/prj3/user/review/dao/review_write_mapper.xml"/>
 	<mapper resource="kr/co/sist/prj3/user/review/dao/review_post_mapper.xml"/>
 	<mapper resource="kr/co/sist/prj3/user/find_id/dao/find_id_mapper.xml"/> 
+	<mapper resource="kr/co/sist/prj3/admin/dashboard/dao/dashBoardSelect_mapper.xml"/>
+	<mapper resource="kr/co/sist/prj3/user/comment/dao/comment_mapper.xml"/> 
 	<!-- 민경 -->
 	<mapper resource="kr/co/sist/prj3/admin/admin_movie/dao/movie_mapper.xml"/>
 	<mapper resource="kr/co/sist/prj3/user/total_info/dao/total_info_mapper.xml"/>
@@ -73,6 +76,8 @@
     <mapper resource="kr/co/sist/prj3/admin/regscreen/dao/screenInfo_mapper.xml"/>
     <mapper resource="kr/co/sist/prj3/admin/resdetail/dao/resdetail_mapper.xml"/>
     <mapper resource="kr/co/sist/prj3/user/mypage/dao/user_mapper.xml"/>
+    <!-- 진호 -->
+    <mapper resource="kr/co/sist/prj3/user/find_pw/dao/find_pw_mapper.xml"/> 
 
   </mappers>
 </configuration>

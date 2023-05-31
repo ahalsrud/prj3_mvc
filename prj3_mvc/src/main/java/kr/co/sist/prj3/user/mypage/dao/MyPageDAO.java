@@ -18,7 +18,7 @@ public class MyPageDAO {
 		
 		SqlSession ss=MyBatisHandler.getInstance().getMyBatisHandler(false);
 		
-		list=ss.selectList("selectRes"); // id 持扁
+		list=ss.selectList("selectRes",id);
 		
 		if(ss != null) {ss.close();}//end if
 		
@@ -30,7 +30,7 @@ public class MyPageDAO {
 		
 		SqlSession ss=MyBatisHandler.getInstance().getMyBatisHandler(false);
 		
-		list=ss.selectList("selectCan"); // id 持扁
+		list=ss.selectList("selectCan",id); 
 		
 		if(ss != null) {ss.close();}//end if
 		
@@ -52,9 +52,9 @@ public class MyPageDAO {
 		int result=0;
 		
 		SqlSession ss=MyBatisHandler.getInstance().getMyBatisHandler(false);
-		
-		result=ss.update("updateSeats",r_num);//r_num 持扁
-		if(result == 1) {ss.commit();}//end if
+		System.out.println(r_num);
+		result=ss.update("deleteSeats",r_num);//r_num 持扁
+		if(result > 0) {ss.commit();}//end if
 		
 		if(ss != null) {ss.close();}//end if
 		

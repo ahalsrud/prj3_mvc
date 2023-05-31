@@ -325,7 +325,7 @@ $(function() {
                 <h2><a href="search_movie.do">영화</a></h2>
             </li>
             <li>
-                <h2><a href="/ticket/"><strong>예매</strong></a></h2>
+                <h2><a href="movie_reserve.do"><strong>예매</strong></a></h2>
             </li>
             <li>
             </li>
@@ -420,7 +420,7 @@ Sys.WebForms.PageRequestManager._initialize('ctl00$PlaceHolderContent$ScriptMana
                 <li>
 						<a href="main_info.do?m_num=${ movie.m_num }" class="img_wrap">
 						<img src ="images/${ movie.poster }" alt ="${ movie.m_title }"  onerror="errorImage(this)"/>
-								<c:if test="${ not empty movie.release_date }">
+								<c:if test="${ not empty movie.open_date }">
                         			 <p class='movieState screening'><strong>상영중</strong><span> 예매율${movie.r_rate }%</span></p>
 								</c:if>
 						</a>
