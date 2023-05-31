@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../checkLogin.jsp" %>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -7,7 +8,9 @@
 <title>${ movie.m_title } | MOVIEPLANET</title>
 <link href="//m2.daumcdn.net/img-media/2010ci/Daum_favicon.ico" rel="shortcut icon">
 <link rel="stylesheet" type="text/css" href="http://localhost/prj3_mvc/css/PcCommonCssBundle_merged.css" />
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
 
 <script src="//t1.daumcdn.net/media/kraken/movie/386a1cd/common.merged.js"></script>
 <script src="//t1.daumcdn.net/media/kraken/movie/386a1cd/PcCommonScriptBundle.merged.js"></script>
@@ -161,14 +164,17 @@ a{
 }
 
 /* 최신순, 과거순 버튼 */
-#latest, #oldest {
+#choi, #gwa {
 	border: none;
 	background-color: white;
+}
+
+#choi {
+	margin-right: 20px;
 }
 </style>
 
 <script type="text/javascript">
-
 /* 평점 삭제 알림창 */
 $(function() {
     $(document).on("click", "#declare", function() {
@@ -178,7 +184,7 @@ $(function() {
             alert("삭제되었습니다.");
         }// end if
     });
-});
+});// ready
 
 /* 최신순, 과거순 */
 $(function(){	
@@ -499,90 +505,7 @@ $(function(){
     
  //////////////////////////////// 평점 /////////////////////////////////////
      $("#grade").click(function() {
-    	 var m_num = ${movie.m_num};
-    	 var id = $("#hiddenId").val();
-    	 
-        $.ajax({
-            url: "grade_info.do",
-            method: "GET",
-	        data: { m_num: m_num },
-	        dataType: "json",
-			error:function(xhr) {
-				alert("문제발생");
-					console.log(xhr.status);
-            },
-            success: function(jsonObj) {
-            	var output = 
-            		"<div><div class='contents'>"
-           		 +"<div class='detail_cmtinfo' style='min-height: 450px;'>"
-           	 	 +"<strong class='tit_netizen'>네티즌 평점  <em class='num_rating'>"+ jsonObj.avgGrade +"점</em><span class='txt_netizen'> ("+jsonObj.cntGrade+"명)"
-           		 +"<a href='http://localhost/prj3_mvc/mygrade.do' style='margin-left: 500px'>MY</a></span></strong>";
-           		 
-            	if(id!=""){
-           		 output+="<form action='insertGrade_info.do' method='get'>"
-           		 +"<input type='hidden' id='m_num' name='m_num' value='"+m_num+"'/>"
-           		 +"<select name='m_grade' size='1'>"
-           		 +"<option selected disabled>평점 등록</option>"
-           		 +"<option value='1'>★</option>"
-           		 +"<option value='2'>★★</option>"
-           		 +"<option value='3'>★★★</option>"
-           		 +"<option value='4'>★★★★</option>"
-           		 +"<option value='5'>★★★★★</option>"
-           		 +"</select>"		
-           		 +"<br/>"
-           		 +"<div style='height:140px'>"
-           		 +"<input type='text' name='comments' placeholder='영화 평점글을 작성해주세요.' style='width:600px; height:100px;'/>"
-           		 +"<br/>"
-           		 +"<input type='submit' value='등록' style='width:60px; height:27px; cursor: pointer;border-radius: 4px; margin-left: 543px; margin-top:3px;cursor: pointer;'/>"
-           		 +"</div>"
-           		 +"</form>";
-           		 +"<br/><br/>"
-           		 }//end if
-
-           		 
-           		 output += "<div><a href='#' id='latest'>최신순</a> &nbsp; <a href='#' id='oldest'>과거순</a></div>"
-           		 +"<hr style='width:600px; margin-left: 0px'/>"
-            		 if(jsonObj.gradeSize==0){
-					 	output+='해당영화에 대한 평점이 존재하지 않습니다.';
-					 }//end if
-            		 
-            		 var gradeList = jsonObj.grade;
-            		 for (var i = 0; i < gradeList.length; i++) {
-                         var gradeObj = gradeList[i];
-                         output += "<div id='gradeListDiv' style='height:100px'>"
-                         +getStarRating(gradeObj.m_grade)
-                         +"<br/>"
-                         +"<textarea id='gradeTextarea' placeholder='여기는 다른사람이 작성한 한줄평.' readonly='readonly'>" +gradeObj.comments+ "</textarea></div>";
-                         
-                         if (id === gradeObj.user_id) {
-                        	    output += "<form action='delete_grade.do' method='post'>";
-                        	    output += "<input type='hidden' name='g_num' value='" + gradeObj.g_num + "'>";
-                        	    output += "<input type='hidden' name='user_id' value='" + gradeObj.user_id + "'>"; 
-                        	    output += "<input type='hidden' name='m_num' value='" + gradeObj.m_num + "'>";
-                        	    output += "<input type='submit' class='declare' id='declare' name='declare' value='삭제'>";
-                        	    output += "</form>";
-                         }
-                         output += "<br/>"
-            		 	 +"<em style='color: #396dc9; font-weight: bolder;'>" + gradeObj.nick_name + "</em> " + gradeObj.input_date 
-            		 	 +"<hr style='width:600px; margin-left: 0px'/>";
-            		 	 +"</div>";
-                         
-            		 }
-            		 output += "</div></div></div>";
-
-            		 // 별점 생성 함수
-            		 function getStarRating(grade) {
-            		     var stars = "";
-            		     for (var i = 0; i < grade; i++) {
-            		         stars += "★";
-            		     }
-            		     return "<em style='color: #e92130'>" + stars + "</em>";
-            		 }
-            		
-            		 $("#output").html(output); 
-            		 
-            }//function
-        });//ajax
+    	 grade();
     }); //click   
     
 });//ready
@@ -644,7 +567,6 @@ $(function(){
      }
 });
 });
-
 
 /* 경태 시작 */
 function searchReview(){
@@ -719,7 +641,7 @@ function searchReview(){
 					var reviewCnt = idx + 1;
 					output+='<tr>'
 					+'<td scope="row">'+reviewCnt+'</td>'
-					+'<td><a href="review_post.do?rv_num='+ele.rv_num+'&m_title='+m_title+'&m_num='+m_num+'">'+ele.title+' ['+ele.commSize+']</a></td>'
+					+'<td><a href="review_post.do?rv_num='+ele.rv_num+'&m_title='+m_title+'&m_num='+m_num+'">'+ele.title+'</a></td>'
 					+'<td>'+ele.nick_name+'</td>'
 					+'<td>'+ele.input_date+'</td>'
 					+'<td>'+ele.hits+'</td>'
@@ -747,51 +669,227 @@ $(function(){
 		searchReview();
 		
     });//click
-
-    $("#searchId").click(function(){
-    	
-    	$("#searchMoiveFrm").submit();
-    	
-    });//click
     
 });//ready
 
-
-
 /* 경태 끝 */
+function gradeOld(){
+		var m_num = ${movie.m_num};
+		 var id = $("#hiddenId").val();
+		 
+	   $.ajax({
+	       url: "gradeOld_info.do",
+	       method: "GET",
+	       data: { m_num: m_num },
+	       dataType: "json",
+			error:function(xhr) {
+				alert("문제발생");
+					console.log(xhr.status);
+	       },
+	       success: function(jsonObj) {
+	       	var output = 
+	       		"<div><div class='contents'>"
+	      		 +"<div class='detail_cmtinfo' style='min-height: 450px;'>"
+	      	 	 +"<strong class='tit_netizen'>네티즌 평점  <em class='num_rating'>"+ jsonObj.avgGrade +"점</em><span class='txt_netizen'> ("+jsonObj.cntGrade+"명)</span></strong>";
+	      		 
+	       	if(id!=""){
+	      		 output+="<a href='mygrade.do' id='myLink' style='margin-left: 500px'>MY</a>"
+	      		 +"<form action='insertGrade_info.do' method='get'>"
+	      		 +"<input type='hidden' id='m_num' name='m_num' value='"+m_num+"'/>"
+	      		 +"<select name='m_grade' size='1'>"
+	      		 +"<option selected disabled>평점 등록</option>"
+	      		 +"<option value='1'>★</option>"
+	      		 +"<option value='2'>★★</option>"
+	      		 +"<option value='3'>★★★</option>"
+	      		 +"<option value='4'>★★★★</option>"
+	      		 +"<option value='5'>★★★★★</option>"
+	      		 +"</select>"		
+	      		 +"<br/>"
+	      		 +"<div style='height:140px'>"
+	      		 +"<input type='text' name='comments' placeholder='영화 평점글을 작성해주세요.' style='width:600px; height:100px;'/>"
+	      		 +"<br/>"
+	      		 +"<input type='submit' value='등록' style='width:60px; height:27px; cursor: pointer;border-radius: 4px; margin-left: 543px; margin-top:3px;cursor: pointer;'/>"
+	      		 +"</div>"
+	      		 +"</form>";
+	      		 +"<br/><br/>"
+	      		 }//end if
+
+	      		 
+	      		 output += "<hr style='width:600px; margin-left: 0px'/>"
+	       		 if(jsonObj.gradeSize==0){
+					 	output+='해당영화에 대한 평점이 존재하지 않습니다.';
+					 }//end if
+	       		 
+	       		 var gradeList = jsonObj.grade;
+	       		 for (var i = 0; i < gradeList.length; i++) {
+	                    var gradeObj = gradeList[i];
+	                    output += "<div id='gradeListDiv' style='height:100px'>"
+	                    +getStarRating(gradeObj.m_grade)
+	                    +"<br/>"
+	                    +"<textarea id='gradeTextarea' placeholder='여기는 다른사람이 작성한 한줄평.' readonly='readonly'>" +gradeObj.comments+ "</textarea></div>";
+	                    
+	                    if (id === gradeObj.user_id) {
+	                   	    output += "<form action='delete_grade.do' method='post'>";
+	                   	    output += "<input type='hidden' name='g_num' value='" + gradeObj.g_num + "'>";
+	                   	    output += "<input type='hidden' name='user_id' value='" + gradeObj.user_id + "'>"; 
+	                   	    output += "<input type='hidden' name='m_num' value='" + gradeObj.m_num + "'>";
+	                   	    output += "<input type='submit' class='declare' id='declare' name='declare' value='삭제'>";
+	                   	    output += "</form>";
+	                    }
+	                    output += "<br/>"
+	       		 	 +"<em style='color: #396dc9; font-weight: bolder;'>" + gradeObj.nick_name + "</em> " + gradeObj.input_date 
+	       		 	 +"<hr style='width:600px; margin-left: 0px'/>";
+	       		 	 +"</div>";
+	                    
+	       		 }
+	       		 output += "</div></div></div>";
+
+	       		 // 별점 생성 함수
+	       		 function getStarRating(grade) {
+	       		     var stars = "";
+	       		     for (var i = 0; i < grade; i++) {
+	       		         stars += "★";
+	       		     }
+	       		     return "<em style='color: #e92130'>" + stars + "</em>";
+	       		 }
+	       		
+	       		 $("#output").html(output); 
+	       		 
+	       }//function
+	   });//ajax
+		
+}
 
 </script>
 
-<!-- =================================JSTL로 공통부분 출력============================== -->
+<script>
+function grade() {
+	var m_num = ${movie.m_num};
+	 var id = $("#hiddenId").val();
+	 
+   $.ajax({
+       url: "grade_info.do",
+       method: "GET",
+       data: { m_num: m_num },
+       dataType: "json",
+		error:function(xhr) {
+			alert("문제발생");
+				console.log(xhr.status);
+       },
+       success: function(jsonObj) {
+       	var output = 
+       		"<div><div class='contents'>"
+      		 +"<div class='detail_cmtinfo' style='min-height: 450px;'>"
+      	 	 +"<strong class='tit_netizen'>네티즌 평점  <em class='num_rating'>"+ jsonObj.avgGrade +"점</em><span class='txt_netizen'> ("+jsonObj.cntGrade+"명)</span></strong>";
+      		 
+       	if(id!=""){
+      		 output+="<a href='mygrade.do' id='myLink' style='margin-left: 500px'>MY</a>"
+      		 +"<form action='insertGrade_info.do' method='get'>"
+      		 +"<input type='hidden' id='m_num' name='m_num' value='"+m_num+"'/>"
+      		 +"<select name='m_grade' size='1'>"
+      		 +"<option selected disabled>평점 등록</option>"
+      		 +"<option value='1'>★</option>"
+      		 +"<option value='2'>★★</option>"
+      		 +"<option value='3'>★★★</option>"
+      		 +"<option value='4'>★★★★</option>"
+      		 +"<option value='5'>★★★★★</option>"
+      		 +"</select>"		
+      		 +"<br/>"
+      		 +"<div style='height:140px'>"
+      		 +"<input type='text' name='comments' placeholder='영화 평점글을 작성해주세요.' style='width:600px; height:100px;'/>"
+      		 +"<br/>"
+      		 +"<input type='submit' value='등록' style='width:60px; height:27px; cursor: pointer;border-radius: 4px; margin-left: 543px; margin-top:3px;cursor: pointer;'/>"
+      		 +"</div>"
+      		 +"</form>";
+      		 +"<br/><br/>"
+      		 }//end if
+
+      		 
+      		 output += "<hr style='width:600px; margin-left: 0px'/>"
+       		 if(jsonObj.gradeSize==0){
+				 	output+='해당영화에 대한 평점이 존재하지 않습니다.';
+				 }//end if
+       		 
+       		 var gradeList = jsonObj.grade;
+       		 for (var i = 0; i < gradeList.length; i++) {
+                    var gradeObj = gradeList[i];
+                    output += "<div id='gradeListDiv' style='height:100px'>"
+                    +getStarRating(gradeObj.m_grade)
+                    +"<br/>"
+                    +"<textarea id='gradeTextarea' placeholder='여기는 다른사람이 작성한 한줄평.' readonly='readonly'>" +gradeObj.comments+ "</textarea></div>";
+                    
+                    if (id === gradeObj.user_id) {
+                   	    output += "<form action='delete_grade.do' method='post'>";
+                   	    output += "<input type='hidden' name='g_num' value='" + gradeObj.g_num + "'>";
+                   	    output += "<input type='hidden' name='user_id' value='" + gradeObj.user_id + "'>"; 
+                   	    output += "<input type='hidden' name='m_num' value='" + gradeObj.m_num + "'>";
+                   	    output += "<input type='submit' class='declare' id='declare' name='declare' value='삭제'>";
+                   	    output += "</form>";
+                    }
+                    output += "<br/>"
+       		 	 +"<em style='color: #396dc9; font-weight: bolder;'>" + gradeObj.nick_name + "</em> " + gradeObj.input_date 
+       		 	 +"<hr style='width:600px; margin-left: 0px'/>";
+       		 	 +"</div>";
+                    
+       		 }
+       		 output += "</div></div></div>";
+
+       		 // 별점 생성 함수
+       		 function getStarRating(grade) {
+       		     var stars = "";
+       		     for (var i = 0; i < grade; i++) {
+       		         stars += "★";
+       		     }
+       		     return "<em style='color: #e92130'>" + stars + "</em>";
+       		 }
+       		
+       		 $("#output").html(output); 
+       		 
+       }//function
+   });//ajax
+	
+}
+
+$(function() {
+	 $("#grade").click(function() {
+		    $("#btns").css("display", ""); // display 스타일을 제거하여 요소를 보이게 함
+	 });
+	 $("#mainInfo").click(function() {
+		    $("#btns").css("display", "none"); // display 스타일을 제거하여 요소를 보이게 함
+	 });
+	 $("#produce").click(function() {
+		    $("#btns").css("display", "none"); // display 스타일을 제거하여 요소를 보이게 함
+	 });
+	 $("#review").click(function() {
+		    $("#btns").css("display", "none"); // display 스타일을 제거하여 요소를 보이게 함
+	 });
+})
+
+</script>
+
+<!-- =================================공통부분 출력============================== -->
 </head>
 
 <body class=""> 
 	<!-- 경태 -->
 	 <input type="hidden" value="${ movie.m_title }" id="m_title"/>
 	 <!-- 경태 -->
-	 <input type="hidden" id="hiddenId" value="${ lrDomain.user_id }"/>
+	<input type="hidden" id="hiddenId" value="${ lrDomain.user_id }"/>
     <div class="kakao_wrap detail_type"> 
 		<header class="kakao_head search_on" data-tiara-layer="gnb"> 
     <div class="kakaohead_top">
         <div class="inner_head" data-tiara-layer="service">
-                <c:choose>
-                <c:when test="${ empty lrDomain.user_id }">
-	                <a href="mainPage.do" class="link_daum" data-tiara-layer="logo">
-	                <img src="http://localhost/prj3_mvc/images/movie_small.png" width="70" height="35" class="logo_daum" alt="Daum"></a>
-                </c:when>
-                <c:when test="${ !empty lrDomain.user_id }">
-	                <a href="login_success.do" class="link_daum" data-tiara-layer="logo">
-	                <img src="http://localhost/prj3_mvc/images/movie_small.png" width="70" height="35" class="logo_daum" alt="Daum"></a>
-                </c:when>
-                </c:choose>
-		                <c:choose>
-		                	<c:when test="${ empty lrDomain.user_id }">
-				                <a style="margin-left: 960px;" href="login.do"><span style="font-weight: bold; ">Login</span></a>
-		                	</c:when>
-		                	<c:when test="${ !empty lrDomain.user_id }">
-				                <a style="margin-left: 960px;" href="logout.do"><span style="font-weight: bold; ">Logout</span></a>
-		                	</c:when>
-		                </c:choose>
+                <a class="link_daum" data-tiara-layer="logo">
+                <img src="http://localhost/prj3_mvc/images/movie_small.png" width="70" height="35" class="logo_daum" alt="Daum"></a>
+		<c:choose>
+				<c:when test="${ lrDomain.user_id == null }">
+                	<a style="margin-left: 970px;" href="login.do"><span style="font-weight: bold;">Login</span></a>
+				</c:when>			
+				                
+				<c:when test="${ lrDomain.user_id != null }">
+	                <a style="margin-left: 970px;" href="frm/logout.do"><span style="font-weight: bold;">Logout</span></a>
+				</c:when>			
+			</c:choose>
         </div>
     </div>
     <div class="kakaohead_menu">
@@ -799,46 +897,15 @@ $(function(){
             <nav id="gnbContent" class="gnb_movie">
                 <h2 class="screen_out">영화 메인메뉴</h2>
                 <ul data-tiara-layer="tab">
-                    <c:choose>
-						<c:when test="${ empty lrDomain.user_id }">
-	                    <li class="home">
-	                        <a href="mainPage.do" class="link_gnb" data-tiara-layer="home">영화</a>
-	                    </li>
-	                     <li class="ranking ">
-                        	<a href="movie_reserve.do" class="link_gnb" data-tiara-layer="ranking">예매</a>
-                    	</li>
-						</c:when>
-						<c:when test="${ !empty lrDomain.user_id }">
-	                    <li class="home">
-	                        <a href="login_success.do" class="link_gnb" data-tiara-layer="home">영화</a>
-	                    </li>
-	                    <li class="ranking ">
-                        	<a href="movie_reserve.do" class="link_gnb" data-tiara-layer="ranking">예매</a>
-                    	</li>
-						</c:when>
-				</c:choose>
+                    <li class="home ">
+                        <a href="main_frm.do" class="link_gnb" data-tiara-layer="home">영화</a>
+                    </li>
+                    <li class="ranking ">
+                        <a href="movie_reserve.do" class="link_gnb" data-tiara-layer="ranking">예매</a>
+                    </li>
                 </ul>
             </nav>
             
-            <!-- 검색 시작 -->
-            <a href="javascript:" class="link_search">
-                <span class="ico_movie ico_search">검색하기</span>
-            </a> 
-            <div class="moviesearch_wrap"> 
-                <h2 class="screen_out">검색</h2>
-                <form action="search_movie.do" id="searchMoiveFrm" class="d_sch" role="search">
-                    <fieldset class="fld_sch">
-                        <legend class="screen_out">검색어 입력폼</legend>
-                        <div class="box_search" data-tiara-layer="service search">
-                            <input type="text" class="tf_keyword" id="title" name="title" title="검색어 입력" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="영화 검색"  value="">
-                            <button type="button" id="searchId" class="btn_search" ><span class="ico_movie ico_search">검색</span></button>
-                        </div>
-                    </fieldset>
-                </form>
-                <div class="suggest_layer">
-                </div>
-            </div>
-            <!-- 검색 끝 -->
         </div>
     </div>
     <div id="wrapMinidaum"></div>
@@ -889,20 +956,20 @@ $(function(){
             </div>
             <div class="inner_cont">
                     <dl class="list_cont">
-                    <dt>평점</dt>
-                    <dd><span class="ico_movie ico_star"></span>8.3</dd>
+                    	<dt>평점</dt>
+                    	<dd><span class="ico_movie ico_star"></span>${ star }</dd>
                     </dl>
               		
                     <dl class="list_cont">
                     <dt>러닝타임</dt>
                     <dd>
-                        ${ movie.run_time }
+                        ${ movie.run_time }분
                     </dd>
                     </dl>
                     <dl class="list_cont">
                         <dt>등급</dt>
                         <dd>
-                            ${ movie.rank }
+                            ${ movie.rank }세이상 관람가
                         </dd>
                         </dl>
             </div>
@@ -911,15 +978,26 @@ $(function(){
         </div>
             	<!------------------------------- 좋아요, 예메하기 버튼 추가 박진호 0507 -->
             		<!-- <input type="button" class="like" id="likeBtn" value="♥좋아요" style="width:80px; height:35px; cursor: pointer; border-radius: 10px" /> -->
-            		<div id="likeBtn" class="right_area">
-  						<a href="javascript:;" class="icon heart">
-    						<img src="https://cdn-icons-png.flaticon.com/512/812/812327.png" alt="찜하기"> 
-  						</a>
+            			<div id="likeBtn" class="right_area">
+            		
+            		<c:choose>
+	            		<c:when test="${ likeStatus }">
+	  						<a href="#" class="icon heart">
+	    						<img src="https://cdn-icons-png.flaticon.com/512/803/803087.png" alt="찜하기"> 
+	  						</a>
+	  					</c:when>
+	  					
+	  					<c:otherwise>
+	  						<a href="#" class="icon heart">
+	    						<img src="https://cdn-icons-png.flaticon.com/512/812/812327.png" alt="찜하기"> 
+	  						</a>
+	  					</c:otherwise>
+  					</c:choose>
+  					
+  					
 					</div>
 					<div id="ticketing">
-					<a href="movie_reserve.do">
-            			<input type="button" class="ticketing" id="tiecketingBtn" value="예매하기" style="width:80px; height:35px; cursor: pointer; margin-left: 10px; border-radius: 10px; background-color: #E74C3C; border-color: #E74C3C; color: white; font-size:11pt;font-family:굴림;font-weight:bolder"  />
-					</a>
+            			<a href="movie_reserve.do"><input type="button" class="ticketing" id="ticketingBtn" value="예매하기" style="width:80px; height:35px; cursor: pointer; margin-left: 10px; border-radius: 10px; background-color: #E74C3C; border-color: #E74C3C; color: white; font-size:11pt;font-family:굴림;font-weight:bolder"/></a>
     				</div>
     </div>
 </div>
@@ -945,9 +1023,12 @@ $(function(){
 </div>            <div class="contents"></div>
         </div>
         <br/>
-        
+      	
+         <div id="btns" style="display:none">
+         	<input type="button" id="choi" value="최신순" onclick="grade()"/>&nbsp;
+         	<input type="button" id="gwa" value="과거순" onclick="gradeOld()"/>
+         </div>       
          <div id="output"><!-- --------------------  탭 클릭시 ajax로 화면 부분 전환시작 - 데이터 덮어쓰기 --------------------------------------------------------------->
-        
    		 </div><!-- ------------------------------   탭 클릭시 ajax로 화면 부분 전환 끝  ---------------------------------------------------------------->
     
        <!-- ================================= 공통부분 출력 끝============================== -->

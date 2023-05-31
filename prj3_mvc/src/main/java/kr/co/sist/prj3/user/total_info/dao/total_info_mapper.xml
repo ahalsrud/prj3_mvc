@@ -85,21 +85,15 @@ where 		m_num=#{m_num}
 select m_num, g_num, user_id, nick_name, m_grade, comments, input_date
 from grade
 where m_num = #{ m_num }
-<choose>
-    <when test="select_type == 1">
-      order by input_date asc
-    </when>
-    <when test="select_type == 2">
-      order by input_date desc
-    </when>
-    <!-- add more conditions for other sorting options if needed -->
-    <otherwise>
-      <!-- default sorting option -->
-      order by input_date desc
-    </otherwise>
-  </choose>
+order by input_date desc
 </select>
 
+<select id="selectGradeOld" resultType="kr.co.sist.prj3.user.total_info.domain.GradeDomain">
+select m_num, g_num, user_id, nick_name, m_grade, comments, input_date
+from grade
+where m_num = #{ m_num }
+order by input_date asc
+</select>
 
 
 

@@ -211,6 +211,20 @@ public class TotalInfoDAO {
 		
 		return list;
 	}// selectGrade
+
+	// 평점
+	public List<GradeDomain> selectGradeOld(int m_num) {
+		List<GradeDomain> list = new ArrayList<GradeDomain>();
+		
+		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+		list = ss.selectList("selectGradeOld", m_num);
+		
+		if (ss != null) {
+			ss.close();
+		} // end if
+		
+		return list;
+	}// searchGradeOld
 	
 	//별점, 한줄평 등록
 		public int insertGrade(GradeVO gVO) {

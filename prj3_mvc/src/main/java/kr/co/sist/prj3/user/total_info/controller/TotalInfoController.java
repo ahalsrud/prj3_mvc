@@ -227,6 +227,46 @@ public class TotalInfoController {
 		return jsonObj.toJSONString();
 	}//gradeFrm
 
+	/////////////////////////////////   평점    ////////////////////////////////////////////
+	@ResponseBody
+	@GetMapping("/gradeOld_info.do")
+	public String gradeOldFrm(int m_num, Model model) throws PersistenceException {
+		
+		JSONObject jsonObj = new JSONObject();
+		
+		//평균평점	
+		int avgGrade = tis.searchAvgGrade(m_num); 
+		jsonObj.put("avgGrade", avgGrade);
+		
+		
+		//평가 수
+		int cntGrade = tis.cntGrade(m_num);
+		jsonObj.put("cntGrade", cntGrade);	
+		
+		// 등록된 평점 리스트 select
+		List<GradeDomain> gradeList = tis.searchGradeOld(m_num);
+		JSONArray gradeArray = new JSONArray();
+		
+		jsonObj.put("gradeSize", gradeList.size());
+		
+		for (GradeDomain grade : gradeList) {
+			JSONObject gradeObj = new JSONObject();
+			gradeObj.put("m_num", grade.getM_num());
+			gradeObj.put("g_num", grade.getG_num());
+			gradeObj.put("m_grade", grade.getM_grade());
+			gradeObj.put("comments", grade.getComments());
+			gradeObj.put("nick_name", grade.getNick_name());
+			gradeObj.put("input_date", grade.getInput_date());
+			gradeObj.put("user_id", grade.getUser_id());
+			gradeArray.add(gradeObj);
+		}// end for
+		
+		jsonObj.put("grade", gradeArray);
+		System.out.println(gradeArray);
+		
+		return jsonObj.toJSONString();
+	}//gradeFrm
+
 	/////////////////////별점, 한줄평 인서트
 	@RequestMapping(value = "/insertGrade_info.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String insertGradeFrm(@RequestParam("m_num") Integer m_num, GradeVO gVO, LikeMovieVO lmVO, Model model,

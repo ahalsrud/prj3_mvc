@@ -144,6 +144,15 @@ public class TotalInfoService {
 		return list;
 	}// searchGrade
 
+	// 평점
+	public List<GradeDomain> searchGradeOld(int m_num) {
+		List<GradeDomain> list = new ArrayList<GradeDomain>();
+		
+		list = tiDAO.selectGradeOld(m_num);
+		
+		return list;
+	}// searchGradeOld
+
 	// 별점, 한줄평 등록
 		public boolean addGrade(GradeVO gVO) {
 			
