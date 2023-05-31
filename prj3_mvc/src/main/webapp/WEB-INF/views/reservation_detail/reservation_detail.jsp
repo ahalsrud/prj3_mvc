@@ -72,13 +72,28 @@
             <div class="border-end bg-white" id="sidebar-wrapper">
                 <div class="sidebar-heading border-bottom bg-light"><img src="http://localhost/test_prj/admin/images/movie.png" style="width:60px; height:30px;"><font style="color:#E74C3C; font-weight: bold;">MOVIEPLANET</font></div>
                 <div class="list-group list-group-flush">
-                   	<a class="list-group-item list-group-item-action list-group-item-light p-3" href="movie_regist.do">영화 등록</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="movie_list.do">영화 관리</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="movie_grade.do">영화 한줄평 관리</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="review_manage.do">영화 리뷰 현황판 관리</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="reservation_detail.do">예매 현황</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="member_manage.do">회원 관리</a>
-                </div>
+		            <a href="dashBoard.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+		               메인
+		            </a> 
+		            <a href="movie_regist.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+		               영화 등록
+		            </a> 
+		            <a href="movie_list.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+		               영화 관리
+		            </a> 
+		            <a href="movie_grade.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+		               영화 한줄평 관리
+		            </a> 
+		            <a href="review_manage.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+		               영화 리뷰 현황판 관리
+		            </a> 
+		            <a href="reservation_detail.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+		               예매 현황
+		            </a> 
+		            <a href="member_board.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+		               회원 관리
+		            </a> 
+		         </div>
             </div>
             <!-- Page content wrapper-->
             <div id="page-content-wrapper">

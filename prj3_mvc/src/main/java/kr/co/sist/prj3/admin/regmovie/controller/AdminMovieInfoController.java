@@ -169,10 +169,10 @@ public class AdminMovieInfoController {
 	            	
 	            	
 	            	aaVOTemp.setM_num(m_num); // 여기 반복분에 m_num 안넣었음.. 그래서 추가된거에대한 m_num 값이 없언던거임..
-	            	aaVOTemp.setA_img(d_name);
-	            	aaVOTemp.setA_name(d_img);
-	            	aaVOTemp.setA_eng(d_eng);
-	            	aaVOTemp.setRole(d_eng);
+	            	aaVOTemp.setA_img(a_img);
+	            	aaVOTemp.setA_name(a_name);
+	            	aaVOTemp.setA_eng(a_eng);
+	            	aaVOTemp.setRole(role);
       	            
 	            	aaVO[i+1]=aaVOTemp;
       	            

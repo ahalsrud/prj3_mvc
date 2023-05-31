@@ -242,7 +242,7 @@ function selectEmail() {
 <!--// Header area(회원정보관리) -->
 <div>
 	<div style="width:800px;">
-		<a href="#"><img alt="무브플래닛" src="http://localhost/prj3_mvc/images/movie.png" style="width:150px; margin-top: 10px;"></a>
+		<a href="main_loged_frm.do"><img alt="무브플래닛" src="http://localhost/prj3_mvc/images/movie.png" style="width:150px; margin-top: 10px;"></a>
 	</div>
 </div>
 <hr>
@@ -407,7 +407,7 @@ function selectEmail() {
 				<hr>
 				<p class="mbrBtnFunc">
 					<span class="mbrBtn mbrBtnModify_1"><a id="modifyBtn" name="modifyBtn" style="cursor:pointer;"><span>수정하기</span></a></span>
-					<span class="mbrBtn mbrBtnCancel_1"><button type="button" id="cancel"><span>취소</span></button></span><!-- 취소버튼 누르면 마이페이지로 -->
+					<a href="mypage.do"><span class="mbrBtn mbrBtnCancel_1"><button type="button" id="cancel"><span>취소</span></button></span></a><!-- 취소버튼 누르면 마이페이지로 -->
 					<button type="button" id="quitMember" style="float:right; vertical-align: middle;">
 						<span style="width: 120px; height: 50px;">탈퇴하기</span>
 					</button>

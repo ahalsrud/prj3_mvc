@@ -141,7 +141,7 @@
 		<div class="header_content">
     		<div class="contents">
         		<h1 onclick="">
-       			<a href="/">
+       			<a href="main_loged_frm.do">
         			<img src="http://localhost/prj3_mvc/images/movie.png" alt="movieplanet" />
         		</a>
         		<span>MOVIEPLANET</span></h1>
@@ -158,22 +158,23 @@
         		<h1><a href="/" tabindex="-1"><img src="https://img.cgv.co.kr/R2014/images/common/logo/logoWhite.png" alt="CGV" /></a></h1>
         		<ul class="nav_menu">
             	<li>
-                	<h2><a href="/movies/?lt=1&ft=0">영화</a></h2>
+                	<h2><a href="search_movie.do">영화</a></h2>
             	</li>
             	<li>
-                	<h2><a href="/ticket/"><strong>예매</strong></a></h2>
+                	<h2><a href="movie_reserve.do"><strong>예매</strong></a></h2>
             	</li>
             	<li>
             	</li>
         	</ul>
         	<div class="totalSearch_wrap">
-            	<label for="totalSearch">
-                	<input type="text" id="header_keyword" placeholder="영화 검색" />
-                	<input type="hidden" id="header_ad_keyword" name="header_ad_keyword" />
-            	</label>
-            	<button type="button" class="btn_totalSearch" id="btn_header_search">검색</button>
-            	<iframe src="//ad.cgv.co.kr/NetInsight/html/CGV/CGV_201401/main@Search_txt" width="0" height="0" title="" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"></iframe>
-        	</div>
+            <form id="movieSearchFrm" name="movieSearch" action="search_movie.do">
+            <label for="totalSearch">
+                <input type="text" id="title" name="title" placeholder="영화 검색" value=""/>
+            </label>
+            <button type="button" class="btn_totalSearch" id="searchBtn">검색</button>
+            </form>
+            <iframe src="//ad.cgv.co.kr/NetInsight/html/CGV/CGV_201401/main@Search_txt" width="0" height="0" title="" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"></iframe>
+        </div>
     	</div>
 	</div>
             <!-- 서브 메뉴 -->			
@@ -191,6 +192,13 @@
             <!-- Contents Start -->
 			
     <script type="text/javascript">
+
+  //영화 검색	
+  	$("#searchBtn").click(function(){
+  	
+  		$("#movieSearchFrm").submit();		
+  		
+  	});//click	
     
     $(function(){
     	$("#okBtn").click(function(){
@@ -269,16 +277,13 @@
                     <a href="/user/mycgv/myinfo/?g=1" >회원정보<i></i></a>
 	                <ul>
                         <li>
-                            <a href="/user/mycgv/myinfo/edit-myinfo-cjone.aspx?g=1" >개인정보 변경</a>
+                            <a href="check_pass.do" >개인정보 변경</a>
                         </li>
                         <li>
-                            <a href="/user/mycgv/myinfo/edit-myinfo-cjone.aspx?g=1" >비밀번호 변경</a>
+                            <a href="confirm_pass.do" >비밀번호 변경</a>
                         </li>
                         
 
-	                    <li>
-                            <a href="/user/mycgv/myinfo/leave-cjone.aspx?g=1" >회원탈퇴</a>
-                        </li>
 	                </ul>
 	            </li>
                  <li >
@@ -348,9 +353,11 @@
 							<button type="button" id="okBtn">
 								<span style="width: 120px; height: 50px; font-family: 'Noto Sans KR', sans-serif;">확인</span>
 							</button>
-							<button type="button" id="cancelBtn">
-								<span style="width: 120px; height: 50px; font-family: 'Noto Sans KR', sans-serif;">취소</span>
-							</button>
+							<a href="mypage.do">
+								<button type="button" id="cancelBtn">
+									<span style="width: 120px; height: 50px; font-family: 'Noto Sans KR', sans-serif;">취소</span>
+								</button>
+							</a>
 				</div>
 			</fieldset>
 			</form>
