@@ -1,23 +1,26 @@
 package kr.co.sist.prj3.admin.admin_movie.domain;
 
+import java.sql.Date;
+
 public class MovieListDomain {
 
-	private String m_title, d_name, genre, rank, release_date, m_reg_date, screen_state;
+	private String m_title, d_name, genre, rank, release_date, screen_state;
+	private Date m_reg_date;
 	private int m_num;
 	
 	public MovieListDomain() {
 	}
 
 	public MovieListDomain(String m_title, String d_name, String genre, String rank, String release_date,
-			String m_reg_date, String screen_state, int m_num) {
+			String screen_state, Date m_reg_date, int m_num) {
 		super();
 		this.m_title = m_title;
 		this.d_name = d_name;
 		this.genre = genre;
 		this.rank = rank;
 		this.release_date = release_date;
-		this.m_reg_date = m_reg_date;
 		this.screen_state = screen_state;
+		this.m_reg_date = m_reg_date;
 		this.m_num = m_num;
 	}
 
@@ -61,20 +64,20 @@ public class MovieListDomain {
 		this.release_date = release_date;
 	}
 
-	public String getM_reg_date() {
-		return m_reg_date;
-	}
-
-	public void setM_reg_date(String m_reg_date) {
-		this.m_reg_date = m_reg_date;
-	}
-
 	public String getScreen_state() {
 		return screen_state;
 	}
 
 	public void setScreen_state(String screen_state) {
 		this.screen_state = screen_state;
+	}
+
+	public Date getM_reg_date() {
+		return m_reg_date;
+	}
+
+	public void setM_reg_date(Date m_reg_date) {
+		this.m_reg_date = m_reg_date;
 	}
 
 	public int getM_num() {
@@ -88,9 +91,10 @@ public class MovieListDomain {
 	@Override
 	public String toString() {
 		return "MovieListDomain [m_title=" + m_title + ", d_name=" + d_name + ", genre=" + genre + ", rank=" + rank
-				+ ", release_date=" + release_date + ", m_reg_date=" + m_reg_date + ", screen_state=" + screen_state
+				+ ", release_date=" + release_date + ", screen_state=" + screen_state + ", m_reg_date=" + m_reg_date
 				+ ", m_num=" + m_num + "]";
 	}
 
+	
 	
 }

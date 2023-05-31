@@ -46,11 +46,17 @@ public class LikeMovieService {
 	public List<MyGradeDomain> searchMyGrade(String id) {
 		List<MyGradeDomain> list = new ArrayList<MyGradeDomain>();
 		
+		list = lmDAO.selectMyGrade(id);
+		
 		return list;
 	}// searchMyGrade
 	
-	public int searchCntMyGrade() {
-		return 0;
+	public int searchCntMyGrade(String id) {
+		int cnt = 0;
+		
+		cnt = lmDAO.selectCntGrade(id);
+		
+		return cnt;
 	}// searchCntMyGrade
 	
 	public int removeMyGrade(String id) {

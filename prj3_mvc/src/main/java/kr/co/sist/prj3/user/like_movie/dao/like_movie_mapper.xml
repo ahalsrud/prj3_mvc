@@ -45,4 +45,17 @@
 	delete from movie_like
 	where m_num = ${m_num} and user_id = #{user_id}
 </delete>
+
+<select id="myGrade" parameterType="String" resultType="kr.co.sist.prj3.user.like_movie.domain.MyGradeDomain">
+select g.m_num, g.nick_name, g.m_grade, g.comments, g.input_date, m.m_title
+from grade g
+join movie m on g.m_num = m.m_num
+where g.user_id = #{ user_id }
+</select>
+
+<select id="gradeCnt" resultType="int">
+select count(*)
+from grade
+where user_id = #{ user_id }
+</select>
 </mapper>

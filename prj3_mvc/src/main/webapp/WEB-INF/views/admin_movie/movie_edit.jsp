@@ -386,13 +386,13 @@ $(function() {
 		
 		// 감독 삭제
 		function removeDirectDiv(index, directorNum) {
-		    var redirectURL = "movie_process2.do";
+		    var directorURL = "movie_process2.do";
 		    
 		    alert("delete 눌림");
 		    $(".directDiv" + index).remove();
 		    
 		    $.ajax({
-		        url: redirectURL,
+		        url: directorURL,
 		        type: "POST",
 		        data: { d_num: directorNum },
 		        success: function(response) {
@@ -413,14 +413,14 @@ $(function() {
 		}
 		
 		// 배우 삭제
-		function removeActorDiv(index, ActorNum) {
-		    var redirectURL = "movie_process2.do";
+		function removeActorDiv(index, actorNum) {
+		    var actorURL = "movie_process3.do";
 		    
 		    alert("delete 눌림");
 		    $(".actorDiv" + index).remove();
 		    
 		    $.ajax({
-		        url: redirectURL,
+		        url: actorURL,
 		        type: "POST",
 		        data: { a_num: actorNum },
 		        success: function(response) {
@@ -447,7 +447,7 @@ $(function() {
 			})
 			
 			// 배우 삭제
-			$("aNameDelete").click(function() {
+			$("#aNameDelete").click(function() {
 				removeActorDiv(index, actorNum);
 			})			
 			
@@ -456,7 +456,12 @@ $(function() {
 				var registURL = "movie_process.do"
 				$("#registFrm").attr('action', registURL);
 				$("#registFrm").submit();
-			}) 
+			})
+			
+			$("#cancelBtn").click(function() {
+				location.href="movie_list.do";
+			});
+			
 			
 		})
 		
@@ -705,7 +710,7 @@ $(function() {
 							
 						<div id="btnDiv">
 							<input type="button" value="수정" id="registBtn" name="registBtn" class="btn btn-secondary"/>&nbsp;&nbsp;&nbsp;&nbsp;
-							<input type="button" value="취소" id="cancelBtn" name="cancelBtn" class="btn btn-danger" onclick="removeActorDiv(${ i.index }, ${ actor.a_num }); return false"/>
+							<input type="button" value="취소" id="cancelBtn" name="cancelBtn" class="btn btn-danger"/>
 							
 						</div>
 						<input type="hidden" name="fileLeng" id="fileLeng"/> 

@@ -2,20 +2,20 @@ package kr.co.sist.prj3.user.like_movie.domain;
 
 public class MyGradeDomain {
 
-	private String m_title, m_grade, comment, nick_name, input_date;
-	private int m_num;
+	private String m_title, comments, nick_name, input_date;
+	private int m_num, m_grade;
 	
 	public MyGradeDomain() {
 	}
 
-	public MyGradeDomain(String m_title, String m_grade, String comment, String nick_name, String input_date,
-			int m_num) {
+	public MyGradeDomain(String m_title, String comments, String nick_name, String input_date, int m_num, int m_grade) {
+		super();
 		this.m_title = m_title;
-		this.m_grade = m_grade;
-		this.comment = comment;
+		this.comments = comments;
 		this.nick_name = nick_name;
 		this.input_date = input_date;
 		this.m_num = m_num;
+		this.m_grade = m_grade;
 	}
 
 	public String getM_title() {
@@ -26,20 +26,12 @@ public class MyGradeDomain {
 		this.m_title = m_title;
 	}
 
-	public String getM_grade() {
-		return m_grade;
+	public String getComments() {
+		return comments;
 	}
 
-	public void setM_grade(String m_grade) {
-		this.m_grade = m_grade;
-	}
-
-	public String getComment() {
-		return comment;
-	}
-
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setComments(String comments) {
+		this.comments = comments;
 	}
 
 	public String getNick_name() {
@@ -66,10 +58,20 @@ public class MyGradeDomain {
 		this.m_num = m_num;
 	}
 
+	public int getM_grade() {
+		return m_grade;
+	}
+
+	public void setM_grade(int m_grade) {
+		this.m_grade = m_grade;
+	}
+
 	@Override
 	public String toString() {
-		return "MyGradeDomain [m_title=" + m_title + ", m_grade=" + m_grade + ", comment=" + comment + ", nick_name="
-				+ nick_name + ", input_date=" + input_date + ", m_num=" + m_num + "]";
+		return "MyGradeDomain [m_title=" + m_title + ", comments=" + comments + ", nick_name=" + nick_name
+				+ ", input_date=" + input_date + ", m_num=" + m_num + ", m_grade=" + m_grade + "]";
 	}
+
+	
 
 }// class

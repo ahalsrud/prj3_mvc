@@ -33,6 +33,19 @@ public class AdminMovieDAO {
 		return list;
 	}
 	
+	// 상영중, 미상영
+	public List<MovieListDomain> selectMovieState(String select_type) {
+		List<MovieListDomain> list = new ArrayList<MovieListDomain>();
+		
+		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+		
+		list = ss.selectList("movieState", select_type);
+		
+		if(ss != null ) { ss.close(); }// end if
+		
+		return list;
+	}
+	
 	// 평점 관리
 	public List<MovieGradeDomain> selectMovieGrade(String mTitle) {
 		List<MovieGradeDomain> list = new ArrayList<MovieGradeDomain>();
@@ -82,6 +95,7 @@ public class AdminMovieDAO {
 				
 		return cnt;
 	}// updateMovie
+	
 	
 	// 감독
 	public List<DirectorDomain> selectDirector(int mNum) {
@@ -153,7 +167,7 @@ public class AdminMovieDAO {
 		int cnt = 0;
 		
 		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
-		cnt = ss.delete("deleteDirector", a_num);
+		cnt = ss.delete("deleteActor", a_num);
 		
 		if(cnt == 1) {
 			System.out.println("삭제 성공 => commit");

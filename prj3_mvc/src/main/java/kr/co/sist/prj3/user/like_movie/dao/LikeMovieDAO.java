@@ -66,11 +66,24 @@ public class LikeMovieDAO {
 	public List<MyGradeDomain> selectMyGrade(String id) {
 		List<MyGradeDomain> list = new ArrayList<MyGradeDomain>();
 		
+		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+		list = ss.selectList("myGrade", id);
+		
+		if (ss != null) {
+			ss.close();
+		} // end if
+		
 		return list;
 	}// selectMyGrade
 	
-	public int selectCntGrade() {
-		return 0;
+	public int selectCntGrade(String id) {
+		int cnt = 0;
+		
+		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+		cnt = ss.selectOne("gradeCnt", id);
+		if(ss != null) { ss.close(); }// end if
+		
+		return cnt;
 	}// selectCntGrade
 	
 	public int deleteMyGrade(String id) {

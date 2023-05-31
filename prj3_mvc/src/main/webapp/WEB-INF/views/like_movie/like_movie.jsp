@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../checkLogin.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
 <head>
@@ -55,9 +56,11 @@ $(function(){
 		$("#frm").submit();
 	});//click	
 	
+
+	$("#searchBtn").click(function() {
+		$("#movieSearchFrm").submit();
+	});//click	
 });//ready
-
-
 </script>
 </head>
 <body class="">
@@ -82,13 +85,13 @@ $(function(){
 			<div class="header_content">
 				<div class="contents">
 					<h1 onclick="">
-						<a href="/"> <img
+						<a href="main_loged_frm.do"> <img
 							src="http://localhost/prj3_mvc/images/movie.png"
 							alt="movieplanet" />
 						</a> <span>MOVIEPLANET</span>
 					</h1>
 					<ul class="memberInfo_wrap">
-						<li><a href="/user/login/logout.aspx" class="logout"
+						<li><a href="mainPage.do"" class="logout"
 							title="로그아웃"><img
 								src="https://img.cgv.co.kr/R2014/images/common/ico/loginPassword.png"
 								alt="로그아웃" /><span>로그아웃</span></a></li>
@@ -111,7 +114,7 @@ $(function(){
 					<ul class="nav_menu">
 						<li>
 							<h2>
-								<a href="/movies/?lt=1&ft=0">영화</a>
+								<a href="main_loged_frm.do">영화</a>
 							</h2>
 						</li>
 						<li>
@@ -122,22 +125,14 @@ $(function(){
 						<li></li>
 					</ul>
 					<div class="totalSearch_wrap">
-						<label for="totalSearch"> <input type="text"
-							id="header_keyword" value="" placeholder="영화 검색"/> <input type="hidden"
-							id="header_ad_keyword" name="header_ad_keyword" />
-						</label>
-						<button type="button" class="btn_totalSearch"
-							id="btn_header_search">검색</button>
-						<iframe
-							src="//ad.cgv.co.kr/NetInsight/html/CGV/CGV_201401/main@Search_txt"
-							width="0" height="0" title="" frameborder="0" scrolling="no"
-							marginwidth="0" marginheight="0"
-							allowfullscreen="allowfullscreen"
-							mozallowfullscreen="mozallowfullscreen"
-							msallowfullscreen="msallowfullscreen"
-							oallowfullscreen="oallowfullscreen"
-							webkitallowfullscreen="webkitallowfullscreen"></iframe>
-					</div>
+            				<form id="movieSearchFrm" name="movieSearch" action="search_movie.do">
+            					<label for="totalSearch">
+                					<input type="text" id="title" name="title" placeholder="영화 검색" value=""/>
+           					 	</label>
+            					<button type="button" class="btn_totalSearch" id="searchBtn">검색</button>
+            				</form>
+            				<iframe src="//ad.cgv.co.kr/NetInsight/html/CGV/CGV_201401/main@Search_txt" width="0" height="0" title="" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"></iframe>
+        			</div>
 				</div>
 			</div>
 			<!-- 서브 메뉴 -->
@@ -164,10 +159,7 @@ $(function(){
                      <!-- 등급종류 클래스 : vip, rvip, vvip -->
                 </div>
                 <div class="box-contents">
-	        		<strong>모민경님</strong>
-	        		<a id="go_edit_page" href="#" class="edit" target="_blank" title="새창열림">나의 정보 변경</a>
-	        		<em></em>
-	        		
+	        		<strong>${ lrDomain.nick_name }님</strong>
 		        </div>
             </div>
         </div>
@@ -254,7 +246,7 @@ $(function(){
 												<strong>개봉</strong>
 
 											</span> <span class="like"> <a class="link-reservation"
-												href="/ticket/?MOVIE_CD=20032467&MOVIE_CD_GROUP=20032164">예매</a>
+												href="movie_reserve.do">예매</a>
 											</span>
 										</div>
 										<%-- <form action="like_movie2.do" method="get" style="display: inline-block;">
@@ -323,7 +315,7 @@ $(function(){
     <!-- S 예매하기 및 TOP Fixed 버튼 -->
     <div class="fixedBtn_wrap">
      
-        <a href="/ticket/" class="btn_fixedTicketing">예매하기</a>
+        <a href="movie_reserve.do" class="btn_fixedTicketing">예매하기</a>
         
         <a href="#none" class="btn_gotoTop"><img src="https://img.cgv.co.kr/R2014/images/common/btn/gotoTop.png" alt="최상단으로 이동" /></a>
     </div>

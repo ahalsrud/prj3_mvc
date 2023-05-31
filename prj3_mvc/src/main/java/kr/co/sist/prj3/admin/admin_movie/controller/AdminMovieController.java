@@ -30,9 +30,16 @@ public class AdminMovieController {
 	private AdminMovieService ams;
 	
 	// 영화 관리
-	@GetMapping("/movie_list.do")
+	@RequestMapping(value="/movie_list.do", method = {RequestMethod.GET,RequestMethod.POST})
 	public String movieListFrm(String m_title, Model model) throws PersistenceException {
 		model.addAttribute("list", ams.searchMovieList(m_title));
+		
+		return "/admin_movie/movie_list";
+	}// movieListFrm
+	
+	@RequestMapping(value="/select_list.do", method = {RequestMethod.GET,RequestMethod.POST})
+	public String selectMovieList(String select_type, Model model) throws PersistenceException {
+		model.addAttribute("list", ams.searchMovieState(select_type));
 		
 		return "/admin_movie/movie_list";
 	}// movieListFrm
@@ -55,6 +62,7 @@ public class AdminMovieController {
 		
 		return "admin_movie/movie_edit";
 	}
+	
 	
 	@PostMapping("/movie_process.do")
 	public String editMovieProcess(HttpServletRequest request) {
@@ -198,13 +206,20 @@ public class AdminMovieController {
 		return "redirect:movie_list.do";
 	}
 	
-	// 감독, 배우 delete
+	// 감독 delete
 	@RequestMapping(value="/movie_process2.do", method = {RequestMethod.GET,RequestMethod.POST})
 	public String editMovieProcess2(HttpServletRequest request) {
 		// 감독 delete
 		System.out.println("감독 delete");
 		int d_num = Integer.parseInt(request.getParameter("d_num"));
 		ams.removeDirector(d_num);
+		
+		return "redirect:/movie_process.do";
+	}
+	
+	// 배우 delete
+	@RequestMapping(value="/movie_process3.do", method = {RequestMethod.GET,RequestMethod.POST})
+	public String editMovieProcess3(HttpServletRequest request) {
 		
 		// 배우 delete
 		System.out.println("배우 delete");
@@ -213,5 +228,6 @@ public class AdminMovieController {
 		
 		return "redirect:/movie_process.do";
 	}
+	
 	
 }

@@ -1,4 +1,4 @@
-package kr.co.sist.prj3.admin.admin_movie.service;
+ package kr.co.sist.prj3.admin.admin_movie.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +29,13 @@ public class AdminMovieService {
 		return list;
 	}
 	
+	// 상영중, 미상영
+	public List<MovieListDomain> searchMovieState(String selectType) {
+	    List<MovieListDomain> list = amDAO.selectMovieState(selectType);
+	    
+	    return list;
+	}
+	
 	// 평점 관리
 	public List<MovieGradeDomain> searchMovieGrade(String mTitle) {
 		List<MovieGradeDomain> list = new ArrayList<MovieGradeDomain>();
@@ -57,6 +64,7 @@ public class AdminMovieService {
 		
 		return cnt == 1;
 	}// modifyMovie
+	
 	
 	// 감독
 	public List<DirectorDomain> searchDirector(int mNum) {

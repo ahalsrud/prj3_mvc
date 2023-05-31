@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../checkLogin.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
 <head>
@@ -30,9 +33,20 @@
     <!-- 홈페이지 CSS 일원화로 인한 반영 20220721 -->
     <link rel="stylesheet" type="text/css" href="https://img.cgv.co.kr/resource_pc/css/cgv.min.css" />
     <script type="text/javascript" src="https://img.cgv.co.kr/resource_pc/js/cgvUi.js"></script>
+    
 <style type="">
 .gradeTitle { font-weight: bold; }
 </style>
+
+<script type="text/javascript">
+//영화 검색	
+$(function() {
+	$("#searchBtn").click(function(){
+		alert("sdfs");
+		$("#movieSearchFrm").submit();		
+	});//click	
+});
+</script>
 </head>
 <body class="">
 	<div class="skipnaiv">
@@ -59,13 +73,13 @@
 			<div class="header_content">
 				<div class="contents">
 					<h1 onclick="">
-						<a href="/"> <img
+						<a href="main_loged_frm.do"> <img
 							src="http://localhost/prj3_mvc/images/movie.png"
 							alt="movieplanet" />
 						</a> <span>MOVIEPLANET</span>
 					</h1>
 					<ul class="memberInfo_wrap">
-						<li><a href="/user/login/logout.aspx" class="logout"
+						<li><a href="mainPage.do" class="logout"
 							title="로그아웃"><img
 								src="https://img.cgv.co.kr/R2014/images/common/ico/loginPassword.png"
 								alt="로그아웃" /><span>로그아웃</span></a></li>
@@ -88,7 +102,7 @@
 					<ul class="nav_menu">
 						<li>
 							<h2>
-								<a href="/movies/?lt=1&ft=0">영화</a>
+								<a href="main_loged_frm.do">영화</a>
 							</h2>
 						</li>
 						<li>
@@ -99,22 +113,15 @@
 						<li></li>
 						<li></li>
 					</ul>
-					<div class="totalSearch_wrap">
-						<label for="totalSearch"> 
-							<input type="text" id="header_keyword" value="" placeholder="영화 검색"/> 
-							<input type="hidden" id="header_ad_keyword" name="header_ad_keyword" />
-						</label>
-						<button type="button" class="btn_totalSearch" id="btn_header_search" >검색</button>
-						<iframe
-							src="//ad.cgv.co.kr/NetInsight/html/CGV/CGV_201401/main@Search_txt"
-							width="0" height="0" title="" frameborder="0" scrolling="no"
-							marginwidth="0" marginheight="0"
-							allowfullscreen="allowfullscreen"
-							mozallowfullscreen="mozallowfullscreen"
-							msallowfullscreen="msallowfullscreen"
-							oallowfullscreen="oallowfullscreen"
-							webkitallowfullscreen="webkitallowfullscreen"></iframe>
-					</div>
+						<div class="totalSearch_wrap">
+            				<form id="movieSearchFrm" name="movieSearch" action="search_movie.do">
+            					<label for="totalSearch">
+                					<input type="text" id="title" name="title" placeholder="영화 검색" value=""/>
+           					 	</label>
+            					<button type="button" class="btn_totalSearch" id="searchBtn">검색</button>
+            				</form>
+            				<iframe src="//ad.cgv.co.kr/NetInsight/html/CGV/CGV_201401/main@Search_txt" width="0" height="0" title="" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"></iframe>
+        				</div>
 				</div>
 			</div>
 			<!-- 서브 메뉴 -->
@@ -153,9 +160,7 @@
 											<!-- 등급종류 클래스 : vip, rvip, vvip -->
 										</div>
 										<div class="box-contents">
-											<strong>모민경님</strong> <a id="go_edit_page" href="#"
-												class="edit" target="_blank" title="새창열림">나의 정보 변경</a> <em></em>
-
+											<strong>${ lrDomain.nick_name }님</strong> 
 										</div>
 									</div>
 								</div>
@@ -193,22 +198,32 @@
 						<div class="col-detail">
 							<div class="tit-mycgv">
 								<h3>내가 쓴 평점</h3>
-								<p><em>1건</em></p>
+								<p><em>${ cntGrade }건</em></p>
 							</div>
 							<div class="warp-my-reviewlist">
 								<ul class="point_col1">
-									<li class="nodata">
-										<div>등록된 글이 없습니다.</div>
-									</li>
+									<c:if test="${empty grade}">
+    									<li class="nodata">
+        									<div>작성한 평점이 없습니다.</div>
+    									</li>
+									</c:if>
+									<c:forEach var="myGrade" items="${ grade }">
 									<li class="yesdata">
 										<div>
-											<p class="grade">평점 : 5</p>
-											<p class="gradeTitle">가디언즈 오브 갤럭시</p>
-											<p class="gradeP">기대돼요</p>
-											<em style="color: #396dc9; font-weight: bolder;">모민경</em>
-											2023. 5. 5. 19:59
+											<p class="grade">
+                								<c:forEach begin="1" end="${myGrade.m_grade}">
+                    								<span class="star" style="color: #e92130">★</span>
+                								</c:forEach>
+											</p> 
+											<a href="main_info.do?m_num=${ myGrade.m_num }">
+												<p class="gradeTitle">${ myGrade.m_title }</p>
+											</a>
+											<p class="gradeP">${ myGrade.comments }</p>
+											<em style="color: #396dc9; font-weight: bolder;">${ myGrade.nick_name }</em>
+											${ myGrade.input_date }
 										</div>
 									</li>
+									</c:forEach>
 								</ul>
 							</div>
 							<?xml version="1.0" encoding="utf-8"?>

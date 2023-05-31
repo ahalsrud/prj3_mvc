@@ -125,8 +125,9 @@ a:hover {
 	        	    else {$('.no-result').hide();}
 	        			  });
 	        	  
-	        	  
-	        	  
+	        	  $("#select_type").change(function() {
+	        		  $("#selectFrm").submit();
+	        		});
 	        	});// ready
         </script>
     </head>
@@ -137,13 +138,28 @@ a:hover {
             <div class="border-end bg-white" id="sidebar-wrapper">
                 <div class="sidebar-heading border-bottom bg-light"><img src="http://localhost/test_prj/admin/images/movie.png" style="width:60px; height:30px;"><font style="color:#E74C3C; font-weight: bold;">MOVIEPLANET</font></div>
                 <div class="list-group list-group-flush">
-                   <a class="list-group-item list-group-item-action list-group-item-light p-3" href="http://localhost/test_prj/admin/sang_chung2.jsp">영화 등록</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="movie_list.do">영화 관리</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="movie_grade.do">영화 평점 관리</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="http://localhost/test_prj/admin/kyeong_kyu1.jsp">영화 리뷰 현황판 관리</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="http://localhost/test_prj/admin/sang_chung1.jsp">예매 현황</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="http://localhost/test_prj/admin/member_manage.jsp">회원 관리</a>
-                </div>
+            <a href="dashBoard.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+               메인
+            </a> 
+            <a href="movie_regist.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+               영화 등록
+            </a> 
+            <a href="movie_list.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+               영화 관리
+            </a> 
+            <a href="movie_grade.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+               영화 한줄평 관리
+            </a> 
+            <a href="review_manage.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+               영화 리뷰 현황판 관리
+            </a> 
+            <a href="reservation_detail.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+               예매 현황
+            </a> 
+            <a href="member_board.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+               회원 관리
+            </a> 
+         </div>
             </div>
             <!-- Page content wrapper-->
             <div id="page-content-wrapper">
@@ -166,7 +182,7 @@ a:hover {
                     </div>
                     <form action="movie_list.do" method="get" >
                     <!-- 검색바 시작 -->
-                    	<div class="search">
+                    	<div class="search" >
                     		<div class="form-group pull-right" style="width:300px; float: left;  padding-bottom: 20px;"><!-- 검색바 너비 -->
 				    			<input type="text" name="m_title" class="search form-control" placeholder="영화 검색">
                     		</div>
@@ -177,6 +193,18 @@ a:hover {
 						<span class="counter pull-right"></span>
                     <!-- 검색바 끝 -->
                     </form>
+                    
+                    <form action="select_list.do" method="post" id="selectFrm">
+                    <div style="padding-bottom: 20px;">
+                    	<select class="form-select w-80" aria-label="Default select example" name="select_type" id="select_type">
+						  	<option selected value="0">=== 선택 ===</option>
+						  	<option value="1">전체</option>
+						  	<option value="2">상영중</option>
+						  	<option value="3">미상영</option>
+						</select>
+					</div>
+					</form>
+                    
 					
 					<!-- 테이블을 담은 div 시작 -->
 				<div>
@@ -224,15 +252,17 @@ a:hover {
 										<td><c:out value="${ movie.m_title }" /></td>
 										<td><c:out value="${ movie.d_name }" /></td>
 										<td><c:out value="${ movie.genre }" /></td>
-										<td><c:out value="${ movie.rank }" /></td>
+										<td><c:out value="${ movie.rank }" />세</td>
 										<td><c:out value="${ movie.release_date }" /></td>
-										<td><%-- <c:out value="${ movie.m_reg_date }" /> --%></td>
+										<td><c:out value="${ movie.m_reg_date }" /></td>
 										<td><input type="submit" class="editBtn" id="editBtn" value="수정" /></td>
-										<td><c:out
-												value="${ movie.screen_state == 'y'?'상영중':'미상영'}" /></td>
 										<td>
-											<input type="button" class="regBtn" value="등록" /> 
-											<input type="button" class="delBtn" value="삭제" />
+											<c:out value="${ movie.screen_state == 'y'?'상영중':'미상영'}" />
+											<input type="hidden" id="screenState" value="${ movie.screen_state }" />
+										</td>
+										<td>
+											<a href="screen_regist.do?m_num=${ movie.m_num }"><input type="button" class="regBtn" id="regBtn" value="등록" /></a> 
+											<input type="button" class="delBtn" id="delBtn" value="삭제" />
 										</td>
 									</tr>
 								</form>

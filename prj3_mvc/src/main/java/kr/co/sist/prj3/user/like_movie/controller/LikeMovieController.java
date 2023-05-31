@@ -55,8 +55,18 @@ public class LikeMovieController {
 	
 	
 	@GetMapping("/mygrade.do")
-	public String myGradeFrm(Model model) {
-		return "/like_movie/mygrade";
+	public String myGradeFrm(Model model, @SessionAttribute(value="lrDomain", required = false) LoginResultDomain lrDomain) {
+	    
+	    String user_id = lrDomain.getUser_id();
+	    
+	    System.out.println(user_id);
+	    
+	    model.addAttribute("lrDomain", lrDomain);
+	    model.addAttribute("grade", lms.searchMyGrade(user_id));
+	
+	 	model.addAttribute("cntGrade", lms.searchCntMyGrade(user_id));
+	    
+	    return "/like_movie/mygrade";
 	}
 	
 }
