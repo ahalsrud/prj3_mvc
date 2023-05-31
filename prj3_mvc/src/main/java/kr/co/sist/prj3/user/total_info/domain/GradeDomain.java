@@ -2,21 +2,24 @@ package kr.co.sist.prj3.user.total_info.domain;
 
 public class GradeDomain {
 
-	public int m_num, m_grade;
-	public String comments, nick_name, likes, input_date;
+	public int m_num, g_num, m_grade;
+	public String comments, nick_name, likes, input_date, user_id;
 	
 	public GradeDomain() {
 		super();
 	}
 
-	public GradeDomain(int m_num, int m_grade, String comments, String nick_name, String likes, String input_date) {
+	public GradeDomain(int m_num, int g_num, int m_grade, String comments, String nick_name, String likes,
+			String input_date, String user_id) {
 		super();
 		this.m_num = m_num;
+		this.g_num = g_num;
 		this.m_grade = m_grade;
 		this.comments = comments;
 		this.nick_name = nick_name;
 		this.likes = likes;
 		this.input_date = input_date;
+		this.user_id = user_id;
 	}
 
 	public int getM_num() {
@@ -25,6 +28,14 @@ public class GradeDomain {
 
 	public void setM_num(int m_num) {
 		this.m_num = m_num;
+	}
+
+	public int getG_num() {
+		return g_num;
+	}
+
+	public void setG_num(int g_num) {
+		this.g_num = g_num;
 	}
 
 	public int getM_grade() {
@@ -67,11 +78,21 @@ public class GradeDomain {
 		this.input_date = input_date;
 	}
 
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
 	@Override
 	public String toString() {
-		return "GradeDomain [m_num=" + m_num + ", m_grade=" + m_grade + ", comments=" + comments + ", nick_name="
-				+ nick_name + ", likes=" + likes + ", input_date=" + input_date + "]";
+		return "GradeDomain [m_num=" + m_num + ", g_num=" + g_num + ", m_grade=" + m_grade + ", comments=" + comments
+				+ ", nick_name=" + nick_name + ", likes=" + likes + ", input_date=" + input_date + ", user_id="
+				+ user_id + "]";
 	}
+
 	
 	
 	

@@ -341,7 +341,7 @@ public class UserReviewDAO {
 		// 2. handler 쿼리문 수행
 		list = ss.selectList("kr.co.sist.prj3.reviewPostMapper.reviewLikeUser", rv_num);
 		// 3. 조회결과 처리
-		
+
 		// 4. MyBatis Handler 닫기
 		if (ss != null) {
 			ss.close();
@@ -358,9 +358,29 @@ public class UserReviewDAO {
 	 * 
 	 * @param rvNum(리뷰번호)
 	 */
-	public int updateHits(int rvNum) {
+	public int updateHits(int rv_num) {
+		
 
-		return 0;
+		int cnt = 0;
+
+		// 1.MyBatis 핸들러 얻기
+		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+
+		// 2. Handler를 사용하기
+		cnt = ss.update("hitsUp", rv_num);
+
+		// 3. transaction 완료하기
+		if (cnt == 1) {
+			ss.commit();
+		}
+
+		// 4. 연결 끊기
+		if (ss != null) {
+			ss.close();
+		} // end if
+
+		return cnt;
+		
 	}// updateHits
 	
 }// class

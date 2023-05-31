@@ -1,5 +1,7 @@
 package kr.co.sist.prj3.user.comment.domain;
 
+import java.util.List;
+
 /**
  * 댓글 도메인<br>
  * 댓글번호, 프로필명, 닉네임, 댓글내용, 작성일
@@ -9,7 +11,8 @@ package kr.co.sist.prj3.user.comment.domain;
 public class CommentDomain {
 
 	private int com_num;
-	private String profile, nick_name, content, input_date ;
+	private String profile, nick_name, content, input_date, user_id;
+	private List<ReplyDomain> replies ;
 	public int getCom_num() {
 		return com_num;
 	}
@@ -40,12 +43,25 @@ public class CommentDomain {
 	public void setInput_date(String input_date) {
 		this.input_date = input_date;
 	}
+	public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+	public List<ReplyDomain> getReplies() {
+		return replies;
+	}
+	public void setReplies(List<ReplyDomain> replies) {
+		this.replies = replies;
+	}
 	@Override
 	public String toString() {
 		return "CommentDomain [com_num=" + com_num + ", profile=" + profile + ", nick_name=" + nick_name + ", content="
-				+ content + ", input_date=" + input_date + "]";
+				+ content + ", input_date=" + input_date + ", user_id=" + user_id + ", replies=" + replies + "]";
 	}
-
+	
+	
 	
 	
 	

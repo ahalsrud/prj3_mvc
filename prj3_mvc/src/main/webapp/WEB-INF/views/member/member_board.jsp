@@ -104,7 +104,7 @@ $(function(){
 		var name = $("#name").val();
 		
 		if(name!=""){
-			
+			alert(name);
 			//alert("이름 입력은 필수입니다.");
 			//return;
 		

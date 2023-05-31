@@ -230,8 +230,11 @@ public class UserReviewService {
 	 * 해당 리뷰 창에서 조회수 +1 증가
 	 * @param rvNum(리뷰번호)
 	 */
-	public int hitsUp(int rvNum) {
+	public boolean hitsUp(int rv_num) {
 		
-		return 0;
+		boolean success=false;
+		success = urDAO.updateHits(rv_num)==1;
+		return success;
+		
 	}//hitsUp
 }//LikeService

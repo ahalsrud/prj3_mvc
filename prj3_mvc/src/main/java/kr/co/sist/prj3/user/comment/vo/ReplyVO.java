@@ -7,7 +7,7 @@ package kr.co.sist.prj3.user.comment.vo;
  *
  */
 public class ReplyVO {
-
+	
 	
 	private int com_num;
 	private String user_id,content;

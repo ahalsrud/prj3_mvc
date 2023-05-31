@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import kr.co.sist.prj3.user.comment.dao.CommentDAO;
+import kr.co.sist.prj3.user.comment.domain.AllDomain;
 import kr.co.sist.prj3.user.comment.domain.CommWithRepliesDomain;
 import kr.co.sist.prj3.user.comment.domain.CommentDomain;
 import kr.co.sist.prj3.user.comment.domain.ReplyDomain;
@@ -23,6 +24,24 @@ public class CommentService {
 	@Autowired(required = false)
 	private CommentDAO commDAO;
 
+	public List<AllDomain> getCommList(int rv_num){
+		List<AllDomain> list = null;
+		
+		list = commDAO.selectComment(rv_num);
+		
+		return list;
+		
+	}//getCommList
+
+	public List<AllDomain> getReplyList(int rv_num){
+		List<AllDomain> list = null;
+		
+		list = commDAO.selectReply(rv_num);
+		
+		return list;
+		
+	}//getReplyList
+	
 	/**
 	 * 댓글 등록 - ajax
 	 * @param cmVO
@@ -35,36 +54,6 @@ public class CommentService {
 		
 	}//insertComment
 
-
-	/**
-	 * 대댓글이 없는 댓글은 삭제
-	 * @param comNum
-	 * @return
-	 */
-	public int removeCommentService ( int comNum ) {
-		
-		int result = 0;
-		return result;
-		
-		
-	}//deleteComment
-	
-	
-	/**
-	 * 대댓글이 있는 경우는 내용을 업데이트
-	 * @param comNum
-	 * @return
-	 */
-	public int updateCommentService  (int comNum ) {
-		
-		int result = 0;
-		return result;
-		
-		
-	}//deleteComment
-
-	
-	
 	/**
 	 * 대댓글 등록
 	 * @param rpVO
@@ -76,6 +65,44 @@ public class CommentService {
 		return success;
 		
 	}//insertReply
+
+	/**
+	 * 대댓글이 없는 댓글은 삭제
+	 * @param comNum
+	 * @return
+	 */
+	public int removeCommentService ( int comNum ) {
+		
+		int result = 0;
+		return result;
+		
+	}//deleteComment
+	
+	
+	/**
+	 * 댓글 업데이트
+	 */
+	public boolean updateCommentService  (int com_num ) {
+		
+		boolean success=false;
+		success = commDAO.updateComment(com_num)==1;
+		return success;
+		
+	}//deleteComment
+
+	/**
+	 * 대댓글 업데이트
+	 */
+	public boolean updateReplyService  (int rp_num ) {
+		
+		boolean success=false;
+		success = commDAO.updateReply(rp_num)==1;
+		return success;
+		
+	}//deleteComment
+
+	
+	
 
 	
 	/**

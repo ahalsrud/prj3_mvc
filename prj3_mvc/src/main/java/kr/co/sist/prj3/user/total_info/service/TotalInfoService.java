@@ -117,24 +117,49 @@ public class TotalInfoService {
 		return pd;
 	}// searchProduce
 
+	///////////////////////////////////// 평점 ///////////////
+	//평균 평점
+	public int searchAvgGrade(int m_num) {
+		int avgGrade=0;
+		avgGrade = tiDAO.selectAvgGrade(m_num);
+		
+		return avgGrade;
+	}// avgGradeUser
+	
+	//평가 수
+	public int cntGrade(int m_num) {
+		int cntGrade=0;
+		cntGrade = tiDAO.selectCntGrade(m_num);
+		
+		return cntGrade;
+	}// avgGradeUser
+	
+	
 	// 평점
 	public List<GradeDomain> searchGrade(int m_num) {
 		List<GradeDomain> list = new ArrayList<GradeDomain>();
 
+		list = tiDAO.selectGrade(m_num);
+		
 		return list;
 	}// searchGrade
 
-	public void addGrade(GradeVO gVO) {
+	// 별점, 한줄평 등록
+		public boolean addGrade(GradeVO gVO) {
+			
+			boolean success=false;
+			
+			success = tiDAO.insertGrade(gVO)==1;
+			
+			return success;
+		}// addGrade
 
-	}// addGrade
-
-	public int removeGrade(GradeVO gVO) {
-		return 0;
+	public boolean removeGrade(GradeVO gVO) {
+		int cnt = tiDAO.deleteGrade(gVO);
+		
+		return cnt == 1;
 	}// removeGrade
 
-	public int avgGradeUser() {
-		return 0;
-	}// avgGradeUser
 
 	public void addLikeGrade(LikeGradeVO lgVO) {
 

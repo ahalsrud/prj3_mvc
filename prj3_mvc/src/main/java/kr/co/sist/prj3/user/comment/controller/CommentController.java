@@ -1,6 +1,10 @@
 package kr.co.sist.prj3.user.comment.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,65 +28,94 @@ public class CommentController {
 	private CommentService commService;
 
 	/**
-	 * 로그인 안했을 때 로그인폼 보여주기
-	 * @return
-	 */
-	public String loginFrm(  ) {
-		return "login_frm";
-		
-	}//loginFrm
-
-	
-	/**
 	 * 댓글 등록 - ajax
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping(value="/add_comment.do" , method= {RequestMethod.POST,RequestMethod.GET})
-	public String addCommentProcess( CommVO cVO )  {
+	public String addCommentProcess( CommVO cVO, int rv_num, String m_title, Integer m_num ) throws UnsupportedEncodingException  {
 		String resultPage="";
+		
+		String encodedMTitle = URLEncoder.encode(m_title, "UTF-8");
 		
 		if(commService.addCommentService(cVO)) {
 			System.out.println("댓글 등록 성공");
-			resultPage="redirect:/review_post.do";
+			resultPage="redirect:/review_post.do?rv_num="+rv_num+"&m_title="+encodedMTitle+"&m_num="+m_num;
 		
 		}//end if
 		
 		return resultPage;
 		
 	}//addCommentProcess
+
+	/**
+	 * 대댓글 등록 - ajax
+	 * @param rpVO
+	 * @return
+	 * @throws UnsupportedEncodingException 
+	 */
+	@RequestMapping(value="/add_reply.do" , method= {RequestMethod.POST,RequestMethod.GET})
+	public String addReplyProcess( ReplyVO rpVO, int rv_num, String m_title, Integer m_num ) throws UnsupportedEncodingException   {
+		String resultPage="";
+		
+		String encodedMTitle = URLEncoder.encode(m_title, "UTF-8");
+		
+		if(commService.addReplyService(rpVO)) {
+			resultPage="redirect:/review_post.do?rv_num="+rv_num+"&m_title="+encodedMTitle+"&m_num="+m_num;
+		}//end if
+		
+		return resultPage;
+	
+	}//addReplyProcess
 	
 
 	/**
 	 * 댓글 삭제(혹은 수정)
 	 * @param comNum 댓글번호
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 */
-	public String removeCommentProcess( int comNum )  {
+	@RequestMapping(value="/delete_comment.do" , method= {RequestMethod.POST,RequestMethod.GET})
+	public String removeCommentProcess( int com_num, int rv_num, String m_title, Integer m_num) throws UnsupportedEncodingException  {
 		
+		String resultPage="";
+		
+		String encodedMTitle = URLEncoder.encode(m_title, "UTF-8");
+		System.out.println(com_num);
+		if(commService.updateCommentService(com_num)) {
+			System.out.println("댓글 업뎃 성공");
+			resultPage="redirect:/review_post.do?rv_num="+rv_num+"&m_title="+encodedMTitle+"&m_num="+m_num;
+		}//end if
+		
+		return resultPage;
 
-		return "review"; //리뷰 글 페이지로
-
+	}//removeCommentProcess
+	
+	/**
+	 * 대댓글 삭제(혹은 수정)
+	 * @param comNum 댓글번호
+	 * @return
+	 * @throws UnsupportedEncodingException 
+	 */
+	@RequestMapping(value="/delete_reply.do" , method= {RequestMethod.POST,RequestMethod.GET})
+	public String removeReplyProcess( int rp_num, int rv_num, String m_title, Integer m_num) throws UnsupportedEncodingException  {
+		
+		String resultPage="";
+		
+		String encodedMTitle = URLEncoder.encode(m_title, "UTF-8");
+		System.out.println(rp_num);
+		if(commService.updateReplyService(rp_num)) {
+			System.out.println("대댓글 업뎃 성공");
+			resultPage="redirect:/review_post.do?rv_num="+rv_num+"&m_title="+encodedMTitle+"&m_num="+m_num;
+		}//end if
+		
+		return resultPage;
+		
 	}//removeCommentProcess
 	
 
 
 	
-	/**
-	 * 대댓글 등록 - ajax
-	 * @param rpVO
-	 * @return
-	 */
-	@RequestMapping(value="/add_reply.do" , method= {RequestMethod.POST,RequestMethod.GET})
-	public String addReplyProcess( ReplyVO rpVO )   {
-		String resultPage="";
-		
-		if(commService.addReplyService(rpVO)) {
-			resultPage="forward:/review_post.do";
-		}//end if
-		
-		return resultPage;
-	
-	}//addReplyProcess
 
 	
 	

@@ -146,6 +146,7 @@ public class TotalInfoDAO {
 		if (ss != null) {
 			ss.close();
 		} // end if
+		
 		return list;
 	}// selectAcotrList
 
@@ -162,25 +163,98 @@ public class TotalInfoDAO {
 
 		return pd;
 	}// selectProduce
+	
+	////////////////////// 평점 /////////////////////////////////////////
+	 //평균 평점
+	   public int selectAvgGrade(int m_num) {
+	      int avgGrade;
+	      SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+	      
+	      //평점이 없다면 0 값 넣기(null이 반환되면 error)
+	      if(ss.selectOne("selectAvgGrade", m_num)==null) {
+	         avgGrade = 0;
+	         
+	      //평점이 있다면 평균 값 넣기
+	      } else {
+	         avgGrade = ss.selectOne("selectAvgGrade", m_num);
+	      }//end if
+	      
+	      if (ss != null) {
+	         ss.close();
+	      } // end if
+	      
+	      return avgGrade;
+	   }// selectAvgGrade
+	   
+	   //평가 수
+	   public int selectCntGrade(int m_num) {
+	      int cntGrade = 0;
+	      SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+	      cntGrade = ss.selectOne("selectCntGrade", m_num);
+	      if (ss != null) {
+	         ss.close();
+	      } // end if
+	      
+	      return cntGrade;
+	   }// selectAvgGrade
 
 	// 평점
-	public List<GradeDomain> selectGrade(int mNum) {
+	public List<GradeDomain> selectGrade(int m_num) {
 		List<GradeDomain> list = new ArrayList<GradeDomain>();
 
+		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+		list = ss.selectList("selectGrade", m_num);
+		
+		if (ss != null) {
+			ss.close();
+		} // end if
+		
 		return list;
 	}// selectGrade
-
-	public void insertGrade(GradeVO gVO) {
-
-	}// insertGrade
+	
+	//별점, 한줄평 등록
+		public int insertGrade(GradeVO gVO) {
+			
+			int cnt=0;
+			SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+			
+			cnt = ss.insert("insertGrade", gVO);
+			
+			if(cnt==1) {
+				ss.commit();
+				System.out.println("별점, 한줄평 인서트 성공");
+				
+			} else {
+		        System.out.println("별점, 한줄평 인서트 실패");
+		        ss.rollback();
+		    }
+			
+			if (ss != null) {
+				ss.close();
+			} // end if
+			
+			return cnt;
+			
+		}// insertGrade
 
 	public int deleteGrade(GradeVO gVO) {
-		return 0;
+		int cnt = 0;
+		
+		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+		cnt = ss.delete("deleteGrade", gVO);
+		
+		if (cnt == 1) {
+			System.out.println("평점 삭제");
+			ss.commit();
+		} // end if
+
+		if (ss != null) {
+			ss.close();
+		} // end if
+		
+		return cnt;
 	}// deleteGrade
 
-	public int selectAvgGrade() {
-		return 0;
-	}// selectAvgGrade
 
 	// 평점 좋아요
 	public void insertLikeGrade(LikeGradeVO lgVO) {

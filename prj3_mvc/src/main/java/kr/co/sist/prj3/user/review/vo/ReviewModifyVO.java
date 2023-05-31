@@ -11,6 +11,15 @@ public class ReviewModifyVO {
 	private int rv_num; // 이력서번호
 	private String content; // 내용
 	private int m_num; // 영화번호
+	private String m_title; //영화제목
+	
+	
+	public String getM_title() {
+		return m_title;
+	}
+	public void setM_title(String m_title) {
+		this.m_title = m_title;
+	}
 	public String getUser_id() {
 		return user_id;
 	}
@@ -44,9 +53,10 @@ public class ReviewModifyVO {
 	@Override
 	public String toString() {
 		return "ReviewModifyVO [user_id=" + user_id + ", title=" + title + ", rv_num=" + rv_num + ", content=" + content
-				+ ", m_num=" + m_num + "]";
+				+ ", m_num=" + m_num + ", m_title=" + m_title + "]";
 	}
 
+	
 	
 	
 	

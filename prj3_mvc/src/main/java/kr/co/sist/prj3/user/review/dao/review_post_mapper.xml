@@ -69,4 +69,11 @@
 		join user_table u on l.user_id = u.user_id
 		where l.rv_num = #{rv_num}
 	</select>
+	
+	<update id="hitsUp" parameterType="Integer">
+		update review
+		set hits = hits + 1
+		where rv_num = #{rv_num}
+	</update>
+	
 </mapper>

@@ -129,13 +129,13 @@ function selectEmail() {
 		<div class="header_content">
     		<div class="contents">
         		<h1 onclick="">
-       			<a href="/">
+       			<a href="mainPage.do">
         			<img src="http://localhost/prj3_mvc/images/movie.png" alt="movieplanet" />
         		</a>
         		<span>MOVIEPLANET</span></h1>
         		<ul class="memberInfo_wrap">
-            		<li><a href="/user/login/logout.aspx" class="logout" title="로그아웃" ><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginPassword.png" alt="로그아웃" /><span>로그인</span></a></li>
-            		<li><a href="/user/mycgv/"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginMember.png" alt="MY PAGE" /><span>MY PAGE</span></a></li>
+            		<li><a href="login.do" class="logout" title="로그아웃" ><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginPassword.png" alt="로그아웃" /><span>로그인</span></a></li>
+            		<li><a href="mypage.do"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginMember.png" alt="MY PAGE" /><span>MY PAGE</span></a></li>
         		</ul>
     		</div>
 		</div>
@@ -146,22 +146,14 @@ function selectEmail() {
         		<h1><a href="/" tabindex="-1"><img src="https://img.cgv.co.kr/R2014/images/common/logo/logoWhite.png" alt="CGV" /></a></h1>
         		<ul class="nav_menu">
             	<li>
-                	<h2><a href="/movies/?lt=1&ft=0">영화</a></h2>
+                	<h2><a href="search_movie.do">영화</a></h2>
             	</li>
             	<li>
-                	<h2><a href="/ticket/"><strong>예매</strong></a></h2>
+                	<h2><a href="movie_reserve.do"><strong>예매</strong></a></h2>
             	</li>
             	<li>
             	</li>
         	</ul>
-        	<div class="totalSearch_wrap">
-            	<label for="totalSearch">
-                	<input type="text" id="header_keyword" placeholder="영화 검색" />
-                	<input type="hidden" id="header_ad_keyword" name="header_ad_keyword" />
-            	</label>
-            	<button type="button" class="btn_totalSearch" id="btn_header_search">검색</button>
-            	<iframe src="//ad.cgv.co.kr/NetInsight/html/CGV/CGV_201401/main@Search_txt" width="0" height="0" title="" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"></iframe>
-        	</div>
     	</div>
 	</div>
             <!-- 서브 메뉴 -->			
@@ -178,7 +170,7 @@ function selectEmail() {
 					<div class="sect-user">
 						<ul class="tab-menu-round">
 							<li class="on"><a href="find_id.do">아이디 찾기</a></li>
-							<li><a href="/user/login/find-pw.aspx?act=pw">비밀번호 찾기</a></li>
+							<li><a href="find_pw.do">비밀번호 찾기</a></li>
 						</ul>
 
 						<h3>아이디 찾기</h3>

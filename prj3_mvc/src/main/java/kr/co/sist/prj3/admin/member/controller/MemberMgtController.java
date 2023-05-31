@@ -30,7 +30,8 @@ public class MemberMgtController {
 	
 	@GetMapping("/member_board.do")
 	public String memberSearchProcess(@RequestParam(value = "name", defaultValue="") String name, Model model) throws UnsupportedEncodingException, GeneralSecurityException {
-		
+		System.out.println("컨트롤러 너 타니?");
+		System.out.println("컨트롤러 : "+name);
 		List<MemberBrdDomain> list=null;
 		
 		list = mmService.memberSearchService(name);

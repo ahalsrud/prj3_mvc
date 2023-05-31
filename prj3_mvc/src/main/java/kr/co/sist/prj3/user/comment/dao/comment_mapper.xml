@@ -7,89 +7,86 @@
 <!--댓글등록  -->
 <insert id="insertComment" parameterType="comm">
 insert into comments (com_num, input_date, content, rv_num, user_id) 
-values (seq_comment.nextval, to_char(sysdate, 'yyyy-mm-dd hh24:mi:ss'), 
+values (seq_comment.nextval, to_char(sysdate, 'yyyy-mm-dd hh24:mi'), 
  #{content}, #{rv_num}, #{user_id})
 </insert>
 
 <!--대댓글 등록 -->
 <insert id="insertReply" parameterType="reply">
-insert into reply (RP_NUM, INPUT_DATE, CONTENT, COM_NUM, USER_ID)
-values (seq_reply.nextval, to_char(sysdate, 'yyyy-mm-dd hh24:mi:ss'), 
+insert into reply (rp_num, input_date, content, com_num, user_id)
+values (seq_reply.nextval, to_char(sysdate, 'yyyy-mm-dd hh24:mi'), 
 #{content} , #{com_num}, #{user_id})
 </insert>
 
-
-<select id="selectComms" parameterType="Integer" resultType="kr.co.sist.prj3.user.comment.domain.CommentDomain">
-select 		rv_num, com_num, c.user_id, nick_name, profile, content, input_date
-from		comments c, user_table u
-where		c.user_id = u.user_id and rv_num= #{rv_num}
+<!-- 댓글 조회 -->
+<select id="selectComment" parameterType="Integer" resultType="kr.co.sist.prj3.user.comment.domain.AllDomain">
+SELECT
+    r.rv_num,
+    c.com_num,
+    c.user_id AS c_user_id,
+    u3.nick_name AS c_nick_name,
+    u3.profile AS c_profile,
+    c.input_date AS c_input_date,
+    c.content AS c_content,
+    rp.rp_num,
+    rp.user_id AS r_user_id,
+    u2.nick_name AS r_nick_name,
+    u2.profile AS r_profile,
+    rp.input_date AS r_input_date,
+    rp.content AS r_content
+FROM
+    review r
+    JOIN user_table u ON r.user_id = u.user_id
+    JOIN comments c ON c.rv_num = r.rv_num
+    LEFT JOIN reply rp ON rp.com_num = c.com_num
+    LEFT JOIN user_table u2 ON u2.user_id = rp.user_id
+    LEFT JOIN user_table u3 ON u3.user_id = c.user_id
+WHERE
+    r.rv_num = #{rv_num}
+ORDER BY
+    c.com_num, rp.rp_num
 </select>
 
-
-<!-- 
-
-
-<delete id="deleteLike" parameterType="kr.co.sist.prj3.user.review.vo.LikeVO" >
-</delete>
-
-
-<select id="selectLikes" resultType="int" parameterType="int">
+<!-- 대댓글 조회 -->
+<select id="selectReply" parameterType="Integer" resultType="kr.co.sist.prj3.user.comment.domain.AllDomain">
+SELECT
+    r.rv_num,
+    c.com_num,
+    c.user_id AS c_user_id,
+    u.nick_name AS c_nick_name,
+    u.profile AS c_profile,
+    c.input_date AS c_input_date,
+    c.content AS c_content,
+    rp.rp_num,
+    rp.user_id AS r_user_id,
+    u2.nick_name AS r_nick_name,
+    u2.profile AS r_profile,
+    rp.input_date AS r_input_date,
+    rp.content AS r_content
+FROM
+    review r
+    JOIN user_table u ON r.user_id = u.user_id
+    JOIN comments c ON c.rv_num = r.rv_num
+    LEFT JOIN reply rp ON rp.com_num = c.com_num
+    LEFT JOIN user_table u2 ON u2.user_id = rp.user_id
+WHERE
+    r.rv_num = #{rv_num}
+ORDER BY
+    c.com_num, rp.rp_num
 </select>
 
-<select id="selectLikeStatus" resultType="String" parameterType="kr.co.sist.prj3.user.review.vo.LikeVO">
-</select>
- -->
-
-<!-- 
-
-컬럼 하나 행 하나 조회  
-부서번호를 입력받아 부서명을 조회
-String dname = ss.selectOne("scsr",10);
-
-<select id="" resultType="String" parameterType="Integer" >
-select	dname
-from	dept
-where	deptno=#{deptno}
-</select>
-
-컬럼 하나 여러 행 조회  
-List<> list = ss.selectList("아이디",값);
-사원테이블에서 모든 사원명 검색 (argument를 생략)
-
-<select id="" resultType="String">
-select	ename
-from	emp
-</select>
-
-<insert id="" parameterType="">
-insert into emp 
-(EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO) 
-values(#{empno},#{ename},#{job},#{mgr},sysdate,#{sal},#{comm},#{deptno} )
-값은 대소문자 가림
-</insert>
-
-
-
-
-입력되는 사원번호와 부서번호가 일치하는 사원에 대해
-사원명, 직무, 매니저번호, 연봉, 보너스를 변경해보자
-from 사원테이블
- 
-<update id="" parameterType="">
-update	emp
-set		ename=#{ename}, job=#{job}, mgr=#{mgr},
-		sal=#{sal}, comm=#{comm}
-where	empno=#{empno} and deptno=#{deptno}
+<update id="updateComm" parameterType="Integer">
+update comments
+set input_date = null,
+    content = null
+where com_num = #{rp_num} 
 </update>
 
-사원번호를 입력받아 해당 레코드를 삭제  
-기본형 데이터형과 wrapper클래스 사용가능
-
-
-<delete id="" parameterType="int">
-delete from emp
-where empno=#{empno아무말가능}
-</delete>
- -->
+<update id="updateReply" parameterType="Integer">
+update reply
+set input_date = null,
+    content = null
+where rp_num = #{rp_num} 
+</update>
 
 </mapper>

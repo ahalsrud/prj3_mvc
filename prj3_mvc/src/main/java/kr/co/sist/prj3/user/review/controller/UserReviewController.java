@@ -1,5 +1,8 @@
 package kr.co.sist.prj3.user.review.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import kr.co.sist.prj3.user.comment.service.CommentService;
 import kr.co.sist.prj3.user.login.domain.LoginResultDomain;
 import kr.co.sist.prj3.user.review.domain.MyReviewDomain;
 import kr.co.sist.prj3.user.review.domain.ReviewBoardDomain;
@@ -33,6 +37,9 @@ public class UserReviewController {
 	
 	@Autowired(required = false)
 	private UserReviewService urService ;
+	
+	@Autowired(required = false)
+	private CommentService commService ;
 	
 	/**
 	 * 유저   됐냐
@@ -77,7 +84,37 @@ public class UserReviewController {
 		
 		return "/review/review_write";
 	}//reviewFrm 
-
+///////////////////////////////////////////숫자 1 없애고 사용 (원본)///////////////////////////////////////////////
+	/**
+	 * 유저
+	 * 리뷰 작성 페이지로 !이동! + !조회!
+	 * 2023.05.20
+	 * @author KT
+	 */
+	@PostMapping("/review_write_modify1.do")
+	public String reviewFrm1(int rv_num, Model model) {
+		
+		model.addAttribute("review", urService.reviewWriteShow(rv_num));
+		
+		return "/review/review_write_modify";
+	}//reviewFrm
+	
+	/**
+	 * 유저
+	 * 리뷰 !수정! 페이지에서 !수정!
+	 * 2023.05.20
+	 * @author KT
+	 */
+	@PostMapping("/review_write_modify_process1.do")
+	public String reviewProcess1(ReviewModifyVO rmVO, Model model) {
+		
+		model.addAttribute("review", urService.reviewModify(rmVO));
+		
+		return "redirect:/main_info.do?m_num="+rmVO.getM_num();
+	}//reviewFrm
+/////////////////////////////////////////숫자 1 없애고 사용 (원본)///////////////////////////////////////////////
+	
+///////////////////////////////////////////////////테스트//////////////////////////////////////////////
 	/**
 	 * 유저
 	 * 리뷰 작성 페이지로 !이동! + !조회!
@@ -97,14 +134,20 @@ public class UserReviewController {
 	 * 리뷰 !수정! 페이지에서 !수정!
 	 * 2023.05.20
 	 * @author KT
+	 * @throws UnsupportedEncodingException 
 	 */
 	@PostMapping("/review_write_modify_process.do")
-	public String reviewProcess(ReviewModifyVO rmVO, Model model) {
+	public String reviewProcess(ReviewModifyVO rmVO, Model model, String m_title, int rv_num, int m_num) throws UnsupportedEncodingException {
 		
+		System.out.println(rmVO.getM_num());
+		System.out.println(m_title);
+		System.out.println(rv_num);
+		String encodedMTitle = URLEncoder.encode(m_title, "UTF-8");
 		model.addAttribute("review", urService.reviewModify(rmVO));
 		
-		return "redirect:/main_info.do?m_num="+rmVO.getM_num();
+		return "redirect:/review_post.do?m_num="+rmVO.getM_num()+"&m_title="+encodedMTitle+"&rv_num="+rv_num;
 	}//reviewFrm
+/////////////////////////////////////////////////////테스트//////////////////////////////////////////////	
 	
 	/**
 	 * 유저
@@ -142,12 +185,19 @@ public class UserReviewController {
 			user_id = " ";
 		}
 		
+		urService.hitsUp(lVO.getRv_num());
+		
 		 //리뷰정보
 		 model.addAttribute("reviewInfo",urService.showReview(lVO));
 		 
 		 //좋아요 누른 사람
 		 model.addAttribute("likeUser",urService.showLikeUser(lVO.getRv_num()));
 
+		 //댓글, 대댓글 보여주기
+		 model.addAttribute("commList",commService.getCommList(lVO.getRv_num()));
+		 model.addAttribute("commSize",commService.getCommList(lVO.getRv_num()).size());
+		 model.addAttribute("replyList",commService.getReplyList(lVO.getRv_num()));
+		 
 		 lVO.setUser_id(user_id);
 		
 		//////////////// 규미 ////////////////
@@ -243,8 +293,8 @@ public class UserReviewController {
 		//////////////////////////////////////주요정보(화면전환)//////////////////////////
 		@ResponseBody
 		@GetMapping("/review_info.do")
-		public String reviewInfo(ReviewSearchVO rsVO, Model model) throws PersistenceException, SQLException {
-		
+		public String reviewInfo(ReviewSearchVO rsVO, LikeVO lvo, Model model) throws PersistenceException, SQLException {
+			
 		JSONObject jsonObj = new JSONObject();
 
 		// 리뷰 리스트
@@ -262,6 +312,8 @@ public class UserReviewController {
 		reviewObj.put("hits", review.getHits());
 		reviewObj.put("like_total", review.getLike_total());
 		reviewObj.put("rv_num", review.getRv_num());
+		reviewObj.put("commSize", commService.getCommList(review.getRv_num()).size());
+		reviewObj.put("replySize", commService.getReplyList(review.getRv_num()).size());
 		reviewArray.add(reviewObj);
 		}//end for
 		

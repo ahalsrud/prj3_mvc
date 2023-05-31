@@ -166,7 +166,7 @@ $(document).ready(function() {
 		                 <div style="width:930px; height:80px; border-radius: 15px; background-color: white;">
 		                 <div style="float:left"><img src="http://localhost/prj3_mvc/images	/movie_small.png" style="height:50px; margin-top:20px;"/></div>
 		                 <div style="font-size:20px; margin-top:27px; float:left"><font font style="color:#E74C3C; font-weight: bold;">MOVIEPLANET</font></div>
-		                 <a href="#void" style="float:right; margin-right:30px; margin-top:50px; font-weight: bold;" >HOME</a>
+		                 <a href="login_success.do" style="float:right; margin-right:30px; margin-top:50px; font-weight: bold;" >HOME</a>
 		                 </div>
 		                 </div>
 		                  <!-- header -->

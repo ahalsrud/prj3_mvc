@@ -13,6 +13,7 @@ import kr.co.sist.prj3.admin.member.dao.MemberMgtDAO;
 import kr.co.sist.prj3.admin.member.domain.MemberBrdDomain;
 import kr.co.sist.prj3.admin.member.domain.MemberInfoDomain;
 import kr.co.sist.util.cipher.DataDecrypt;
+import kr.co.sist.util.cipher.DataEncrypt;
 
 @Component
 public class MemberMgtService {
@@ -29,11 +30,14 @@ public class MemberMgtService {
 	 * @throws  
 	 */
 	public List<MemberBrdDomain> memberSearchService(String name) throws UnsupportedEncodingException, GeneralSecurityException  {
-		
+		System.out.println("서비스 : "+name);
 		List<MemberBrdDomain> list = null;
-		list = mmDAO.selectMembers(name);
 		
+		DataEncrypt de = new DataEncrypt("FsRt4SfY4US0IWtK4JPJsw==");
 		DataDecrypt dd = new DataDecrypt("FsRt4SfY4US0IWtK4JPJsw==");
+		
+		System.out.println(de.encryption(name));
+		list = mmDAO.selectMembers(de.encryption(name));
 		
 		for(MemberBrdDomain mbd : list) {
 			//이름, 주소, 전화번호 복호화해서 다시 셋해주자

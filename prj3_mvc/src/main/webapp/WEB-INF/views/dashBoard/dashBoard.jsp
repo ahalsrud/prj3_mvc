@@ -277,74 +277,15 @@ a {
 	display: table;
 	clear: both;
 }
+
+.txt_tit{
+	font-weight: 600;
+    font-size: 30px;
+    line-height: 36px;
+    color: #000;
+    text-align: center;
+}
 </Style>
-<script type="text/javascript">
-	$(document)
-			.ready(
-					function() {
-						$(".search")
-								.keyup(
-										function() {
-											var searchTerm = $(".search").val();
-											var listItem = $('.results tbody')
-													.children('tr');
-											var searchSplit = searchTerm
-													.replace(/ /g,
-															"'):containsi('")
-
-											$
-													.extend(
-															$.expr[':'],
-															{
-																'containsi' : function(
-																		elem,
-																		i,
-																		match,
-																		array) {
-																	return (elem.textContent
-																			|| elem.innerText || '')
-																			.toLowerCase()
-																			.indexOf(
-																					(match[3] || "")
-																							.toLowerCase()) >= 0;
-																}
-															});
-
-											$(".results tbody tr").not(
-													":containsi('"
-															+ searchSplit
-															+ "')").each(
-													function(e) {
-														$(this).attr('visible',
-																'false');
-													});
-
-											$(
-													".results tbody tr:containsi('"
-															+ searchSplit
-															+ "')").each(
-													function(e) {
-														$(this).attr('visible',
-																'true');
-													});
-
-											var jobCount = $('.results tbody tr[visible="true"]').length;
-											$('.counter').text(
-													jobCount + ' 건의 검색결과');
-
-											if (jobCount == '0') {
-												$('.no-result').show();
-											} else {
-												$('.no-result').hide();
-											}
-										});
-					});
-</script>
-
-
-<style>
-</style>
-
 
 </head>
 <body>
@@ -352,29 +293,32 @@ a {
 		<!-- Sidebar-->
 		<div class="border-end bg-white" id="sidebar-wrapper">
 			<div class="sidebar-heading border-bottom bg-light">
-				<img src="http://localhost/prj3_mvc/admin/images/movie.png"
+				<img src="http://localhost/prj3_mvc/images/movie.png"
 					style="width: 60px; height: 30px;"><font
 					style="color: #E74C3C; font-weight: bold;">MOVIEPLANET</font>
 			</div>
 			<div class="list-group list-group-flush">
-				<a
-					class="list-group-item list-group-item-action list-group-item-light p-3"
-					href="http://localhost/prj3_mvc/admin/sang_chung2.jsp">영화 등록</a> <a
-					class="list-group-item list-group-item-action list-group-item-light p-3"
-					href="http://localhost/prj3_mvc/admin/moe_park2.jsp">영화 관리</a> <a
-					class="list-group-item list-group-item-action list-group-item-light p-3"
-					href="http://localhost/prj3_mvc/admin/sang_chung3.jsp">상영정보 등록</a>
-				<a
-					class="list-group-item list-group-item-action list-group-item-light p-3"
-					href="http://localhost/prj3_mvc/admin/moe_park1.jsp">영화 한줄평 관리</a>
-				<a
-					class="list-group-item list-group-item-action list-group-item-light p-3"
-					href="http://localhost/prj3_mvc/admin/kyeong_kyu1.jsp">영화 리뷰
-					현황판 관리</a> <a
-					class="list-group-item list-group-item-action list-group-item-light p-3"
-					href="http://localhost/prj3_mvc/admin/sang_chung1.jsp">예매 현황</a> <a
-					class="list-group-item list-group-item-action list-group-item-light p-3"
-					href="http://localhost/prj3_mvc/admin/member_manage.jsp">회원 관리</a>
+				<a href="dashBoard.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+					메인
+				</a> 
+				<a href="movie_regist.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+					영화 등록
+				</a> 
+				<a href="movie_list.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+					영화 관리
+				</a> 
+				<a href="movie_grade.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+					영화 한줄평 관리
+				</a> 
+				<a href="review_manage.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+					영화 리뷰 현황판 관리
+				</a> 
+				<a href="reservation_detail.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+					예매 현황
+				</a> 
+				<a href="member_board.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+					회원 관리
+				</a> 
 			</div>
 		</div>
 		<!-- Page content wrapper-->
@@ -413,12 +357,12 @@ a {
 						<div id="user" class="clearfix">
 							<div class="user1">
 								<img src="http://localhost/prj3_mvc/images/user.PNG"
-									alt="user Image" class="img"> <span class="cnt"><c:out value="${cntJoin }"/></span><br>
+									alt="user Image" class="img"> <span class="cnt"><c:out value="${ joinCnt }"/></span><br>
 								<span class="cntlabel">회원 가입</span>
 							</div>
 							<div class="user2">
 								<img src="http://localhost/prj3_mvc/images/user.PNG"
-									alt="user Image" class="img"> <span class="cnt"><c:out value="${ cntQuit}"/></span><br>
+									alt="user Image" class="img"> <span class="cnt"><c:out value="${ quitCnt}"/></span><br>
 								<span class="cntlabel">회원 탈퇴</span>
 							</div>
 
@@ -428,7 +372,7 @@ a {
 						<div id="user" class="clearfix">
 							<div class="user1">
 								<img src="http://localhost/prj3_mvc/images/user.PNG"
-									alt="user Image" class="img"> <span class="cnt"><c:out value="${ cntMovies}"/></span><br>
+									alt="user Image" class="img"> <span class="cnt"><c:out value="${ movieCnt}"/></span><br>
 								<span class="cntlabel">등록된 영화</span>
 							</div>
 							<div class="user2">
@@ -444,23 +388,27 @@ a {
 
 					</div>
 					<div id="right">
-
-						<h2 class="h22">예매 현황</h2>
-						<div id="user" class="clearfix">
-							<div class="user1">
-								<img src="http://localhost/prj3_mvc/images/user.PNG"
-									alt="user Image" class="img"> <span class="cnt">예매율
-									1위</span><br> <span class="cntlabel"><c:out value="${topReservation }"/></span>
-							</div>
-
-						</div>
-						<br> 
-						<div id="user" class="clearfix" style="border:1px solid">
+						<div class="item_poster">
+						<h2 class="h22" style="text-align: center;">예매율 1위</h2>
+				            <div class="poster_movie" style="text-align: center;">
+				                <img src="http://localhost/prj3_mvc/images/${ rateTop.poster }" style="border-radius: 15px; width: 210px; height: 308px;">
+				            </div>
+					        <div class="thumb_cont" style="text-align: center;">
+					            <strong class="tit_item"><c:out value="${rateTop.m_title}"/></strong>
+					        </div>
+					    </div>
+					
+						<div id="user" class="clearfix" >
 						
-						
-							<div class="user1" style="padding-left:100px;">
+							<div class="user1" style="text-align: center;">
 
-								<p>
+							<ul class="list-group list-group-flush">
+							  <li class="list-group-item">총 회원 수 : <span><c:out value="${cntTotalUsers }"/>명</span></li>
+							  <li class="list-group-item">총 영화 수 : <span><c:out value="${ cntTotalMovies}"/>개</span></li>
+							  <li class="list-group-item">총 리뷰 수 : <span><c:out value="${ cntTotalReviews}"/>개</span></li>
+							  <li class="list-group-item">총 한줄평 : <span><c:out value="${cntTotalGrades }"/>개</span></li>
+							</ul>
+								<%-- <p>
 									총 회원 수 : <span><c:out value="${cntTotalUsers }"/>명</span>
 								</p>
 								<p>
@@ -471,7 +419,7 @@ a {
 								</p>
 								<p>
 									총 한줄평 : <span><c:out value="${cntTotalGrades }"/>개</span>
-								</p>
+								</p> --%>
 
 
 							</div>

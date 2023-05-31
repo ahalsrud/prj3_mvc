@@ -1,62 +1,76 @@
 package kr.co.sist.prj3.admin.dashboard.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import kr.co.sist.prj3.admin.dashboard.dao.DashBoardDAO;
+import kr.co.sist.prj3.admin.dashboard.domain.DashBoardDomain;
+
+@Component
 public class DashBoardService {
 
+	@Autowired(required = false)
+	private DashBoardDAO dbDAO;
 	
 	/**
 	 * 오늘 회원 가입
-	 * @return
+	 * @author KT
 	 */
 	public int cntJoinService() {
 		
 		int result=0;
+		result = dbDAO.selectCntJoin();
 		return result;
 		
-	}
+	}//cntJoinService
 
 	
 	/**
 	 * 오늘 회원 탈퇴
-	 * @return
+	 * @author KT
 	 */
 	public int cntQuitService( ) {
 		
 		int result=0;
+		result = dbDAO.selectCntQuit();
 		return result;
-	}
+	}//cntQuitService
 
 	
 	
 
 	/**
 	 * 오늘 등록된 영화
-	 * @return
+	 * @author KT
 	 */
 	public int cntMoviesService( ) {
 		int result=0;
+		result = dbDAO.selectCntMovies();
 		return result;
-	}
+	}//cntMoviesService
 
 	
 	/**
 	 * 현재 상영 중인 영화
-	 * @return
+	 * @author KT
 	 */
 	public int cntOnGoingService ( ) {
 		int result=0;
+		result = dbDAO.selectCntOnGoing();
 		return result;
-	}
+	}//cntOnGoingService
 
 	
 	
 	/**
 	 * 오늘 예매율 1위 영화
-	 * @return
+	 * @author KT
 	 */
-	public String topReservationService ( ) {
-		String result="";
+	public DashBoardDomain topReservationService ( ) {
+		DashBoardDomain result = new DashBoardDomain();
+		result = dbDAO.selectTopRate();
 		return result;
-	}
+	}//topReservationService
 
 	
 	/**
@@ -65,8 +79,9 @@ public class DashBoardService {
 	 */
 	public int cntTotalUsersService( ) {
 		int result=0;
+		result = dbDAO.selectCntTotalUsers();
 		return result;
-	}
+	}//cntTotalUsersService
 
 	
 	
@@ -76,8 +91,9 @@ public class DashBoardService {
 	 */
 	public int cntTotalMoviesService ( ) {
 		int result=0;
+		result = dbDAO.selectCntTotalMovies();
 		return result;
-	}
+	}//cntTotalMoviesService
 
 	
 	
@@ -88,8 +104,9 @@ public class DashBoardService {
 	 */
 	public int cntTotalReviewsService ( ) {
 		int result=0;
+		result = dbDAO.selectCntTotalReviews();
 		return result;
-	}
+	}//cntTotalReviewsService
 
 	
 	/**
@@ -98,8 +115,9 @@ public class DashBoardService {
 	 */
 	public int cntTotalGradesService ( ) {
 		int result=0;
+		result = dbDAO.selectCntTotalGrades();
 		return result;
-	}
+	}//cntTotalGradesService
 	
 	
 	

@@ -10,7 +10,7 @@ select  user_id, name, addr, tel, birth_date, reg_date
 from	user_table
 where	quit_date is null
 <if test="name!=''" >
-and name=#{name}
+	and name=#{name}
 </if>
 
 

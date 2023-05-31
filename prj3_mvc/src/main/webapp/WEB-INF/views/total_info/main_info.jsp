@@ -122,9 +122,65 @@ a{
   }
 #likeBtn { float: left; margin-right: 20px; }
 #ticketing { margin-top: 5px;}
+
+/* 평점 css */
+.rating svg{
+	color:#ebebeb;
+}
+
+#gradeTextarea {
+	width:600px; 
+	height:60px;
+	margin-right: 20px;
+	margin-top: 10px;
+	border: none;
+}
+
+#gradeListDiv {
+	margin-right: 20px;
+}
+
+#declare {
+	width:60px; 
+	height:30px; 
+	cursor: pointer; 
+	cursor: pointer; 
+	border-radius: 4px; 
+	background-color: #D75E4D; 
+	border: none;
+	border-color: #D75E4D; 
+	color: white; 
+	font-size:11pt;
+	font-family:굴림;
+	font-weight:bolder;
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+#tiecketingBtn {
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* 최신순, 과거순 버튼 */
+#latest, #oldest {
+	border: none;
+	background-color: white;
+}
 </style>
 
 <script type="text/javascript">
+
+/* 평점 삭제 알림창 */
+$(function() {
+    $(document).on("click", "#declare", function() {
+        var confirmDelete = confirm("삭제하면 복구할 수 없습니다. 정말 삭제하시겠습니까?");
+        if (confirmDelete) {
+            // 삭제 동작 실행
+            alert("삭제되었습니다.");
+        }// end if
+    });
+});
+
+/* 최신순, 과거순 */
 $(function(){	
 	
 	var queryString = window.location.search;
@@ -200,36 +256,7 @@ $(function(){
 			        
 			        output += "</table>";
 			        
-			        ////// 영화 사진
- 					output += 
-			            "<h5 class='tit_section'><br/><br/>갤러리</h5>" +
-			            "<hr style='background:#ECEDF1; height:1px; border:0;'>" +
-			            "<table class='test'>";
-			        //영화 사진 수
-			        var cntM = 0;
-
-			        // 영화사진 수 반복 및 카운트 시작!!!!!!!!!!
-			        $.each(jsonObj.movieImg, function(idx, ele) {
-			        	
-			        	// cntM값이 0부터 시작하므로 맨 처음과 cntM가 2의 배수가 될 때 마다, 2의 배수+1 번째 영화사진<td> '앞'에 <tr>을 붙여서 새로운 줄 시작
-			            if (cntM % 2 == 0) {
-			                output += "<tr>";
-			            }//end if
-						
-			      	   // 영화사진<td> 하나씩 화면에 출력 
-			            output += "<td>" +
-			                "<img class='thumbnail' src='http://localhost/prj3_mvc/images/" + ele.m_img + "'><br>" +
-			                "</td>";
-						
-			            cntM++;
-		
-			            // cntM값이 1부터 시작, cntM가 2의 배수가 될 때 마다, 2의 배수 번째 영화사진<td> '뒤'에 </tr>을 붙여서 한 줄 끝
-			            if (cntM % 2 == 0) {
-			                output += "</tr>";
-			            }//end if
-			        });//end each
 			        
-			        output += "</table>";
 
 			        $("#output").html(output);
 
@@ -309,6 +336,38 @@ $(function(){
 			        });//end each
 
 			        output += "</table>";
+			        
+			        ////// 영화 사진
+ 					output += 
+			            "<h5 class='tit_section'><br/><br/>갤러리</h5>" +
+			            "<hr style='background:#ECEDF1; height:1px; border:0;'>" +
+			            "<table class='test'>";
+			        //영화 사진 수
+			        var cntM = 0;
+
+			        // 영화사진 수 반복 및 카운트 시작!!!!!!!!!!
+			        $.each(jsonObj.movieImg, function(idx, ele) {
+			        	
+			        	// cntM값이 0부터 시작하므로 맨 처음과 cntM가 2의 배수가 될 때 마다, 2의 배수+1 번째 영화사진<td> '앞'에 <tr>을 붙여서 새로운 줄 시작
+			            if (cntM % 2 == 0) {
+			                output += "<tr>";
+			            }//end if
+						
+			      	   // 영화사진<td> 하나씩 화면에 출력 
+			            output += "<td>" +
+			                "<img class='thumbnail' src='http://localhost/prj3_mvc/images/" + ele.m_img + "'><br/><br/><br/>" +
+			                "</td>";
+						
+			            cntM++;
+		
+			            // cntM값이 1부터 시작, cntM가 2의 배수가 될 때 마다, 2의 배수 번째 영화사진<td> '뒤'에 </tr>을 붙여서 한 줄 끝
+			            if (cntM % 2 == 0) {
+			                output += "</tr>";
+			            }//end if
+			        });//end each
+			        
+			        output += "</table>";
+			        
 			        $("#output").html(output);
 
 				}
@@ -440,8 +499,11 @@ $(function(){
     
  //////////////////////////////// 평점 /////////////////////////////////////
      $("#grade").click(function() {
+    	 var m_num = ${movie.m_num};
+    	 var id = $("#hiddenId").val();
+    	 
         $.ajax({
-            url: "produce_info.do",
+            url: "grade_info.do",
             method: "GET",
 	        data: { m_num: m_num },
 	        dataType: "json",
@@ -451,50 +513,83 @@ $(function(){
             },
             success: function(jsonObj) {
             	var output = 
-            		"<div>ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ</div>";
-      /*       		 "<div><div class='contents'>"
-            		 +"<div class='detail_cmtinfo' style='min-height: 450px;'>"
-            		 +"<strong class='tit_netizen'>네티즌 평점  <em class='num_rating'>8.8점</em><span class='txt_netizen'>(258명)"
-            		 +"<a href='#void' style='margin-left: 500px'>MY</a></span></strong>"
-            		 +"<form>"
-            		 +"<select name='grad' size='1'>"
-            		 +"<option selected disabled>평점 등록</option>"
-            		 +"<option value='2'>★</option>"
-            		 +"<option value='4'>★★</option>"
-            		 +"<option value='6'>★★★</option>"
-            		 +"<option value='8'>★★★★</option>"
-            		 +"<option value='10'>★★★★★</option>"
-            		 +"</select>"		
-            		 +"<br/>"
-            		 +"<div style='height:140px'>"
-            		 +"<input type='text' placeholder='영화 평점글을 작성해주세요.' style='width:600px; height:100px;'/>"
-            		 +"<br/>"
-            		 +"<input type='button' id='add' name='add' value='등록' style='width:60px; height:27px; cursor: pointer;border-radius: 4px; margin-left: 543px; margin-top:3px;cursor: pointer;'/>"
-            		 +"</div>"
-            		 +"<br/><br/>"
-            		 +"<div><a>좋아요순</a> &nbsp; 최신순 &nbsp; 과거순</div>"
-            		 +"<hr style='width:600px; margin-left: 0px'/>"
-            		 +"<div style='height:100px'>"
-            		 +"★★★★<img src='http://localhost/prj3_mvc/css/good.PNG' style='margin-left:525px;cursor: pointer;'/>"
-            		 +"<br/>"
-            		 +"<input type='text' placeholder='여기는 다른사람이 작성한 한줄평.' readonly='readonly' style=' width:600px; height:60px;'/>"
-            		 +"<input type='button' id='declare' name='declare' value='신고' style='width:45px; height:27px; cursor: pointer; margin-top: 35px;cursor: pointer; border-radius: 4px; background-color: #D75E4D; border-color: #D75E4D; color: white; font-size:11pt;font-family:굴림;font-weight:bolder'/>"
-            		 +"<br/>"
-            		 +"홍길동 2023-05-13 05:55"  
-            		 +"</div>"
-            		 +"</form>"
-            		 +"</div>"
-            		 +"</div>" */
+            		"<div><div class='contents'>"
+           		 +"<div class='detail_cmtinfo' style='min-height: 450px;'>"
+           	 	 +"<strong class='tit_netizen'>네티즌 평점  <em class='num_rating'>"+ jsonObj.avgGrade +"점</em><span class='txt_netizen'> ("+jsonObj.cntGrade+"명)"
+           		 +"<a href='http://localhost/prj3_mvc/mygrade.do' style='margin-left: 500px'>MY</a></span></strong>";
+           		 
+            	if(id!=""){
+           		 output+="<form action='insertGrade_info.do' method='get'>"
+           		 +"<input type='hidden' id='m_num' name='m_num' value='"+m_num+"'/>"
+           		 +"<select name='m_grade' size='1'>"
+           		 +"<option selected disabled>평점 등록</option>"
+           		 +"<option value='1'>★</option>"
+           		 +"<option value='2'>★★</option>"
+           		 +"<option value='3'>★★★</option>"
+           		 +"<option value='4'>★★★★</option>"
+           		 +"<option value='5'>★★★★★</option>"
+           		 +"</select>"		
+           		 +"<br/>"
+           		 +"<div style='height:140px'>"
+           		 +"<input type='text' name='comments' placeholder='영화 평점글을 작성해주세요.' style='width:600px; height:100px;'/>"
+           		 +"<br/>"
+           		 +"<input type='submit' value='등록' style='width:60px; height:27px; cursor: pointer;border-radius: 4px; margin-left: 543px; margin-top:3px;cursor: pointer;'/>"
+           		 +"</div>"
+           		 +"</form>";
+           		 +"<br/><br/>"
+           		 }//end if
 
+           		 
+           		 output += "<div><a href='#' id='latest'>최신순</a> &nbsp; <a href='#' id='oldest'>과거순</a></div>"
+           		 +"<hr style='width:600px; margin-left: 0px'/>"
+            		 if(jsonObj.gradeSize==0){
+					 	output+='해당영화에 대한 평점이 존재하지 않습니다.';
+					 }//end if
+            		 
+            		 var gradeList = jsonObj.grade;
+            		 for (var i = 0; i < gradeList.length; i++) {
+                         var gradeObj = gradeList[i];
+                         output += "<div id='gradeListDiv' style='height:100px'>"
+                         +getStarRating(gradeObj.m_grade)
+                         +"<br/>"
+                         +"<textarea id='gradeTextarea' placeholder='여기는 다른사람이 작성한 한줄평.' readonly='readonly'>" +gradeObj.comments+ "</textarea></div>";
+                         
+                         if (id === gradeObj.user_id) {
+                        	    output += "<form action='delete_grade.do' method='post'>";
+                        	    output += "<input type='hidden' name='g_num' value='" + gradeObj.g_num + "'>";
+                        	    output += "<input type='hidden' name='user_id' value='" + gradeObj.user_id + "'>"; 
+                        	    output += "<input type='hidden' name='m_num' value='" + gradeObj.m_num + "'>";
+                        	    output += "<input type='submit' class='declare' id='declare' name='declare' value='삭제'>";
+                        	    output += "</form>";
+                         }
+                         output += "<br/>"
+            		 	 +"<em style='color: #396dc9; font-weight: bolder;'>" + gradeObj.nick_name + "</em> " + gradeObj.input_date 
+            		 	 +"<hr style='width:600px; margin-left: 0px'/>";
+            		 	 +"</div>";
+                         
+            		 }
+            		 output += "</div></div></div>";
+
+            		 // 별점 생성 함수
+            		 function getStarRating(grade) {
+            		     var stars = "";
+            		     for (var i = 0; i < grade; i++) {
+            		         stars += "★";
+            		     }
+            		     return "<em style='color: #e92130'>" + stars + "</em>";
+            		 }
+            		
             		 $("#output").html(output); 
+            		 
             }//function
         });//ajax
-    }); //click          
+    }); //click   
     
 });//ready
 
+
 //heart 좋아요 클릭시! 하트 뿅
-/* $(function() {
+ $(function() {
     var $likeBtn = $('.icon.heart');
     var m_num = ${movie.m_num};
 	var id = $("#hiddenId").val();
@@ -547,7 +642,9 @@ $(function(){
             }
         });// ajax
      }
-});//ready 좋아요 */
+});
+});
+
 
 /* 경태 시작 */
 function searchReview(){
@@ -622,7 +719,7 @@ function searchReview(){
 					var reviewCnt = idx + 1;
 					output+='<tr>'
 					+'<td scope="row">'+reviewCnt+'</td>'
-					+'<td><a href="review_post.do?rv_num='+ele.rv_num+'&m_title='+m_title+'&m_num='+m_num+'">'+ele.title+'</a></td>'
+					+'<td><a href="review_post.do?rv_num='+ele.rv_num+'&m_title='+m_title+'&m_num='+m_num+'">'+ele.title+' ['+ele.commSize+']</a></td>'
 					+'<td>'+ele.nick_name+'</td>'
 					+'<td>'+ele.input_date+'</td>'
 					+'<td>'+ele.hits+'</td>'
@@ -650,8 +747,16 @@ $(function(){
 		searchReview();
 		
     });//click
+
+    $("#searchId").click(function(){
+    	
+    	$("#searchMoiveFrm").submit();
+    	
+    });//click
     
 });//ready
+
+
 
 /* 경태 끝 */
 
@@ -664,12 +769,21 @@ $(function(){
 	<!-- 경태 -->
 	 <input type="hidden" value="${ movie.m_title }" id="m_title"/>
 	 <!-- 경태 -->
+	 <input type="hidden" id="hiddenId" value="${ lrDomain.user_id }"/>
     <div class="kakao_wrap detail_type"> 
 		<header class="kakao_head search_on" data-tiara-layer="gnb"> 
     <div class="kakaohead_top">
         <div class="inner_head" data-tiara-layer="service">
-                <a class="link_daum" data-tiara-layer="logo">
-                <img src="http://localhost/prj3_mvc/images/movie_small.png" width="70" height="35" class="logo_daum" alt="Daum"></a>
+                <c:choose>
+                <c:when test="${ empty lrDomain.user_id }">
+	                <a href="mainPage.do" class="link_daum" data-tiara-layer="logo">
+	                <img src="http://localhost/prj3_mvc/images/movie_small.png" width="70" height="35" class="logo_daum" alt="Daum"></a>
+                </c:when>
+                <c:when test="${ !empty lrDomain.user_id }">
+	                <a href="login_success.do" class="link_daum" data-tiara-layer="logo">
+	                <img src="http://localhost/prj3_mvc/images/movie_small.png" width="70" height="35" class="logo_daum" alt="Daum"></a>
+                </c:when>
+                </c:choose>
 		                <c:choose>
 		                	<c:when test="${ empty lrDomain.user_id }">
 				                <a style="margin-left: 960px;" href="login.do"><span style="font-weight: bold; ">Login</span></a>
@@ -685,12 +799,24 @@ $(function(){
             <nav id="gnbContent" class="gnb_movie">
                 <h2 class="screen_out">영화 메인메뉴</h2>
                 <ul data-tiara-layer="tab">
-                    <li class="home ">
-                        <a href="main_frm.do" class="link_gnb" data-tiara-layer="home">영화</a>
-                    </li>
-                    <li class="ranking ">
-                        <a href="/ranking/reservation" class="link_gnb" data-tiara-layer="ranking">예매</a>
-                    </li>
+                    <c:choose>
+						<c:when test="${ empty lrDomain.user_id }">
+	                    <li class="home">
+	                        <a href="mainPage.do" class="link_gnb" data-tiara-layer="home">영화</a>
+	                    </li>
+	                     <li class="ranking ">
+                        	<a href="movie_reserve.do" class="link_gnb" data-tiara-layer="ranking">예매</a>
+                    	</li>
+						</c:when>
+						<c:when test="${ !empty lrDomain.user_id }">
+	                    <li class="home">
+	                        <a href="login_success.do" class="link_gnb" data-tiara-layer="home">영화</a>
+	                    </li>
+	                    <li class="ranking ">
+                        	<a href="movie_reserve.do" class="link_gnb" data-tiara-layer="ranking">예매</a>
+                    	</li>
+						</c:when>
+				</c:choose>
                 </ul>
             </nav>
             
@@ -700,12 +826,12 @@ $(function(){
             </a> 
             <div class="moviesearch_wrap"> 
                 <h2 class="screen_out">검색</h2>
-                <form action="" class="d_sch" role="search">
+                <form action="search_movie.do" id="searchMoiveFrm" class="d_sch" role="search">
                     <fieldset class="fld_sch">
                         <legend class="screen_out">검색어 입력폼</legend>
                         <div class="box_search" data-tiara-layer="service search">
-                            <input type="input" class="tf_keyword" name="q" title="검색어 입력" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="영화 검색"  value="">
-                            <button type="button" class="btn_search" ><span class="ico_movie ico_search">검색</span></button>
+                            <input type="text" class="tf_keyword" id="title" name="title" title="검색어 입력" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="영화 검색"  value="">
+                            <button type="button" id="searchId" class="btn_search" ><span class="ico_movie ico_search">검색</span></button>
                         </div>
                     </fieldset>
                 </form>
@@ -791,7 +917,9 @@ $(function(){
   						</a>
 					</div>
 					<div id="ticketing">
+					<a href="movie_reserve.do">
             			<input type="button" class="ticketing" id="tiecketingBtn" value="예매하기" style="width:80px; height:35px; cursor: pointer; margin-left: 10px; border-radius: 10px; background-color: #E74C3C; border-color: #E74C3C; color: white; font-size:11pt;font-family:굴림;font-weight:bolder"  />
+					</a>
     				</div>
     </div>
 </div>

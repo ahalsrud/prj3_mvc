@@ -242,6 +242,58 @@ height:100px;
 
 
 <script>
+/* 댓글 버튼 누르면 대댓글 입력창 나타나기 */
+$(function() {
+  $('.bt_recomment').click(function() {
+    var commentForm = $(this).closest('.cmt_wrap').find('.cmt_write_re');
+    
+    if (commentForm.css('display') === 'block') {
+      commentForm.css('display', 'none');
+    } else {
+      commentForm.css('display', 'block');
+    }
+  });
+
+  $(document).on('click', '.bt_close', function() {
+    $(this).closest('.cmt_write_unit').css('display', 'none');
+  });
+});
+
+$(function(){
+	$("#commentBtn").click(function(){
+		
+
+		$("#commFrm").submit();
+		
+	});//click
+});//ready
+
+$(function(){
+	$("#replyBtn").click(function(){
+		
+
+		$("#replyFrm").submit();
+		
+	});//click
+});//ready
+
+$(function(){
+	$("#deleteReplyBtn").click(function(){
+		
+
+		$("#deleteReplyFrm").submit();
+		
+	});//click
+});//ready
+
+$(function(){
+	$("#deleteCommBtn").click(function(){
+		
+
+		$("#deleteCommFrm").submit();
+		
+	});//click
+});//ready
 
 $(function() {
 	var currentLikes = $("#cntLike").text();
@@ -281,17 +333,17 @@ $(function() {
 							$("#likeBtn").removeClass('submitted');
 							currentLikes--;
 							$("#cntLike").text(currentLikes);
-							return;
+							location.reload();
 						} else { // 안 눌린 상태였다면 누르기
 
 							$("#likeBtn").addClass('submitted');
 							currentLikes++;
 							$("#cntLike").text(currentLikes);
-
+							location.reload();
 						}//end else
 
 					}//end if	
-
+					
 				},//end success
 				error: function(xhr) {
 					alert("문제");
@@ -303,29 +355,54 @@ $(function() {
 			alert("로그인 후 이용 가능합니다.");
 		}//end else
 
+});//click
+
+
+	
+});//ready
+
+
+/* 댓글 등록 ajax 
+$(function() {
+	var currentLikes = $("#cntLike").text();
+	
+	// 유저의 id 받기
+	var user_id = $("#hiddenId").val();
+	var rv_num = ${param.rv_num};
+
+	// 댓글 버튼이 눌리면
+	$("#commentBtn").click(function() {
+
+
+			// 현재 버튼의 클래스를 확인
+			var liked = $(this).hasClass('submitted');
+			// 눌린 상태였다면 true, 안눌린 상태였다면 false 
+
+			$.ajax({
+				// db의 좋아요 테이블에 insert 혹은 delete해주기
+				url: "/prj3_mvc/likeClicked.do",
+				method: "get",
+				data: {
+					user_id: user_id,
+					rv_num: rv_num,
+					liked: liked
+				},
+				dataType: "json",
+				success: function(jsonObj) {
+
+				},//end success
+				error: function(xhr) {
+					alert("문제");
+				}//end error
+
+			});//ajax
+
+
 	});//click
 
 	
-	$("#commentBtn").click(function(){
-		
-		var content = $("#editor").val();
-		alert(content);
-		$("#frm").submit();
-		
-		
-	});//click
-	
-	$("#replyBtn").click(function(){
-		
-		var content = $("#editor").val();
-		alert(content);
-		$("#frm").submit();
-		
-		
-	});//click
-	
-	
-});//ready
+});//ready */
+
 </script>
 
 </head>
@@ -348,13 +425,13 @@ $(function() {
 						<div style="width:930px; height:80px; border-radius: 15px; background-color: white;">
 						<div style="float:left"><img src="http://localhost/prj3_mvc/images/movie_small.png" style="height:50px; margin-top:20px;"/></div>
 						<div style="font-size:20px; margin-top:27px; float:left"><font font style="color:#E74C3C; font-weight: bold;">MOVIEPLANET</font></div>
-						<a href="#void" style="float:right; margin-right:30px; margin-top:50px; font-weight: bold;" >HOME</a>
+						<a href="login_success.do" style="float:right; margin-right:30px; margin-top:50px; font-weight: bold;" >HOME</a>
 						</div>
 						</div>
 							<h2 class="bd_title" >
-								<i class="far fa-list-alt big-icon"></i> <a href="">메인으로</a>
+								<i class="far fa-list-alt big-icon"></i> <a href="login_success.do">메인으로</a>
 								<i class="fas fa-angle-right"></i> 
-								<a class="category_link" href=""><c:out value="${param.m_title} "/></a>
+								<a class="category_link" href="main_info.do?m_num=${ param.m_num }"><c:out value="${param.m_title} "/></a>
 							</h2>
 						</div>
 						<article class="ink_atc round20 has_list">
@@ -366,7 +443,7 @@ $(function() {
 								<div class="atc_info clearfix">
 									<span class="atc_nickname"><span
 										class="inkpf color round small"><img class="inkpf_img"
-											src="http://localhost/prj3_mvc/images/${reviewInfo.profile}" onerror="this.src='http://localhost/prj3_mvc/images/no.png'"/>
+											src="http://localhost/prj3_mvc/upload/${reviewInfo.profile}" onerror="this.src='http://localhost/prj3_mvc/images/no.png'"/>
 											<%-- ${profile} --%></span> <a href=""
 										class="member_66498994">${reviewInfo.nick_name}</a>
 									</span> <span class="text_en atc_date font_grey1"><c:out value="${reviewInfo.input_date}"/></span>
@@ -375,14 +452,15 @@ $(function() {
 											title="조회 수"><c:out value="${reviewInfo.hits}"/></i></span> <span class="count_vote pt_col"><i
 											class="fas fa-heart" title="좋아요 수"><c:out value="${reviewInfo.like_total}"/></i></span> <span
 											class="count_cmt pt_col2"><i
-											class="fas fa-comment-dots" tilte="댓글"><c:out value="${reviewInfo.com_total}"/></i></span>
+											class="fas fa-comment-dots" tilte="댓글"><c:out value="${ commSize }"/></i></span>
 									
 									<!-- 수정 삭제 버튼 choose -->
 									<c:choose>
 										<c:when test="${lrDomain.user_id eq reviewInfo.user_id}">
-												<form action="review_write_modify.do" name="" method="post" style="display: inline-block;">
+												<form action="review_write_modify.do" name="modifyFrm" method="post" style="display: inline-block;">
 													<input type="hidden" name="rv_num" value="${ param.rv_num }"/>
 													<input type="hidden" name="m_num" value="${ param.m_num }"/>
+													<input type="hidden" name="m_title" value="${ param.m_title }"/>
 													<span style="margin-left: 15px;"><button class="ib ib2 ib_color" style="background-color: #75A99C" type="submit">수정</button></span>
 												</form>
 												<a href="review_write_delete.do?rv_num=${ param.rv_num }&m_num=${ param.m_num }">
@@ -433,14 +511,13 @@ $(function() {
 									<div class="atc_sign">
 										<h3>
 											<span class="inkpf color round"><img class="inkpf_img"
-												src="http://localhost/prj3_mvc/images/${reviewInfo.profile}" onerror="this.src='http://localhost/prj3_mvc/images/no.png'"
+												src="http://localhost/prj3_mvc/upload/${reviewInfo.profile}" onerror="this.src='http://localhost/prj3_mvc/images/no.png'"
 												alt="NeoSun" /></span> <span class="nickname"><c:out value="${ reviewInfo.nick_name }"/></span>
 										</h3>
 										<div class="sign_body">
 											<div
 												style="max-height: 100px; overflow: auto; overflow-x: hidden; height: expression(this.scrollHeight &gt; 100 ? '100px' : 'auto')">
 												<p>
-											
  										<c:out value="${reviewInfo.profile_msg}"/>
 												</p>
 											</div>
@@ -461,8 +538,10 @@ $(function() {
 													추천인이 존재하지 않습니다.
 												</c:if>
 												<c:forEach var="user" items="${ likeUser }">
-													<li><span class="inkpf color round"> <img src="http://localhost/prj3_mvc/images/${user.profile} class="inkpf_img" onerror="this.src='http://localhost/prj3_mvc/images/no.png'"/></span><br />
-													<span class="vote_nickname"><c:out value="${ user.nick_name }"/></span></li>
+													<li>
+														<span class="inkpf color round"> <img src="http://localhost/prj3_mvc/upload/${user.profile}" class="inkpf_img" onerror="this.src='http://localhost/prj3_mvc/images/no.png'"/></span><br />
+														<span class="vote_nickname"><c:out value="${ user.nick_name }"/></span>
+													</li>
 												</c:forEach>
 											</ul>
 										</div>
@@ -475,7 +554,7 @@ $(function() {
 							<div id="comment" class="cmt cmt_bubble">
 								<div class="cmt_title">
 									<h3>
-										댓글 <span class="pt_col text_en cmt_count"><c:out value="${sumCom}"/></span>
+										댓글 <span class="pt_col text_en cmt_count"><c:out value="${ commSize }"/></span>
 									</h3>
 								</div>
 								<div class="cmt_notice">
@@ -486,105 +565,251 @@ $(function() {
 										style="color: #228b22;">자세한 익무 규칙은 여길 클릭하세요</a>
 								</div>
 								<!-- //cmt_notice -->
+							
+							
+								<!-- 댓글 select 반복 -->
+								<c:forEach items="${ commList }" var="commList" varStatus="status">
+								<%-- <c:out value="${ commList.com_num != prevCommList.com_num}"/>
+								<c:out value="${commList.com_num}"/>w
+								<c:out value="${prevCommList.com_num}"/> --%>
+								
 								<div class="cmt_wrap has_top">
 									<div class="cmt_list">
 									<!-- 댓글 시작  -->
+									<c:if test="${commList.com_num != prevCommList.com_num}">
 										<article class="cmt_unit" id="comment_번호">
 											<!--프로필 이미지 wrapper 시작  -->
 											<div class="inkpf_wrap">
 												<span class="inkpf round">
-												<img class="inkpf_img" src="" alt="프로필 이미지" onerror="this.src='http://localhost/prj3_mvc/images/no.png'"/></span>
+												<img class="inkpf_img" src="http://localhost/prj3_mvc/upload/${commList.c_profile}" alt="프로필 이미지" onerror="this.src='http://localhost/prj3_mvc/images/no.png'"/></span>
 											</div>
 											<!--프로필 이미지 wrapper 끝 -->
 											<!--댓글 작성자 wrapper 시작  -->
 											<div class="cmt_header">
-												<a href="#popup_menu_area" class="nickname member_71600550"
-													onclick="return false">닉네임</a>
+														<c:choose>
+															<%-- 1-1. 리뷰의 작성자이면서 댓글 작성자 + 로그인한 아이디 (작성자, 삭제버튼)--%>
+															<c:when test="${ reviewInfo.user_id eq commList.c_user_id && commList.c_user_id eq (!empty lrDomain.user_id?lrDomain.user_id:'') }">
+																<form action="delete_comment.do" method="post" id="deleteCommFrm">
+																	<strong><c:out value="${ commList.c_nick_name }"/></strong>
+																	<span class="writer pt_bg2">작성자</span>
+																			<input type="hidden" id="user_id" name="user_id" value="${ lrDomain.user_id }">
+																			<input type="hidden" id="rv_num" name="rv_num" value="${param.rv_num}">
+																			<input type="hidden" id="com_num" name="com_num" value="${commList.com_num}">
+																			<input type="hidden" id="m_title" name="m_title" value="${param.m_title}">
+																			<input type="hidden" id="m_num" name="m_num" value="${param.m_num}">
+																			<button id="deleteCommBtn">
+																				<img src="http://localhost/prj3_mvc/images/deleteBtn.png" style="width: 20px; height: 20px; position: relative; top:5px;">
+																			</button>
+																</form>
+															</c:when>
+															<%-- 1-2. 리뷰의 작성자이면서 댓글 작성자 + 로그인한 아이디는 아님 (작성자)--%>
+															<c:when test="${ reviewInfo.user_id eq commList.c_user_id && commList.c_user_id ne lrDomain.user_id}">
+																	<strong><c:out value="${ commList.c_nick_name }"/></strong>
+																	<span class="writer pt_bg2">작성자</span>
+															</c:when>
+															<%-- 2-1. 리뷰의 작성자는 아니지만 댓글 작성자 + 로그인한 아이디 (삭제버튼)--%>
+															<c:when test="${ reviewInfo.user_id ne commList.c_user_id && commList.c_user_id eq (!empty lrDomain.user_id?lrDomain.user_id:'') }">
+																<form action="delete_comment.do" method="post" id="deleteCommFrm">
+																	<strong><c:out value="${ commList.c_nick_name }"/></strong>
+																			<input type="hidden" id="user_id" name="user_id" value="${ lrDomain.user_id }">
+																			<input type="hidden" id="rv_num" name="rv_num" value="${param.rv_num}">
+																			<input type="hidden" id="com_num" name="com_num" value="${commList.com_num}">
+																			<input type="hidden" id="m_title" name="m_title" value="${param.m_title}">
+																			<input type="hidden" id="m_num" name="m_num" value="${param.m_num}">
+																			<button id="deleteCommBtn">
+																				<img src="http://localhost/prj3_mvc/images/deleteBtn.png" style="width: 20px; height: 20px; position: relative; top:5px;">
+																			</button>
+																</form>
+															</c:when>
+															<c:otherwise>
+																<strong><c:out value="${ commList.c_nick_name }"/></strong>
+																<%-- 뭐 넣지? --%>
+															</c:otherwise>
+														</c:choose>
+														
 											</div>
 											<!--댓글 작성자 wrapper 끝 -->
 											<!--댓글 내용 시작  -->
 											<div class="cmt_body">
 												<!--BeforeComment(90954240,71600550)-->
 												<div class="comment_90954240_71600550 rhymix_content xe_content">
-													댓글내용!!!!
+													<c:choose>
+														<c:when test="${ commList.c_content == null }">
+															<span style="color: gray;">본 댓글은 삭제 되었습니다.</span>
+														</c:when>
+														<c:otherwise>
+															<c:out value="${ commList.c_content }"/>
+														</c:otherwise>														
+													</c:choose>
 												</div>
+												 
 											<!--댓글 내용 끝  -->
+											
 												<!--AfterComment(90954240,71600550)-->
 												<div class="cmt_buttons">
-														<a class="bt bt2 bt_recomment" href="javascript:void(0)"
-															onclick="reComment(90953778,90954240,'/movietalk/comment/90954240/reply?category=61633579');return false;">댓글</a>
+														<a class="bt bt2 bt_recomment" href="javascript:void(0)">댓글</a>
 												</div>
 												<!--작성일 시작-->
 												<div class="cmt_date_wrap text_en font_grey1">
-													<div class="cmt_date">05.19.03:22</div>
+													<div class="cmt_date"><c:out value="${ commList.c_input_date }"/> </div>
 												</div>
 												<!--작성일 끝-->
 											</div>
 											<!--댓글 내용 끝 -->
 										</article>
+										
+										<c:set var="prevCommList" value="${commList}"/>
 									<!--댓글 끝  -->
 									
-									<!--대댓글 시작  -->
+									<!-- 댓글 추가 버튼 -->
+									<div class="cmt_write_unit cmt_write_re" id="cmt_write_re" style="display: none;">
+									<form action="add_reply.do" method="post" id="replyFrm" class="cmt_form" style="height: auto;">
+										<span class="inkpf round"></span>
+										<div class="cmt_write_input text_ver">
+											<textarea class="cmt_textarea" id="editor_2" name="content" placeholder="댓글 내용을 입력해주세요." style="width: 100%;"></textarea>
+										</div>
+										<div class="cmt_write_option">
+											<input type="hidden" id="user_id" name="user_id" value="${ lrDomain.user_id }">
+											<input type="hidden" id="rv_num" name="rv_num" value="${param.rv_num}">
+											<input type="hidden" id="com_num" name="com_num" value="${commList.com_num}">
+											<input type="hidden" id="m_title" name="m_title" value="${param.m_title}">
+											<input type="hidden" id="m_num" name="m_num" value="${param.m_num}">
+											<div class="bt_area bt_right">
+												<button class="ib ib2 ib_mono bt_close" type="button">취소</button>
+												<button class="ib ib2 ib_color" id="replyBtn" type="submit">댓글 등록</button>
+											</div>
+										</div>
+									</form>
+									</div>
+									<!-- 댓글 추가 버튼 -->
+									
+									<!-- 대댓글 시작  -->
+									<c:if test="${ commList.rp_num ne 0 }">
+										<c:forEach items="${ replyList }" var="replyList">
+										<c:if test="${ replyList.com_num eq commList.com_num }">
 										<article class="cmt_unit reply" id="comment_대댓번호">
 											<div class="inkpf_wrap">
 												<span class="inkpf round">
-												<img class="inkpf_img" src="http://localhost/prj3_mvc/upload/${profile}" onerror="this.src='http://localhost/prj3_mvc/images/no.png'" alt="프로필 이미지" /></span>
+												<img class="inkpf_img" src="http://localhost/prj3_mvc/upload/${replyList.r_profile}" alt="프로필 이미지" onerror="this.src='http://localhost/prj3_mvc/images/no.png'"/></span>
 											</div>
 											<div class="cmt_header">
-												<a href="" class="nickname member_80215049"
-													onclick="return false">닉네임</a> <span
-													class="writer pt_bg2">작성자</span>
+												<c:choose>
+															<%-- 1-1. 리뷰의 작성자이면서 댓글 작성자 + 로그인한 아이디 (작성자, 삭제버튼)--%>
+															<c:when test="${ reviewInfo.user_id eq replyList.r_user_id && replyList.r_user_id eq (!empty lrDomain.user_id?lrDomain.user_id:'') }">
+																<form action="delete_reply.do" method="post" id="deleteReplyFrm">
+																	<strong><c:out value="${ replyList.r_nick_name }"/></strong>
+																	<span class="writer pt_bg2">작성자</span>
+																			<input type="hidden" id="user_id" name="user_id" value="${ lrDomain.user_id }">
+																			<input type="hidden" id="rv_num" name="rv_num" value="${param.rv_num}">
+																			<input type="hidden" id="rp_num" name="rp_num" value="${replyList.rp_num}">
+																			<input type="hidden" id="m_title" name="m_title" value="${param.m_title}">
+																			<input type="hidden" id="m_num" name="m_num" value="${param.m_num}">
+																			<button id="deleteReplyBtn">
+																			<img src="http://localhost/prj3_mvc/images/deleteBtn.png" style="width: 20px; height: 20px; position: relative; top:5px;">
+																			</button>
+																</form>
+															</c:when>
+															<%-- 1-2. 리뷰의 작성자이면서 댓글 작성자 + 로그인한 아이디는 아님 (작성자)--%>
+															<c:when test="${ reviewInfo.user_id eq replyList.r_user_id && replyList.r_user_id ne lrDomain.user_id}">
+																	<strong><c:out value="${ replyList.r_nick_name }"/></strong>
+																	<span class="writer pt_bg2">작성자</span>
+															</c:when>
+															<%-- 2-1. 리뷰의 작성자는 아니지만 댓글 작성자 + 로그인한 아이디 (삭제버튼)--%>
+															<c:when test="${ reviewInfo.user_id ne replyList.r_user_id && replyList.r_user_id eq (!empty lrDomain.user_id?lrDomain.user_id:'') }">
+																<form action="delete_reply.do" method="post" id="deleteReplyFrm">
+																	<strong><c:out value="${ replyList.r_nick_name }"/></strong>
+																			<input type="hidden" id="user_id" name="user_id" value="${ lrDomain.user_id }">
+																			<input type="hidden" id="rv_num" name="rv_num" value="${param.rv_num}">
+																			<input type="hidden" id="rp_num" name="rp_num" value="${replyList.rp_num}">
+																			<input type="hidden" id="m_title" name="m_title" value="${param.m_title}">
+																			<input type="hidden" id="m_num" name="m_num" value="${param.m_num}">
+																			<button id="deleteReplyBtn">
+																			<img src="http://localhost/prj3_mvc/images/deleteBtn.png" style="width: 20px; height: 20px; position: relative; top:5px;">
+																			</button>
+																</form>
+															</c:when>
+															<c:otherwise>
+																<strong><c:out value="${ replyList.r_nick_name }"/></strong>
+																<%-- 뭐 넣지? --%>
+															</c:otherwise>
+														</c:choose>
 											</div>
 											<div class="cmt_body">
 												<div class="parent">
-													<i class="fas fa-comment-dots"></i> 부모댓글작성자닉넴
+													<i class="fas fa-comment-dots"><c:out value="${ replyList.c_nick_name }"/></i> 
 												</div>
 												<!--BeforeComment(90954854,80215049)-->
 												<div
 													class="comment_90954854_80215049 rhymix_content xe_content">
-													대댓글내용!!!!</div>
+													<c:choose>
+														<c:when test="${ replyList.r_content == null }">
+															<span style="color: gray;">본 댓글은 삭제 되었습니다.</span>
+														</c:when>
+														<c:otherwise>
+															<c:out value="${ replyList.r_content }"/>
+														</c:otherwise>														
+													</c:choose>
+													
+													</div>
 												<!--AfterComment(90954854,80215049)-->
-												<div class="cmt_buttons">
+												<!-- 대댓글에 대한 대댓글이 없음 -->
+												<!-- <div class="cmt_buttons">
 														<a class="bt bt2 bt_recomment" href=""
 															onclick="">댓글</a>
-												</div>
+												</div> -->
 												<div class="cmt_date_wrap text_en font_grey1">
-													<div class="cmt_date">05.19.03:22</div>
+													<div class="cmt_date"><c:out value="${ replyList.r_input_date }"/></div>
 												</div>
 											</div>
 										</article>
+										</c:if>
+										</c:forEach>
+										</c:if>
 									<!--대댓글 끝  -->
 									
+									</c:if>
 									
 										<!-- //cmt_loop -->
 									</div>
 									<!-- //cmt_list -->
 								</div>
+								</c:forEach>
 								<!-- //cmt_wrap -->
-								
+							<!-- 댓글 select 반복 끝 -->
 
-								<!-- //cmt_write_re -->
 
 							<!-- 여러가지 댓글 창 상태 확인 -->
 							<!-- when 1.아이디 접속 + 내가 쓴 게시글-->
 							<!-- when 2.아이디 접속 + 다른 사람 게시글 -->
 							<!-- when 3.비로그인 -->
 							<c:choose>
+								
+								<c:when test="${ empty lrDomain.user_id }">
+									<div class="cmt_write cmt_write_unit no_grant">
+										<div class="cmt_not_permitted">
+											<i class="fas fa-comment-dots font_grey1"></i> 권한이 없습니다.
+											<a class="ink_link2" href="login.do" onclick="">로그인</a>
+										</div>
+									</div>
+								</c:when>
+								
 								<c:when test="${lrDomain.user_id eq reviewInfo.user_id}">
 									<div class="cmt_write cmt_write_unit">
 										<span class="writer pt_bg2" style="padding: 0 8px; font-size: 10px; line-height: 16px; display: inline-block; margin-left: 3px; border-radius: 10px; vertical-align: bottom; margin-bottom: 5px;">작성자</span>
 									<span class="inkpf round"><img class="inkpf_img"
-											src="http://localhost/prj3_mvc/images/${lrDomain.profile}" onerror="this.src='http://localhost/prj3_mvc/images/no.png'"/></span>
-									<form action="add_comment.do" method="post" id="frm" class="cmt_form">
-										<input type="hidden" id="user_id" name="user_id" value="">
+											src="http://localhost/prj3_mvc/upload/${lrDomain.profile}" onerror="this.src='http://localhost/prj3_mvc/images/no.png'"/></span>
+									<form action="add_comment.do" method="post" id="commFrm" class="cmt_form">
+										<input type="hidden" id="user_id" name="user_id" value="${ lrDomain.user_id }">
 										<input type="hidden" id="rv_num" name="rv_num" value="${param.rv_num}">
+										<input type="hidden" id="m_title" name="m_title" value="${param.m_title}">
+										<input type="hidden" id="m_num" name="m_num" value="${param.m_num}">
 										<div class="cmt_write_input text_ver">
 											<textarea class="cmt_textarea" id="editor" name="content" cols="50"
 												rows="4" placeholder="댓글 내용을 입력해주세요."></textarea>
 										</div>
 										<div class="cmt_write_option">
 											<div class="bt_area bt_right">
-												<button id="commentBtn" class="ib ib2 ib_color" type="button">댓글 등록</button>
+													<button id="commentBtn" class="ib ib2 ib_color" type="button">댓글 등록</button>
 											</div>
 										</div>
 									</form>
@@ -594,31 +819,26 @@ $(function() {
 								<c:when test="${lrDomain.user_id ne reviewInfo.user_id and !empty lrDomain.user_id}">
 									<div class="cmt_write cmt_write_unit">
 									<span class="inkpf round"><img class="inkpf_img"
-											src="http://localhost/prj3_mvc/images/${lrDomain.profile}" onerror="this.src='http://localhost/prj3_mvc/images/no.png'"/></span>
-									<form action="add_comment.do" method="post" id="frm" class="cmt_form">
-										<input type="hidden" id="user_id" name="user_id" value="">
+											src="http://localhost/prj3_mvc/upload/${lrDomain.profile}" onerror="this.src='http://localhost/prj3_mvc/images/no.png'"/></span>
+									<form action="add_comment.do" method="post" id="commFrm" class="cmt_form">
+										<input type="hidden" id="user_id" name="user_id" value="${lrDomain.user_id }">
 										<input type="hidden" id="rv_num" name="rv_num" value="${param.rv_num}">
+										<input type="hidden" id="m_title" name="m_title" value="${param.m_title}">
+										<input type="hidden" id="m_num" name="m_num" value="${param.m_num}">
 										<div class="cmt_write_input text_ver">
 											<textarea class="cmt_textarea" id="editor" name="content" cols="50"
 												rows="4" placeholder="댓글 내용을 입력해주세요."></textarea>
 										</div>
 										<div class="cmt_write_option">
+											
 											<div class="bt_area bt_right">
 												<button id="commentBtn" class="ib ib2 ib_color" type="button">댓글 등록</button>
-											</div>
+											</div> 
 										</div>
 									</form>
 									</div>
 								</c:when>
 
-								<c:when test="${ empty lrDomain.user_id }">
-									<div class="cmt_write cmt_write_unit no_grant">
-										<div class="cmt_not_permitted">
-											<i class="fas fa-comment-dots font_grey1"></i> 권한이 없습니다.
-											<a class="ink_link2" href="login.do" onclick="">로그인</a>
-										</div>
-									</div>
-								</c:when>
 							</c:choose>
 
 							</div><!-- //cmt_wrap -->
