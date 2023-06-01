@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -28,14 +31,12 @@ public class MemberMgtController {
 	private MemberMgtService mmService;
 	
 	
-	@GetMapping("/member_board.do")
-	public String memberSearchProcess(@RequestParam(value = "name", defaultValue="") String name, Model model) throws UnsupportedEncodingException, GeneralSecurityException {
-		System.out.println("컨트롤러 너 타니?");
-		System.out.println("컨트롤러 : "+name);
+	@RequestMapping(value="/member_board.do", method= {RequestMethod.POST, RequestMethod.GET})
+	public String memberSearchProcess(@RequestParam(value = "name", required=false, defaultValue="") String name, Model model) throws UnsupportedEncodingException, GeneralSecurityException {
+		
 		List<MemberBrdDomain> list=null;
 		
 		list = mmService.memberSearchService(name);
-		
 		
 		model.addAttribute("memList", list);
 		

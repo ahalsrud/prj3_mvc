@@ -8,6 +8,7 @@ import java.util.List;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import kr.co.sist.prj3.admin.member.dao.MemberMgtDAO;
 import kr.co.sist.prj3.admin.member.domain.MemberBrdDomain;
@@ -30,14 +31,20 @@ public class MemberMgtService {
 	 * @throws  
 	 */
 	public List<MemberBrdDomain> memberSearchService(String name) throws UnsupportedEncodingException, GeneralSecurityException  {
-		System.out.println("서비스 : "+name);
+		
 		List<MemberBrdDomain> list = null;
 		
-		DataEncrypt de = new DataEncrypt("FsRt4SfY4US0IWtK4JPJsw==");
-		DataDecrypt dd = new DataDecrypt("FsRt4SfY4US0IWtK4JPJsw==");
+		DataEncrypt de=new DataEncrypt("FsRt4SfY4US0IWtK4JPJsw==");
+	
+		 
+		 if(!name.isEmpty()) {
+			 name = de.encryption(name);
+		 }//end if
+		 
+		 
+		list = mmDAO.selectMembers(name);
 		
-		System.out.println(de.encryption(name));
-		list = mmDAO.selectMembers(de.encryption(name));
+		DataDecrypt dd = new DataDecrypt("FsRt4SfY4US0IWtK4JPJsw==");
 		
 		for(MemberBrdDomain mbd : list) {
 			//이름, 주소, 전화번호 복호화해서 다시 셋해주자

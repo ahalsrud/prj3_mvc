@@ -9,11 +9,10 @@
 select  user_id, name, addr, tel, birth_date, reg_date
 from	user_table
 where	quit_date is null
-<if test="name!=''" >
+<if test= "name!=''">
 	and name=#{name}
 </if>
-
-
+order by to_date(reg_date,'YY/MM/DD') desc
 </select>
 
 <select id="selectMemInfo" resultType="memInfo" parameterType="String">
@@ -25,61 +24,10 @@ where	 user_id = #{user_id}
 
 <update id="updateDelUser" parameterType="String">
 update	user_table
-set     nick_name='n/a', pass='n/a', name='n/a', email='n/a', tel='n/a', zipcode='n/a', addr='n/a', detail_addr='n/a', reg_date='n/a', birth_date='n/a', profile='n/a', profile_msg='n/a', quit_date=sysdate   
+set     nick_name='n/a', pass='n/a', name='n/a', email= seq_email.nextval , tel='n/a', zipcode='n/a', addr='n/a', detail_addr='n/a', reg_date='n/a', birth_date='n/a', profile='n/a', profile_msg='n/a', quit_date=sysdate   
 where   user_id = #{user_id}
 </update>
 
 
-<!-- 
-
-컬럼 하나 행 하나 조회  
-부서번호를 입력받아 부서명을 조회
-String dname = ss.selectOne('scsr",10);
-
-<select id="" resultType="String" parameterType="Integer" >
-select	dname
-from	dept
-where	deptno=#{deptno}
-</select>
-
-컬럼 하나 여러 행 조회  
-List<> list = ss.selectList("아이디",값);
-사원테이블에서 모든 사원명 검색 (argument를 생략)
-
-<select id="" resultType="String">
-select	ename
-from	emp
-</select>
-
-<insert id="" parameterType="">
-insert into emp 
-(EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO) 
-values(#{empno},#{ename},#{job},#{mgr},sysdate,#{sal},#{comm},#{deptno} )
-값은 대소문자 가림
-</insert>
-
-
-
-
-입력되는 사원번호와 부서번호가 일치하는 사원에 대해
-사원명, 직무, 매니저번호, 연봉, 보너스를 변경해보자
-from 사원테이블
- 
-<update id="" parameterType="">
-update	emp
-set		ename=#{ename}, job=#{job}, mgr=#{mgr},
-		sal=#{sal}, comm=#{comm}
-where	empno=#{empno} and deptno=#{deptno}
-</update>
-
-사원번호를 입력받아 해당 레코드를 삭제  
-기본형 데이터형과 wrapper클래스 사용가능
-
-
-<delete id="" parameterType="int">
-delete from emp
-where empno=#{empno아무말가능}
-</delete>
- -->
 
 </mapper>
