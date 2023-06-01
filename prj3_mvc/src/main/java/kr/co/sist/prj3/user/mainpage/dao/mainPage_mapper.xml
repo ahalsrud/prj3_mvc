@@ -6,9 +6,14 @@
 
 <!-- 예매율 1위 포스터 센터 -->
 <select id="center" resultType="kr.co.sist.prj3.user.mainpage.domain.MainInfoDomain" >
-select		m_num, m_title, summary, poster
-from		movie
-where		r_rate=(select MAX(r_rate) from movie)
+SELECT m_num, m_title, summary, poster
+FROM movie
+WHERE r_rate = (
+    SELECT MAX(r_rate)
+    FROM movie
+    WHERE r_rate IS NOT NULL
+)
+AND ROWNUM = 1
 </select>
 
 <!-- 영화 리스트 -->

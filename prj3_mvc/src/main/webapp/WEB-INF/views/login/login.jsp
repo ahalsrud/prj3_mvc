@@ -81,7 +81,7 @@ $(function() {
 	<div id="container">
 		<div class="logtop logtop_login" style="margin-bottom: 30px;">
 			<img src="http://localhost/prj3_mvc/images/movie.png"/>
-			<p class="lnb"><a href="http://localhost/prj2/project_user/1.main/main_page.jsp">홈</a> 
+			<p class="lnb"><a href="mainPage.do">홈</a> 
 		</div>
 
 		<div class="secLogin">
@@ -114,7 +114,7 @@ $(function() {
 						<p class="sch">
 							<a href="find_id.do" target="_new">아이디 찾기</a> 
 							<span class="txtBar"> | </span> 
-							<a href="#" target="_new">비밀번호 찾기</a>
+							<a href="find_pw.do" target="_new">비밀번호 찾기</a>
 						</p>
 					</div>
 

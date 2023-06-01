@@ -19,19 +19,19 @@
 		  JOIN user_table ON review.user_id = user_table.user_id
 		  LEFT OUTER JOIN likes ON review.rv_num = likes.rv_num
 		WHERE
-			review.m_num = #{m_num}
+			review.m_num = #{m_num} and nick_name != 'n/a'
 		<choose>
 			<when test="search_type == 0">
-				and 1=1
+				and 1=1 and nick_name != 'n/a'
 			</when>
 			<when test="search_type == 1">
-				and review.title LIKE '%'||#{search}||'%'
+				and review.title LIKE '%'||#{search}||'%' and nick_name != 'n/a'
 			</when>
 			<when test="search_type == 2">
-				and user_table.nick_name LIKE '%'||#{search}||'%'
+				and user_table.nick_name LIKE '%'||#{search}||'%' and nick_name != 'n/a'
 			</when>
 			<when test="search_type == 3">
-				and review.title LIKE '%'||#{search}||'%' OR user_table.nick_name LIKE '%'||#{search}||'%'
+				and review.title LIKE '%'||#{search}||'%' OR user_table.nick_name LIKE '%'||#{search}||'%' and nick_name != 'n/a'
 			</when>
 		</choose>
 		GROUP BY

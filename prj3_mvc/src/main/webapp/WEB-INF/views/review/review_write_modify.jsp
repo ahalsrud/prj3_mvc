@@ -176,7 +176,7 @@ $(document).ready(function() {
 						<div style="height: 40px;">
 						</div>
 						<!-- form 시작 -->
-						<form action="review_write_modify_process.do" method="post" id="searchFrm">
+						<form action="review_write_modify_process.do" method="post" id="searchFrm" >
 						<!-- summernote 시작 -->
 							<input type="text" class="search form-control" name="title" id="title" value="${ review.title }" placeholder="제목" style="width:600px; margin-left: 15px; margin-bottom: 30px;">
 							<input type="hidden" name="rv_num" value="${ param.rv_num }">

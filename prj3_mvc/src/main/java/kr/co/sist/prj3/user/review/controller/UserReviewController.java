@@ -254,33 +254,33 @@ public class UserReviewController {
 	
 	
 	/**
-	 * 내가 쓴 리뷰 검색(마이페이지)
-	 * 2023.05.22
-	 * @author KM
-	 */
-	@GetMapping("/my_review.do")
-	public String reviewSearchProcess( MyReviewSearchVO mrsVO, Model model){
-		
-		if(mrsVO.getSearch()==null && mrsVO.getSearch_type()==0) { //검색어와 옵션이 null일때
-			mrsVO.setSearch("");
-		}//end if
-		
-		
-		//VO에 아이디 세팅해야함
-		LoginResultDomain lrDomain = (LoginResultDomain)model.getAttribute("lrDomain");
-		mrsVO.setUser_id(lrDomain.getUser_id());
-		
-		List<MyReviewDomain> list = urService.myReviewService(mrsVO);
-		
-		
-		model.addAttribute("myReviews", list) ;
-		model.addAttribute("myReviewCnt", list.size()) ;
-		
-		
-		// 유저에 대한 정보도 넘겨줘야함 - LoginResultDomain이 세션에 저장될 것
-		
-		return "/review/my_review";
-	}// my_review_borad.jsp
+    * 내가 쓴 리뷰 검색(마이페이지)
+    * 2023.05.22
+    * @author KM
+    */
+   @RequestMapping(value="/my_review.do",method= {RequestMethod.POST, RequestMethod.GET})
+   public String reviewSearchProcess( MyReviewSearchVO mrsVO, Model model){
+      
+      if(mrsVO.getSearch()==null && mrsVO.getSearch_type()==0) { //검색어와 옵션이 null일때
+         mrsVO.setSearch("");
+      }//end if
+       
+      
+      //VO에 아이디 세팅해야함
+      LoginResultDomain lrDomain = (LoginResultDomain)model.getAttribute("lrDomain");
+      mrsVO.setUser_id(lrDomain.getUser_id());
+      
+      List<MyReviewDomain> list = urService.myReviewService(mrsVO);
+      
+      
+      model.addAttribute("myReviews", list) ;
+      model.addAttribute("myReviewCnt", list.size()) ;
+      
+      
+      // 유저에 대한 정보도 넘겨줘야함 - LoginResultDomain이 세션에 저장될 것
+      
+      return "/review/my_review";
+	   }// my_review_borad.jsp
 	
 ///////////////////////////////////////////////////////////////////
 	
