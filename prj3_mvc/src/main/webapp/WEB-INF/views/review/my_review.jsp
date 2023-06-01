@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@include file="../checkLogin.jsp" %> 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
 <head>
@@ -92,6 +94,14 @@ $(function(){
 	
 	
 	
+	
+	//영화 검색	
+	$("#searchBtn2").click(function(){
+		$("#movieSearchFrm").submit();		
+		
+	});//click	
+	
+	
 });//ready
 
 
@@ -127,19 +137,19 @@ $(function(){
 			<div class="header_content">
 				<div class="contents">
 					<h1 onclick="">
-						<a href="/"> <img
+						<a href="main_loged_frm.do"> <img
 							src="http://localhost/prj3_mvc/images/movie.png"
 							alt="movieplanet" />
 						</a> <span>MOVIEPLANET</span>
 					</h1>
 					<ul class="memberInfo_wrap">
-						<li><a href="/user/login/logout.aspx" class="logout"
+						<li><a href="logout.do" class="logout"
 							title="로그아웃"><img
 								src="https://img.cgv.co.kr/R2014/images/common/ico/loginPassword.png"
 								alt="로그아웃" /><span>로그아웃</span></a></li>
 
 
-						<li><a href="/user/mycgv/"><img
+						<li><a href="mypage.do"><img
 								src="https://img.cgv.co.kr/R2014/images/common/ico/loginMember.png"
 								alt="MY PAGE" /><span>MY PAGE</span></a></li>
 					</ul>
@@ -156,24 +166,25 @@ $(function(){
 					<ul class="nav_menu">
 						<li>
 							<h2>
-								<a href="/movies/?lt=1&ft=0">영화</a>
+								<a href="search_movie.do">영화</a>
 							</h2>
 						</li>
 						<li>
 							<h2>
-								<a href="/ticket/"><strong>예매</strong></a>
+								<a href="movie_reserve.do"><strong>예매</strong></a>
 							</h2>
 						</li>
 						<li></li>
 						<li></li>
 					</ul>
 					<div class="totalSearch_wrap">
-						<label for="totalSearch"> <input type="text"
-							id="header_keyword" value="" /> <input type="hidden"
-							id="header_ad_keyword" name="header_ad_keyword" />
-						</label>
-						<button type="button" class="btn_totalSearch"
-							id="btn_header_search">검색</button>
+						<form id="movieSearchFrm" name="movieSearch"
+							action="search_movie.do">
+							<label for="totalSearch"> <input type="text" id="title"
+								name="title" placeholder="영화 검색" value="" />
+							</label>
+							<button type="button" class="btn_totalSearch" id="searchBtn2">검색</button>
+						</form>
 						<iframe
 							src="//ad.cgv.co.kr/NetInsight/html/CGV/CGV_201401/main@Search_txt"
 							width="0" height="0" title="" frameborder="0" scrolling="no"
@@ -231,7 +242,7 @@ $(function(){
 							<div class="box-round-wgray">
 								<div class="box-round-inner">
 									<div class="inner-contents-log">
-										<a href=""><strong>기대되는
+										<a href="like_movie.do"><strong>기대되는
 												영화</strong> </a>
 									</div>
 								</div>
@@ -239,7 +250,7 @@ $(function(){
 							<div class="box-round-wgray">
 								<div class="box-round-inner">
 									<div class="inner-contents-log">
-										<a href=""><strong>내가
+										<a href="mygrade.do"><strong>내가
 												쓴 평점</strong> </a>
 									</div>
 								</div>
@@ -247,7 +258,7 @@ $(function(){
 							<div class="box-round-on">
 								<div class="box-round-inner">
 									<div class="inner-contents-log">
-										<a href="http://localhost/prj3_mvc/my_review.do"><strong>내가 쓴
+										<a href="my_review.do"><strong>내가 쓴
 												리뷰</strong> </a>
 									</div>
 								</div>
@@ -308,7 +319,7 @@ $(function(){
 												</div>
 												<div class="box-contents">
 													<div class="title">
-														<a href="review_post.do?rv_num=${myReview.rv_num}"> <strong id="strong_84643">
+														<a href="review_post.do?rv_num=${myReview.rv_num}&m_num=${myReview.m_num}&m_title=${myReview.m_title}"> <strong id="strong_84643">
 														<c:out value="${myReview.title }"/></strong>
 														</a>
 													</div>

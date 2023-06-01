@@ -2,11 +2,12 @@ package kr.co.sist.prj3.user.review.domain;
 
 /**
  * 내가 쓴 리뷰 게시판 정보
- * @author kt
+ * @author km
  */
 public class MyReviewDomain {
 
 	private int rv_num; //리뷰번호
+	private int m_num; //영화번호
 	private int hits; //조회수
 	
 	private String title; //리뷰제목
@@ -16,6 +17,15 @@ public class MyReviewDomain {
 	private String script; //각본가
 	private String poster; //포스터
 	private String input_date; //작성일
+	
+	
+	 
+	public int getM_num() {
+		return m_num;
+	}
+	public void setM_num(int m_num) {
+		this.m_num = m_num;
+	}
 	public int getRv_num() {
 		return rv_num;
 	}
@@ -70,12 +80,7 @@ public class MyReviewDomain {
 	public void setInput_date(String input_date) {
 		this.input_date = input_date;
 	}
-	@Override
-	public String toString() {
-		return "MyReviewDomain [rv_num=" + rv_num + ", hits=" + hits + ", title=" + title + ", m_title=" + m_title
-				+ ", eng_title=" + eng_title + ", d_name=" + d_name + ", script=" + script + ", poster=" + poster
-				+ ", input_date=" + input_date + "]";
-	}
+	
 	
 	
 	

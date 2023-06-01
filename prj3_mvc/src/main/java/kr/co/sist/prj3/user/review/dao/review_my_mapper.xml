@@ -6,11 +6,11 @@
 
 
 <select id="selectMyReview" resultType="kr.co.sist.prj3.user.review.domain.MyReviewDomain" parameterType="kr.co.sist.prj3.user.review.vo.MyReviewSearchVO">
-SELECT user_id, rv_num, r.m_num, hits, title, input_date, m_title, eng_title, script, poster, LISTAGG(d_name, ', ') WITHIN GROUP (ORDER BY d_name) AS d_name
-FROM review r, movie m, director d
-WHERE r.m_num = m.m_num AND r.m_num = d.m_num AND r.user_id = #{user.id} and 
+SELECT user_id, rv_num, r.m_num, hits, title, input_date, m_title, eng_title, script, poster, LISTAGG(d_name, ', ') WITHIN GROUP (ORDER BY d_name) AS d_name 
+FROM review r, movie m, director d 
+WHERE r.m_num = m.m_num AND r.m_num = d.m_num AND r.user_id = #{user_id} and 
 <choose>
-<when test="search_type==0"><!-- 전체 선택-->
+<when test="search_type==0"><!-- 전체 선택--> 
 1=1	
 </when>
 <when test="search_type==1 and search!=''"><!--제목  -->
@@ -23,10 +23,9 @@ content like '%'||#{search}||'%'
 (title like '%'||#{search}||'%' or content like '%'||#{search}||'%')
 </when>
 </choose>
-group by  	 user_id, rv_num, hits, title, input_date, DBMS_LOB.SUBSTR(r.content, 4000), m_title, eng_title, script, poster
+group by  	 user_id, rv_num,  r.m_num, hits, title, input_date, m_title, eng_title, script, poster
 ORDER BY input_date desc
 </select>
-
 
 
 </mapper>
