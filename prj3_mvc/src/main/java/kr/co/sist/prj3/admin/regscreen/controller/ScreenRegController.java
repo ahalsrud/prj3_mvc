@@ -31,12 +31,12 @@ public class ScreenRegController {
 		
 		
 		//상영정보등록처피
-		@PostMapping("/movie_list.do")//상영시간정보등록처리.do -> 민경이 영화관리페이지로이동
+		@PostMapping("/screen_success.do")//상영시간정보등록처리.do -> 민경이 영화관리페이지로이동
 		public String screenInfoPrecess(ScreenInfoVO siVO,Model model) {
 			System.out.println(siVO.getM_num());
 			model.addAttribute("modifyInfo",srs.screenProcessService(siVO));
 			
-			return "admin_movie/movie_list";
+			return "redirect:movie_list.do";
 		}//screenInfoPrecess
 
 }//class

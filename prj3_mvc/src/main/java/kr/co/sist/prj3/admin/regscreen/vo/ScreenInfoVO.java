@@ -7,20 +7,22 @@ package kr.co.sist.prj3.admin.regscreen.vo;
 public class ScreenInfoVO {
 	
 	private int m_num; 
-	private String theater, release_hour, open_date, end_date;
+	private String theater, release_hour, open_date, end_date,screen_state;
 	
 	
 	public ScreenInfoVO() {
 	}
 
 
-	public ScreenInfoVO(int m_num, String theater, String release_hour, String open_date, String end_date) {
+	public ScreenInfoVO(int m_num, String theater, String release_hour, String open_date, String end_date,
+			String screen_state) {
 		super();
 		this.m_num = m_num;
 		this.theater = theater;
 		this.release_hour = release_hour;
 		this.open_date = open_date;
 		this.end_date = end_date;
+		this.screen_state = screen_state;
 	}
 
 
@@ -74,11 +76,23 @@ public class ScreenInfoVO {
 	}
 
 
+	public String getScreen_state() {
+		return screen_state;
+	}
+
+
+	public void setScreen_state(String screen_state) {
+		this.screen_state = screen_state;
+	}
+
+
 	@Override
 	public String toString() {
 		return "ScreenInfoVO [m_num=" + m_num + ", theater=" + theater + ", release_hour=" + release_hour
-				+ ", open_date=" + open_date + ", end_date=" + end_date + "]";
+				+ ", open_date=" + open_date + ", end_date=" + end_date + ", screen_state=" + screen_state + "]";
 	}
+
+
 	
 	
 

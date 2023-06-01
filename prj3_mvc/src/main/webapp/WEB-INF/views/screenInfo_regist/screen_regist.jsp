@@ -165,7 +165,9 @@
 	        	});
 	        
 	        $(function() {
+	        	var screenV="y";
 	        	$("#saveBtn").click(function() {
+	        		$("#screen_state").val(screenV);
 					
 	        		$("#frm").submit();
 				});//click
@@ -236,7 +238,7 @@
 	
 		<div id="content">
 			<h1 class="skip"><!-- 회원정보 수정 --></h1>
-<!--폼태그 --><form action="movie_list.do" id="frm" name="frm" method="post">
+<!--폼태그 --><form action="screen_success.do" id="frm" name="frm" method="post">
 			<input type="hidden" name="m_num" value="${movieInfo.m_num}"/>
 				<div class="mbrSec mbrMngInfo" >
 					<div class="mbrTplDesc">
@@ -281,10 +283,10 @@
 							</tr>
 							</tbody>
 						</table>
-						
+						<input type="hidden" name="screen_state" id="screen_state" value=""/>
 						
 						<p class="mbrBtnFunc" style="text-align:center">
-					<a href="movie_list.do"><input type="button" id="saveBtn" value="저장"></a>
+					<input type="button" id="saveBtn" value="저장">
 					<a href="movie_list.do"><input type="button" id="cancelBtn" value="취소"></a>
 					<!-- <input type="button" id="cancelBtn" onclick="location.href='http://localhost/prj2/project_admin/6.memberAdmin/member_manage.jsp'"><span>취소</span></span>
  -->				</p>
