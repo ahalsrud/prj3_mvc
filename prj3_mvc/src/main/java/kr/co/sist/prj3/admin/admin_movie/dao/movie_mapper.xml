@@ -45,7 +45,7 @@
 	</select>
 	
 	<!-- 영화수정(주요정보) -->
-	<select id="selectMovie" resultType="emd" parameterType="int">
+	<select id="suMovie" resultType="emd" parameterType="int">
 		select  m_num, poster, m_title, eng_title, genre, run_time, release_date, rank, country, summary, origin, script, produce, ration, imports
 		from    movie
 		where   m_num = #{m_num}

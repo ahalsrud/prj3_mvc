@@ -92,7 +92,7 @@ public class AdminMovieDAO {
 		EditMovieDomain emd = null;
 		
 		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
-		emd = ss.selectOne("selectMovie", mNum);
+		emd = ss.selectOne("suMovie", mNum);
 		
 		if(ss != null) { ss.close(); }// end if
 		
