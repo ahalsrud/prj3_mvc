@@ -571,7 +571,7 @@ function aimg() {
 						</div>
 					
 						<div id="btnDiv">
-							<a href="movie_list.do"><input type="button" value="등록" id="registBtn" name="registBtn" class="btn btn-secondary"/></a>&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="button" value="등록" id="registBtn" name="registBtn" class="btn btn-secondary"/>&nbsp;&nbsp;&nbsp;&nbsp;
 							<a href="dashBoard.do"><input type="button" value="취소" id="cancelBtn" name="cancelBtn" class="btn btn-danger"/></a>
 							
 						</div>

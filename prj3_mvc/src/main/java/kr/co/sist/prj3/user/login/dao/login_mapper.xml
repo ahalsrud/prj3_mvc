@@ -9,4 +9,11 @@ from		user_table
 where		user_id = #{user_id} and pass = #{pass}
 </select>
 
+<select id="adminLogin" parameterType="kr.co.sist.prj3.user.login.vo.AdminLoginVO" resultType="String">
+select 		admin_id 
+from		admin 
+where		admin_id = #{admin_id} and password = #{password}
+</select>
+
+
 </mapper>

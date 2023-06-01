@@ -148,7 +148,7 @@ $(function() {
         	<h2 class="hidden">개인화 영역</h2> 
         	<div class="box-image">
 				<span class="thumb-image">
-					<img src="http://localhost/prj3_mvc/images/${lrDomain.profile eq null ? 'default_profile.gif' : lrDomain.profile }" alt="${ lrDomain.name }님 프로필 사진" onerror="errorImage(this, {'type':'profile'})" />
+					<img src="http://localhost/prj3_mvc/upload/${lrDomain.profile eq null ? 'default_profile.gif' : lrDomain.profile }" alt="${ lrDomain.name }님 프로필 사진" onerror="errorImage(this, {'type':'profile'})" />
 					<span class="profile-mask"></span>
 				</span>
         	</div>

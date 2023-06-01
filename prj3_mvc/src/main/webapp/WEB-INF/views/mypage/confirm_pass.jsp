@@ -441,7 +441,7 @@
 			<span style="width: 120px; height: 50px; font-family: 'Noto Sans KR', sans-serif;">수정</span>
 		</button>
 		<button type="button" id="cancelBtn">
-			<span style="width: 120px; height: 50px; font-family: 'Noto Sans KR', sans-serif;">취소</span>
+			<span style="width: 120px; height: 50px; font-family: 'Noto Sans KR', sans-serif;" onclick="javascript:history.back()">취소</span>
 		</button>
 	</div>
 </div>

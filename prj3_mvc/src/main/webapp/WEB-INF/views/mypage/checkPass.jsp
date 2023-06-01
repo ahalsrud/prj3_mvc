@@ -146,7 +146,7 @@
         		</a>
         		<span>MOVIEPLANET</span></h1>
         		<ul class="memberInfo_wrap">
-            		<li><a href="/user/login/logout.aspx" class="logout" title="로그아웃" ><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginPassword.png" alt="로그아웃" /><span>로그인</span></a></li>
+            		<li><a href="/user/login/logout.aspx" class="logout" title="로그아웃" ><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginPassword.png" alt="로그아웃" /><span>로그아웃</span></a></li>
             		<li><a href="/user/mycgv/"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginMember.png" alt="MY PAGE" /><span>MY PAGE</span></a></li>
         		</ul>
     		</div>
@@ -243,15 +243,15 @@
         	<h2 class="hidden">개인화 영역</h2> 
         	<div class="box-image">
 				<span class="thumb-image">
-					<img src="http://localhost/prj3_mvc/images/default_profile.gif" alt="모민경님 프로필 사진" onerror="errorImage(this, {'type':'profile'})" />
+					<img src="upload/${lrDomain.profile }" alt="모민경님 프로필 사진" onerror="errorImage(this, {'type':'profile'})" />
 					<span class="profile-mask"></span>
 				</span>
         	</div>
         	<div class="box-contents newtype">
         		<div class="person-info">
-        			<strong>홍길동님</strong>
-        			<em>nisis0322</em>
-        			<span>닉네임 : <i>닉네임을 설정해주세요.</i> </span>
+        			<strong>${ lrDomain.name }님</strong>
+        			<em>${lrDomain.user_id }</em>
+        			<span>닉네임 : ${lrDomain.nick_name } </span>
         			<button id="go_edit_page" type="button" title="새창열림">나의 정보 변경</button>
         		</div>
         	</div>

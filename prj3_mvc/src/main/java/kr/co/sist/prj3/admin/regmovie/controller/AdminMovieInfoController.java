@@ -188,7 +188,7 @@ public class AdminMovieInfoController {
 	        }//end catch
 		
 		
-		return "movie_regist/movie_success";
+		return "redirect:movie_list.do";
 	}//adminMovieRegistProcess
 	
 
