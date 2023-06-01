@@ -61,7 +61,7 @@ public class FindPwController {
 		fps.updateService(fpVO);
 		System.out.println( fpVO.getUser_id()+"[]"+fpVO.getPass() );
 		
-		return "/mypage/complete_pw";
+		return "redirect:/mainPage.do";
 	}//findPwProcess
 
 }//class

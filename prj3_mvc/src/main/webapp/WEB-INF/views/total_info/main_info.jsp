@@ -338,7 +338,7 @@ $(function(){
 			        output += "</table>";
 			        
 			        ////// 영화 사진
- 					output += 
+ 					/* output += 
 			            "<h5 class='tit_section'><br/><br/>갤러리</h5>" +
 			            "<hr style='background:#ECEDF1; height:1px; border:0;'>" +
 			            "<table class='test'>";
@@ -366,7 +366,7 @@ $(function(){
 			            }//end if
 			        });//end each
 			        
-			        output += "</table>";
+			        output += "</table>"; */
 			        
 			        $("#output").html(output);
 

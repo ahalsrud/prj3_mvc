@@ -13,7 +13,7 @@
     <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/webfont.css" />
 	<link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/reset.css" />
     <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/layout.css" />
-    <link rel="stylesheet" media="all" type="text/css" href="http://localhost/test_prj/css/module.css" />
+    <link rel="stylesheet" media="all" type="text/css" href="http://localhost/prj3_mvc/css/module.css" />
     <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/content.css" />
     <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/common.css" />
     
@@ -59,8 +59,8 @@
     <script type="text/javascript" src="https://img.cgv.co.kr/resource_pc/js/cgvUi.js"></script>
 	
 	<!-- devplanet css -->
-    <link rel="stylesheet" type="text/css" href="http://localhost/test_prj/css/mbr_style.css"/>
-	<link rel="stylesheet" type="text/css" href="http://localhost/test_prj/css/footer-sv-202301261521.css"/>
+    <link rel="stylesheet" type="text/css" href="http://localhost/prj3_mvc/css/mbr_style.css"/>
+	<link rel="stylesheet" type="text/css" href="http://localhost/prj3_mvc/css/footer-sv-202301261521.css"/>
 	
 	<style type="text/css">
 	#btnCheck {
@@ -135,13 +135,13 @@ th { margin-left: 10%; }
 		<div class="header_content">
     		<div class="contents">
         		<h1 onclick="">
-       			<a href="/">
-        			<img src="http://localhost/sist/images/movie.png" alt="movieplanet" />
+       			<a href="mainPage.do">
+        			<img src="http://localhost/prj3_mvc/images/movie.png" alt="movieplanet" />
         		</a>
         		<span>MOVIEPLANET</span></h1>
         		<ul class="memberInfo_wrap">
-            		<li><a href="/user/login/logout.aspx" class="logout" title="로그아웃" ><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginPassword.png" alt="로그아웃" /><span>로그인</span></a></li>
-            		<li><a href="/user/mycgv/"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginMember.png" alt="MY PAGE" /><span>MY PAGE</span></a></li>
+            		<li><a href="/prj3_mvc/login.do" class="logout" title="로그아웃" ><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginPassword.png" alt="로그아웃" /><span>로그인</span></a></li>
+            		<li><a href="/prj3_mvc/login.do"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginMember.png" alt="MY PAGE" /><span>MY PAGE</span></a></li>
         		</ul>
     		</div>
 		</div>
@@ -152,10 +152,9 @@ th { margin-left: 10%; }
         		<h1><a href="/" tabindex="-1"><img src="https://img.cgv.co.kr/R2014/images/common/logo/logoWhite.png" alt="CGV" /></a></h1>
         		<ul class="nav_menu">
             	<li>
-                	<h2><a href="/movies/?lt=1&ft=0">영화</a></h2>
+                	<h2><a href="search_movie.do">영화</a></h2>
             	</li>
             	<li>
-                	<h2><a href="/ticket/"><strong>예매</strong></a></h2>
             	</li>
             	<li>
             	</li>
@@ -187,14 +186,6 @@ th { margin-left: 10%; }
 <!-- 실컨텐츠 시작 -->
 <div class="wrap-login">
             <div class="sect-user">
-                <ul class="tab-menu-round">
-                    <li>
-                        <a href="/user/login/find-account.aspx">아이디 찾기</a>
-                    </li>
-                    <li class="on">
-                        <a href="/user/login/find-pw.aspx?act=pw">비밀번호 찾기</a>
-                    </li>
-                </ul>
 
                 <h3>비밀번호 찾기</h3>
                 <p>

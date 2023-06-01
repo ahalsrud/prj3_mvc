@@ -218,13 +218,13 @@ function selectEmail() {
 		<div class="header_content">
     		<div class="contents">
         		<h1 onclick="">
-       			<a href="/">
+       			<a href="mainPage.do">
         			<img src="http://localhost/prj3_mvc/images/movie.png" alt="movieplanet" />
         		</a>
         		<span>MOVIEPLANET</span></h1>
         		<ul class="memberInfo_wrap">
-            		<li><a href="/user/login/logout.aspx" class="logout" title="로그아웃" ><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginPassword.png" alt="로그아웃" /><span>로그인</span></a></li>
-            		<li><a href="/user/mycgv/"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginMember.png" alt="MY PAGE" /><span>MY PAGE</span></a></li>
+            		<li><a href="/prj3_mvc/login.do" class="logout" title="로그아웃" ><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginPassword.png" alt="로그아웃" /><span>로그인</span></a></li>
+            		<li><a href="/prj3_mvc/login.do"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginMember.png" alt="MY PAGE" /><span>MY PAGE</span></a></li>
         		</ul>
     		</div>
 		</div>
@@ -235,10 +235,9 @@ function selectEmail() {
         		<h1><a href="/" tabindex="-1"><img src="https://img.cgv.co.kr/R2014/images/common/logo/logoWhite.png" alt="CGV" /></a></h1>
         		<ul class="nav_menu">
             	<li>
-                	<h2><a href="/movies/?lt=1&ft=0">영화</a></h2>
+                	<h2><a href="search_movie.do">영화</a></h2>
             	</li>
             	<li>
-                	<h2><a href="/ticket/"><strong>예매</strong></a></h2>
             	</li>
             	<li>
             	</li>
@@ -272,10 +271,10 @@ function selectEmail() {
             <div class="sect-user">
                 <ul class="tab-menu-round">
                     <li>
-                        <a href="/user/login/find-account.aspx">아이디 찾기</a>
+                        <a href="/prj3_mvc/find_id.do">아이디 찾기</a>
                     </li>
                     <li class="on">
-                        <a href="/user/login/find-pw.aspx?act=pw">비밀번호 찾기</a>
+                        <a href="/prj3_mvc/find_pw.do">비밀번호 찾기</a>
                     </li>
                 </ul>
 
