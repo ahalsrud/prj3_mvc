@@ -74,4 +74,24 @@ public class JoinDAO {
 
 
 	
+		//이메일 중복확인
+		public String selectDupEmail( String email ) {
+			String selectedEmail="";
+			
+			//1.MyBatis 핸들러 얻기
+			SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+			
+			//2.핸들러 사용하기 - 쿼리문 수행하기
+			selectedEmail = ss.selectOne("selectEmailDup", email);
+			
+			//3.조회결과 처리
+			//4.MyBatis Handler 닫기
+			if(ss!=null) {ss.close();}
+			
+			return selectedEmail;
+		
+		}
+	
+	
+	
 }//class

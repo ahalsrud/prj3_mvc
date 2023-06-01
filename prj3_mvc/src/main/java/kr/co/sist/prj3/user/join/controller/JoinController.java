@@ -97,4 +97,20 @@ public class JoinController {
 	}//nickDupProcess
 	
 	
+	
+	@PostMapping("/emailDup.do")
+	@ResponseBody
+	public String emailDupProcess( String email) throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException { //id_dup.jsp or void
+		
+			String jsonObj="";
+			
+			jsonObj =jService.emailDupService(email);
+			System.out.println(jsonObj);
+			
+			return jsonObj;
+		
+	}//idDupProcess
+	
+	
+	
 }//class

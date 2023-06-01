@@ -1152,7 +1152,7 @@ i {
             
 <div class="header_content">
     <div class="contents">
-        <h1 onclick=""><a href="main_loged_frm.do"><img src="http://localhost/prj3_mvc/images/movie_small.png" alt="CGV" /></a><span>MOVIEPLANET</span></h1>
+        <h1 onclick=""><a href="main_loged_frm.do"><img src="http://localhost/test_prj/admin/images/movie.png" alt="CGV" /></a><span>MOVIEPLANET</span></h1>
         <ul class="memberInfo_wrap">
 
             

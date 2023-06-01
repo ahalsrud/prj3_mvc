@@ -53,7 +53,7 @@ $(function() {
 <div class="resumePage resumePageComplete">
 	<div class="resumeHeader">
 		<div class="container">
-			<a href="" class="logo"><img alt="무비플래닛" src="http://localhost/prj3_mvc/images/"></a>
+			<a href="" class="logo"><img alt="무비플래닛" src="http://localhost/prj3_mvc/images/movie_small.png"></a>
 			<div class="links">
 				<a href="" class="link linkHome">무비플래닛 홈</a> 
 			</div>
@@ -63,7 +63,7 @@ $(function() {
 	<div class="resumeWrapper">
 		<div class="resumeContainer resumeContainerComplete">
 			<h1 class="header">
-				<img src="http://localhost/prj3_mvc/images/join.PNG" alt="회원가입 완료">로그인 후 채용 공고 및 이력서 관리 서비스를 이용하실 수 있습니다.
+				<img src="http://localhost/prj3_mvc/images/join.PNG" alt="회원가입 완료">로그인 후 무비플래닛의 다양한 영화 관련 서비스를 이용해보세요!
 			</h1>
 			<input type="button" value="로그인 하기" id="btn" />
 		</div>

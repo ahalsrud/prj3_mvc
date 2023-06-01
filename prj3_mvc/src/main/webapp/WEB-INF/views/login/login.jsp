@@ -131,7 +131,7 @@ $(function() {
 					<p class="alarmMsg"></p>
 
 					<div class="join">
-						<div id="M_Alert" >회원가입하시고 다양한 혜택을 누리세요!<a href="join.jsp" >회원가입</a></div>
+						<div id="M_Alert" >회원가입하시고 다양한 혜택을 누리세요!<a href="join.do" >회원가입</a></div>
 						<div id="Co_Alert" style="display:none">좋은 인재를 구하시나요? 회원가입하시고 다양한 혜택을 누리세요!<a href="https://www.jobkorea.co.kr/Join/GI_Regist" target="_new">회원가입</a></div>
 					</div>
 				</fieldset>

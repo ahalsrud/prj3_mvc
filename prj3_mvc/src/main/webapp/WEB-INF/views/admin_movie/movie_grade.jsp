@@ -3,6 +3,7 @@
     info="예매 현황 view"
     %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@include file="../adminCheckLogin.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>

@@ -86,6 +86,28 @@ public class JoinService {
 		return jsonObj.toJSONString();
 		
 	}//nickDupService
+	
+	
+		//이메일 중복확인
+		public String emailDupService( String email ) throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException {
+			boolean available = false;
+			JSONObject jsonObj = new JSONObject();
+			
+			//일단 false
+			jsonObj.put("available", available);
+			
+			
+			DataEncrypt de=new DataEncrypt("FsRt4SfY4US0IWtK4JPJsw==");//내가 사용한 키 나중에 보내줌. 
+			//암호화해서 셀렉하기
+			available = jDAO.selectDupEmail(de.encryption(email))==null;
+			
+			if(available) {
+				jsonObj.put("available", available);
+			}//end if
+			
+			return jsonObj.toJSONString();
+			
+		}//nickDupService
 
 
 	

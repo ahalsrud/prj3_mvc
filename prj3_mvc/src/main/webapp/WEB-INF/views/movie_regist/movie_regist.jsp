@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"
     info="관리자 - 예매 등록"
     %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+<%@include file="../adminCheckLogin.jsp" %>  
 <!DOCTYPE html>
 <html lang="en">
     <head>

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%-- <%@include file="../WEB-INF/views/checkLogin.jsp" %>   --%>  
+     
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -36,6 +36,21 @@ input[type="date" i] {
     background: transparent;
 
 }
+
+
+    .error-message {
+      display: none;
+      color: red;
+      height:15px;
+      font-size:10px;
+    }
+
+    .valid-message {
+      display: none;
+      color: green;
+      height:15px;
+      font-size:10px;
+    }
 
 </style>
 <!-- jQuery CDN 시작 -->
@@ -75,6 +90,11 @@ input[type="date" i] {
 <!-- 다음 우편번호 API끝 -->
 
 <script type="text/javascript">
+
+
+
+
+
 /* text 휴대폰번호 형식 유효성 검증 
 	// ex)010-1234-5678
   2023-04-23 최종 확인 */
@@ -93,7 +113,40 @@ function telValidation(input) {
 }//end tel
 
 
+function idValidation(inputId){
+	
+	  var inputId = $("#user_id").val();
+	  var regex = /^[a-z0-9]+$/;
+	  var isValid = regex.test(inputId);
+	  
+	    if (!isValid) {
+	      // 유효하지 않은 아이디 처리
+	      alert("유효하지 않은 아이디입니다. 알파벳과 숫자로 입력해주세요");
+	      $("#user_id").val("");
+		  $("#user_id").focus();
+	      
+	      return;
+	    }//end if
+	
+}//idValidation
+
+
+
+
+
 $(function() {	
+
+	//약관 모두 선택하기
+	$("#lb_chk_all").click(function(){
+		
+		 var isChecked = $(this).prop('checked');
+		 $('input[name="terms"]').prop('checked', isChecked);
+		
+	});//change
+	
+	
+	
+	
 	$("#joinBtn").click(function() {
 		
 		if( $("#user_id").val()=="") {
@@ -151,8 +204,21 @@ $(function() {
 		//비밀번호 확인 일치
 		if( $("#pass").val() != $("#passCheck").val() ) {
 			alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+			
+			$("#pass").val("");
+			$("#passCheck").val("");
+			
+			$("#pass_error_message").hide();
+	        $("#pass_valid_message").hide();
+	        $("#pass_match_message").hide();
+      	   	 $("#pass_nomatch_message").hide();
+      	    $("#pass_input_message").hide(); 
+			
+			$("#pass").focus();
 			return;
 		}//end if 
+		
+		
 		
 		 if( $('#lb_chk_age').is(':checked')==false || $('#lb_chk_service').is(':checked')==false || $('#lb_chk_privacy').is(':checked')==false) {
 			alert("필수동의가 체크되지 않았습니다.");
@@ -167,9 +233,14 @@ $(function() {
 		  }//end if
 		
 		
+		  
+		  
+		  
+		  
 		
 		$("#joinFrm").submit();
 	});// click
+	
 	
 	//주소검색
 	$("#kakao").click(function() {
@@ -178,12 +249,18 @@ $(function() {
 	
 	
 	
+	//id 유효성
+	
+	
 
 	//id 중복
 	$("#user_id").blur(function(){
 		var userId = $("#user_id").val();
 
 		if(userId!=null && userId!=""){
+			
+			idValidation(userId);	
+			
 		
 		$.ajax({
 			
@@ -193,9 +270,8 @@ $(function() {
 			success : function(response) {
 				
 			 	if(response.available){
-					
 				}else{
-					alert("이미 사용중 다시 입력해주세요.");
+					alert("이미 사용 중인 아이디입니다. 다시 입력해주세요.");
 					$("#user_id").val("");
 					$("#user_id").focus();
 					return;
@@ -230,9 +306,8 @@ $(function() {
 			success : function(response) {
 				
 			 	if(response.available){
-					
 				}else{
-					alert("이미 사용중 다시 입력해주세요.");
+					alert("이미 사용 중인 닉네임입니다. 다시 입력해주세요.");
 					$("#nick_name").val("");
 					$("#nick_name").focus();
 					return;
@@ -254,15 +329,108 @@ $(function() {
 	
 	
 	
+	//이메일 중복
+	$("#email").blur(function(){
+		
+		
+		var email = $("#email").val();
+
+		if(email.trim() !== ""){
+		
+		$.ajax({
+			
+			url:"emailDup.do",
+			data:{email : email},
+			method:"post",
+			dataType:"json",
+			success : function(response) {
+				
+			 	if(response.available){
+				}else{
+					alert("이미 사용 중인 이메일입니다. 다른 이메일을 사용해주세요.");
+					$("#email").val("");
+					$("#email").focus();
+					return;
+				}//end else
+				 
+				
+			},
+			error : function(xhr){
+					alert("서버 오류가 발생했습니다.");
+			}//end error
+			
+		});//ajax
+		
+		}//end if-null아닐때
+		
+	});//click
+	
+
 	
 	
+	//비번
+	  $("#pass").on("keyup", function() {
+	        var password = $(this).val();
+	        var regex = /^(?=.*[a-z])(?=.*\d)[a-z\d]{4,16}$/;
+	        var isValid = regex.test(password);
+
+	        if ($("#pass").val() === "") {
+	            $("#pass_error_message").hide();
+	            $("#pass_valid_message").hide();
+	          } else if (!isValid) {
+	        	$("#pass_input_message").hide();   
+	            $("#pass_error_message").show();
+	            $("#pass_valid_message").hide();
+	          } else {
+	        	$("#pass_input_message").hide();   
+	            $("#pass_valid_message").show();
+	            $("#pass_error_message").hide();
+	          }
+	        
+	       if(  $("#passCheck").val()!=""  ){
+	        	  $("#pass_match_message").hide();
+	        	  $("#pass_nomatch_message").hide();
+	       }    
+	        
+	      });
 	
 	
+	//비번확인	
+	  $("#passCheck").on("keyup", function() {
+		  var password = $("#pass").val();
+		  var confirmPassword = $("#passCheck").val();
+
+		 
+		 if(password==""){
+			  $("#pass_input_message").hide();
+		 }else if( password=="" && confirmPassword !="" ){  
+			  $("#pass_input_message").show();
+		  }else if (password != confirmPassword) {
+		    $("#pass_match_message").hide();
+		    $("#pass_nomatch_message").show();
+		  } 
+		  
+		  else{
+		    $("#pass_match_message").show();
+		    $("#pass_nomatch_message").hide();
+		  }
+		 
+		 
+		if (confirmPassword==""){
+			    $("#pass_match_message").hide();
+			    $("#pass_nomatch_message").hide();
+			    
+		}  
+		 
+		});
+	
+		
 	
 });// ready
 
 
-/*
+
+
 function toggleDiv() {
 	  var div1 = document.getElementById("DevPolicyService");
 	  
@@ -284,12 +452,8 @@ function toggleDiv2() {
 	}// end else
 }
 
- function check() {
-	var obj=document.joinFrm;
-	for(var i=0; obj.terms.length; i++){
-		obj.terms[i].checked=obj.allTerms.checked;
-	}//end for
-}//check */
+
+
 
 </script>
 </head>
@@ -306,7 +470,7 @@ function toggleDiv2() {
 
 			<h3 class="skip">글로벌 메뉴</h3>
 			<ul class="gnb f_clear">
-				<li><a href="">홈</a></li>
+				<li><a href="mainPage.do">홈</a></li>
 			</ul>
 
 			<h3 class="skip">회원 형태별 가입</h3>
@@ -372,97 +536,17 @@ function toggleDiv2() {
 						
 						
 						
-						
-					
-						<!-- <div class="row mbr_phone">
-							<div class="col_1">
-								<i class="icon required" aria-hidden="hidde">*</i>
-							</div>
-							<div class="col_2">
-								<input type="text" id="user_id" name="user_id" size="4" placeholder="아이디" maxlength="13">
-								<button type="button" class="button buttonSendCertification" id="btnIdDup">
-									<span>중복 확인</span>
-								</button>
-							</div>
-						</div>
-						
-						<div class="row mbr_phone">
-							<div class="col_1">
-								<i class="icon required" aria-hidden="hidde">*</i>
-							</div>
-							<div class="col_2">
-								<input type="text" id="nick_name" name="nick_name" size="4" placeholder="닉네임" maxlength="13">
-								<button type="button" class="button buttonSendCertification" id="btnNickDup">
-									<span>중복 확인</span>
-								</button>
-							</div>
-						</div> -->
-
-
-						<!-- <div class="row mbr_id">
-							<div class="col_1">
-								<i class="icon required" aria-hidden="hidde">*</i>
-							</div>
-							<div class="col_id">
-								<input type="text" id="user_id" name="user_id" placeholder="아이디" readonly="readonly" maxlength="16" class="dev-id" value="" style="ime-mode: disabled;">
-								<div class="btn">
-									<button type="button" class="btnSend" id="idDup">
-										<span>중복확인</span>
-									</button>
-								</div>
-								<div class="notice_msg" id="notice_msg_id"></div>
-							</div>
-						</div> -->
-						<!-- <div class="row mbr_id">
-							<div class="col_1">
-								<i class="icon required" aria-hidden="hidde">*</i>
-							</div>
-							<div class="col_id">
-								<input type="text" id="nick_name" name="nick_name" placeholder="닉네임" readonly="readonly" maxlength="16" class="dev-id" value="" style="ime-mode: disabled;">
-								<div class="btn">
-									<button type="button" class="btnSend" id="idDup">
-										<span>중복확인</span>
-									</button>
-								</div>
-								<div class="notice_msg" id="notice_msg_id"></div>
-							</div>
-						</div> -->
-						
-						
-						<!-- <div class="row mbr_passwd">
-							<div class="col_1">
-								<i class="icon required" aria-hidden="hidde">*</i>
-							</div>
-							<div class="col_2">
-								<input type="password" id="pass" name="pass" placeholder="비밀번호(8~16자의 영문, 숫자, 특수기호)"
-									class="dev-password" maxlength="16" style="ime-mode: disabled;">
-								<button type="button" class="btnHelp" title="안전한 비밀번호 작성법">?</button>
-								<div class="lyHelp">
-									<dl>
-										<dt>안전한 비밀번호 작성법</dt>
-										<dd>
-											<ol>
-												<li>8~16자의 영문 대소문, 숫자, 특수기호만 사용가능 (공백입력 불가)</li>
-												<li>3자 이상 연속 영문/숫자 조합은 사용불가 (AAA. 111)</li>
-												<li>아이디, 반복되는 영문/숫자 조합은 사용불가 (1234, ABCD)</li>
-												<li>키보드의 연속 패턴은 사용하지 마세요. (ASDF)</li>
-												<li>비밀번호는 주기적으로 변경하여 안전하게 관리하기</li>
-											</ol>
-										</dd>
-									</dl>
-								</div>
-							</div>
-						</div> -->
-
 
 						<div class="row mbr_passwdChk">
 							<div class="col_1">
 								<i class="icon required" aria-hidden="hidde">*</i>
 							</div>
 							<div class="col_2">
-								<input type="password" id="pass" name="pass" placeholder="비밀번호(8~16자의 영문, 숫자, 특수기호)" class="mbr_name devReadOnly dev-name" maxlength="12">
-								<div class="notice_msg" id="notice_msg_name"></div>
+								<input type="password" id="pass" name="pass" placeholder="비밀번호(4~16자의 영문, 숫자)" class="mbr_name devReadOnly dev-name" maxlength="12">
+								<!-- <div class="notice_msg" id="notice_msg_name"></div> -->
 							</div>
+								<div class="error-message" id="pass_error_message">유효하지 않습니다.</div>
+  								<div class="valid-message" id="pass_valid_message">유효한 비밀번호입니다.</div>
 						</div>
 						
 						<div class="row mbr_passwdChk">
@@ -471,8 +555,11 @@ function toggleDiv2() {
 							</div>
 							<div class="col_2">
 								<input type="password" id="passCheck" name="passCheck" placeholder="비밀번호 확인" class="mbr_name devReadOnly dev-name" maxlength="12">
-								<div class="notice_msg" id="notice_msg_name"></div>
+								<!-- <div class="notice_msg" id="notice_msg_name"></div> -->
 							</div>
+								<div class="error-message" id="pass_input_message">비밀번호를 먼저 입력해주세요.</div>
+								<div class="error-message" id="pass_nomatch_message">비밀번호가 일치하지 않습니다.</div>
+								<div class="valid-message" id="pass_match_message">비밀번호가 일치합니다.</div>
 						</div>
 						
 
@@ -502,6 +589,7 @@ function toggleDiv2() {
 								<input type="hidden" id="M_Phone3" name="M_Phone3" />
 							</div>
 						</div>
+						<label for="birth_date" style="font-size: 14px; color: #999; margin-bottom:5px">생일</label>
 						<div class="row mbr_phone">
 							<div class="col_1">
 								<i class="icon required" aria-hidden="hidde">*</i>
@@ -548,7 +636,7 @@ function toggleDiv2() {
 					<h4 class="skip">약관 동의</h4>
 					<div class="row_group line_all policy">
 						<div class="row policy_check_all">
-							<input type="checkbox" id="lb_chk_all" name="allTerms" value="Y" class="mbrCheckOff" onclick="check()">
+							<input type="checkbox" id="lb_chk_all" name="allTerms" value="Y" class="mbrCheckOff">
 							<label for="lb_chk_all" class="chk_all">
 								<span class="txt">필수동의 항목에 모두 동의합니다.</span>
 							</label>
