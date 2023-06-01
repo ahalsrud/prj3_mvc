@@ -46,16 +46,34 @@ public class AdminMovieDAO {
 		return list;
 	}
 	
-	// 평점 관리
-	public List<MovieGradeDomain> selectMovieGrade(String mTitle) {
+	// 한줄평 관리
+	public List<MovieGradeDomain> selectMovieGrade() {
 		List<MovieGradeDomain> list = new ArrayList<MovieGradeDomain>();
 		
+		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+		
+		list = ss.selectList("selectGradeList");
+		if(ss != null ) { ss.close(); }// end if
+		
 		return list;
-	}
+	}//selectMovieGrade
 	
-	public int deleteMovieGrade(int mNum) {
-		return 0;
-	}
+	//한줄평 삭제
+	public int deleteMovieGrade(int g_num)throws PersistenceException{
+		int cnt=0;
+		SqlSession ss = MyBatisHandler.getInstance().getMyBatisHandler(false);
+		
+		cnt = ss.delete("deleteGradeList", g_num);
+		
+		if(cnt==1) {
+			ss.commit();
+		}//end if
+		
+		if(ss != null ) { ss.close(); }// end if
+		
+		return cnt;
+		
+	}//deleteMovieGrade
 	
 	public int sequenceMnum() {
 		int m_num=0;

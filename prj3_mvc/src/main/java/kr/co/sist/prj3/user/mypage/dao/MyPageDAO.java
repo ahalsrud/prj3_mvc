@@ -62,7 +62,7 @@ public class MyPageDAO {
 	}//updateSeats
 	
 	public String selectPass(ModifyPassVO mpVO) {
-		String result="";
+		String result=null;
 		
 		SqlSession ss=MyBatisHandler.getInstance().getMyBatisHandler(false);
 		

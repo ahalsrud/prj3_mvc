@@ -88,13 +88,13 @@
             $("#btnMovie").click(function(){
                 $("#movieChart_list").show();
                 $("#movieChart_list_Reser").hide();
-                $("#btn_allView_Movie").attr("href", "/movies/?lt=1&ft=0");
+                //$("#btn_allView_Movie").attr("href", "/movies/?lt=1&ft=0");
             });
 
             $("#btnReserMovie").click(function(){
                 $("#movieChart_list").hide();
                 $("#movieChart_list_Reser").show();
-                $("#btn_allView_Movie").attr("href", "/movies/pre-movies.aspx");
+               // $("#btn_allView_Movie").attr("href", "/movies/pre-movies.aspx");
             });
 
             var movieChartSwiper = new Swiper("#movieChart_list", {
@@ -485,7 +485,7 @@ $(function() {
                                         <div class="movieChart_btn_wrap">
                                             <a href="main_info.do?m_num=${ all.m_num }"  class="btn_movieChart_detail">상세보기</a>
                                         
-                                            <a href="/ticket/?MOVIE_CD=20032467&MOVIE_CD_GROUP=20032164"  class='btn_movieChart_ticketing'>예매하기</a>
+                                            <a href="movie_reserve.do"  class='btn_movieChart_ticketing'>예매하기</a>
                                         
                                         
                                         </div>
@@ -524,7 +524,7 @@ $(function() {
                                             
                                         </div>
                                         <div class="movieChart_btn_wrap">
-                                            <a href="/movies/detail-view/?midx=85979" onclick="gaEventLog('PC_메인', '상영예정작_영화상세', '뽀로로 극장판 드래곤캐슬 대모험');" class="btn_movieChart_detail">상세보기</a>
+                                            <a href="main_info.do?m_num=${ none.m_num }" onclick="gaEventLog('PC_메인', '상영예정작_영화상세', '뽀로로 극장판 드래곤캐슬 대모험');" class="btn_movieChart_detail">상세보기</a>
                                         
                                         </div>
                                     </div>

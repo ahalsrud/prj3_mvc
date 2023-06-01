@@ -95,7 +95,6 @@ public class MyPageService {
 	
 	public int modifyPass(ModifyPassVO mpVO) throws NoSuchAlgorithmException {
 		int result=0;
-		System.out.println("-------------------------------------ser1"+mpVO.getNewPass());
 		mpVO.setNewPass(DataEncrypt.messageDigest("MD5", mpVO.getNewPass()));
 		
 		result=mpd.updatePass(mpVO);

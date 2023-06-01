@@ -88,13 +88,13 @@
             $("#btnMovie").click(function(){
                 $("#movieChart_list").show();
                 $("#movieChart_list_Reser").hide();
-                $("#btn_allView_Movie").attr("href", "/movies/?lt=1&ft=0");
+               // $("#btn_allView_Movie").attr("href", "/movies/?lt=1&ft=0");
             });
 
             $("#btnReserMovie").click(function(){
                 $("#movieChart_list").hide();
                 $("#movieChart_list_Reser").show();
-                $("#btn_allView_Movie").attr("href", "/movies/pre-movies.aspx");
+               // $("#btn_allView_Movie").attr("href", "/movies/pre-movies.aspx");
             });
 
             var movieChartSwiper = new Swiper("#movieChart_list", {
@@ -545,7 +545,7 @@ function notLoged() {
                                             
                                         </div>
                                         <div class="movieChart_btn_wrap">
-                                            <a href="/movies/detail-view/?midx=85979"  class="btn_movieChart_detail">상세보기</a>
+                                            <a href="main_info.do?m_num=${ none.m_num }"  class="btn_movieChart_detail">상세보기</a>
                                         
                                         </div>
                                     </div>

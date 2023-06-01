@@ -36,12 +36,23 @@ public class AdminMovieService {
 	    return list;
 	}
 	
-	// 평점 관리
-	public List<MovieGradeDomain> searchMovieGrade(String mTitle) {
-		List<MovieGradeDomain> list = new ArrayList<MovieGradeDomain>();
-		
+	// 한줄평 관리
+	public List<MovieGradeDomain> searchGradeList() {
+		List<MovieGradeDomain> list = amDAO.selectMovieGrade();
 		return list;
-	}
+	}//searchGradeList
+	
+	// 한줄평 삭제
+	public boolean deleteGrade(int g_num) {
+		
+		boolean success = false;
+		
+		if(amDAO.deleteMovieGrade(g_num)==1) {
+			success = true;
+		}//end if
+		
+		return success;
+	}//deleteGrade
 	
 	// 영화 수정전 select
 	public EditMovieDomain searchMovie(int mNum) {

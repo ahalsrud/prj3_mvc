@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"
     info="예매 현황 view"
     %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -130,14 +131,30 @@ a:hover {
             <!-- Sidebar-->
             <div class="border-end bg-white" id="sidebar-wrapper">
                 <div class="sidebar-heading border-bottom bg-light"><img src="http://localhost/test_prj/admin/images/movie.png" style="width:60px; height:30px;"><font style="color:#E74C3C; font-weight: bold;">MOVIEPLANET</font></div>
+                
                 <div class="list-group list-group-flush">
-                   <a class="list-group-item list-group-item-action list-group-item-light p-3" href="http://localhost/test_prj/admin/sang_chung2.jsp">영화 등록</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="movie_list.do">영화 관리</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="movie_grade.do">영화 평점 관리</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="http://localhost/test_prj/admin/kyeong_kyu1.jsp">영화 리뷰 현황판 관리</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="http://localhost/test_prj/admin/sang_chung1.jsp">예매 현황</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="http://localhost/test_prj/admin/member_manage.jsp">회원 관리</a>
-                </div>
+            <a href="dashBoard.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+               메인
+            </a> 
+            <a href="movie_regist.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+               영화 등록
+            </a> 
+            <a href="movie_list.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+               영화 관리
+            </a> 
+            <a href="movie_grade.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+               영화 한줄평 관리
+            </a> 
+            <a href="review_manage.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+               영화 리뷰 현황판 관리
+            </a> 
+            <a href="reservation_detail.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+               예매 현황
+            </a> 
+            <a href="member_board.do" class="list-group-item list-group-item-action list-group-item-light p-3">
+               회원 관리
+            </a> 
+         </div>
             </div>
             <!-- Page content wrapper-->
             <div id="page-content-wrapper">
@@ -171,12 +188,12 @@ a:hover {
                     <!-- 테이블 각 행의 넓이 비율 설정 원하면 늘리거나 줄이면 됨-->
                     <colgroup>
 					<col style="width:3%"> 
-					<col style="width:10%%"> 
-					<col style="width:5%"> 
-					<col style="width:5%"> 
-					<col style="width:20%%"> 
-					<col style="width:5%"> 
 					<col style="width:10%"> 
+					<col style="width:5%"> 
+					<col style="width:5%"> 
+					<col style="width:20%"> 
+					<col style="width:20%"> 
+					<col style="width:5%"> 
 					</colgroup>
                     <!-- 테이블 각 행의 넓이 비율 설정 끝 -->
 					<thead style="text-align:center">
@@ -194,61 +211,23 @@ a:hover {
 						</tr>
 					</thead>
 					<tbody style="text-align:center">
-						<tr>
-							<th scope="row">1</th>
-							<td>가오갤</td>
-							<td>test</td>
-							<td>1</td>
-							<td>개노잼개노잼개노잼개노잼개노잼개노잼개노잼개노잼개노잼개노잼개노잼개노잼개노잼개노잼개노잼개노잼개노잼</td>
-							<td>2023.05.01</td>
-							<td>
-								<input type="button" class="delBtn" value="삭제"/> 
-							</td>
-						</tr>
-						<tr>
-							<th scope="row">2</th>
-							<td>왕의남자</td>
-							<td>sdf</td>
-							<td>4.5</td>
-							<td>ㄹㅇ명작</td>
-							<td>2023.05.08</td>
-							<td>
-								<input type="button" class="delBtn" value="삭제"/> 
-							</td>
-						</tr>
-						<tr>
-							<th scope="row">3</th>
-							<td>카트라이더</td>
-							<td>sksmsrhtnek</td>
-							<td>5</td>
-							<td>카트라이더좋아여</td>
-							<td>2023.05.01</td>
-							<td>
-								<input type="button" class="delBtn" value="삭제"/> 
-							</td>
-						</tr>
-						<tr>
-							<th scope="row">4</th>
-							<td>시마다한조</td>
-							<td>hanzochung</td>
-							<td>5</td>
-							<td>이거보고 랭커갓어요</td>
-							<td>2023.05.08</td>
-							<td>
-								<input type="button" class="delBtn" value="삭제"/> 
-							</td>
-						</tr>
-						<tr>
-							<th scope="row">5</th>
-							<td>아나와 파라</td>
-							<td>ana</td>
-							<td>3</td>
-							<td>sfsfd</td>
-							<td>2023.05.01</td>
-							<td>
-								<input type="button" class="delBtn" value="삭제"/> 
-							</td>
-						</tr>
+						<c:forEach var="movie" items="${ gradelist }" varStatus="i">
+						<form action="movie_grade_delete.do" id="editFrm" method="get">
+							<tr>									
+								<th scope="row"><c:out value="${ i.count }" /></th>
+								<td hidden="hidden"><input type="hidden" name="mMum" value="${ movie.m_num }" /></td>
+								<td><c:out value="${ movie.m_title }" /></td>
+								<td><c:out value="${ movie.user_id }" /></td>
+								<td><c:out value="${ movie.m_grade }" /></td>
+								<td><c:out value="${ movie.comments }" /></td>
+								<td><c:out value="${ movie.input_date }" /></td>
+								<input type="hidden" name="g_num" value="${ movie.g_num }"/>
+								<td>
+									<input type="submit" class="delBtn" value="삭제" />
+								</td>
+							</tr>
+						</form>
+						</c:forEach>
 					</tbody>
 					
 					</table>

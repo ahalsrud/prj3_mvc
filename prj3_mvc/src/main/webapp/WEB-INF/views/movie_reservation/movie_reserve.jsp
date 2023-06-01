@@ -1367,6 +1367,11 @@ function releaseDate(m_num) {
 
 function deliverInfo() {
 	
+	if($('.selected').length !== 3) {
+		alert("상영시간을 선택해 주세요");
+		return;
+	}//end if
+	
 	    var startValue = $("li[id^='start'].selected .time").text();
 	    var dListValue = $("li[id^='dList'].selected .day").text();
 	    var dayWeek = $("li[id^='dList'].selected .dayweek").text();

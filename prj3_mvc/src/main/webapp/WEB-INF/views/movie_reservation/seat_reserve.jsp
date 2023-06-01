@@ -1644,7 +1644,7 @@ Sys.WebForms.PageRequestManager._initialize('ctl00$PlaceHolderContent$ScriptMana
 						<div class="person_screen">
 							<div class="section section-screen-select">
 								<div id="user-select-info">
-									<p class="playYMD-info"><b>${ riVO.current_year }.${ riVO.current_month }.${ riVO.watch_date }.</b><b class="exe">(${ riVO.day_week })</b><b>${ riVO.start_time }/ ${ lrDomain.user_id }</b></p>
+									<p class="playYMD-info"><b>${ riVO.current_year }.${ riVO.current_month }.${ riVO.watch_date }.</b><b class="exe">(${ riVO.day_week })</b><b>${ riVO.start_time }</b></p>
 								</div>
 							</div>
 						</div>

@@ -97,4 +97,19 @@
 		where a_num = #{ a_num }
 	</delete> 
 	
+		<!-- 영화 평점 관리 -->
+<select id="selectGradeList" resultType="kr.co.sist.prj3.admin.admin_movie.domain.MovieGradeDomain" parameterType="String">
+    select d.g_num, m.m_title, d.user_id, d.m_grade, d.comments, d.input_date
+    from grade d
+    join movie m on d.m_num = m.m_num
+    group by d.g_num, m.m_title, d.user_id, d.m_grade, d.comments, d.input_date
+</select>
+
+	<!-- 영화 한줄평 삭제 -->
+<delete id="deleteGradeList" parameterType="Integer">
+	delete 
+	from grade
+	where g_num = #{g_num}
+</delete>
+	
 </mapper>

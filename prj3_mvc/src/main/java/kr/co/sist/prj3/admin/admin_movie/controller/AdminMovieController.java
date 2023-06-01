@@ -44,11 +44,27 @@ public class AdminMovieController {
 		return "/admin_movie/movie_list";
 	}// movieListFrm
 	
-	// 평점 관리
+	// 한줄평 관리
 	@GetMapping("/movie_grade.do")
-	public String movieGradeFrm(String mTitle, Model model) {
+	// 검색 결과를 위한 String m_title값
+	public String movieGradeFrm(Model model) throws PersistenceException {
+
+		//한줄평 정보들 select
+		model.addAttribute("gradelist", ams.searchGradeList());
 		return "admin_movie/movie_grade";
-	}
+	}//movieGradeFrm
+	
+	// 한줄평 select 이후
+	// 한줄평 삭제
+	@GetMapping("/movie_grade_delete.do")
+	public String movieGradeDeleteFrm(int g_num) throws PersistenceException {
+		
+		//한줄평 삭제
+		ams.deleteGrade(g_num);
+		System.out.println();
+		
+		return "redirect:movie_grade.do";
+	}//movieGradeFrm
 	
 	// 영화 수정
 	@PostMapping("/movie_edit.do")
